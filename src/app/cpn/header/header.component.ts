@@ -40,14 +40,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     let navigationEndEventSubscription = this.router.events.filter((event) => {
       return event instanceof NavigationEnd && event.urlAfterRedirects.startsWith('/home/');
     }).subscribe((event: NavigationEnd) => {
-      let searchKeywords = decodeURIComponent(decodeURI(event.urlAfterRedirects).substring(6));
+      let searchKeywords = decodeURIComponent(decodeURI(event.urlAfterRedirects).replace(/\/.+\//, ''));
       if (searchKeywords) {
-        this.searchKeywords.setValue(searchKeywords);
+        this.searchKeywords.setValue(searchKeywords, {emitEvent: false});
       }
       navigationEndEventSubscription.unsubscribe();
-      this.searchKeywords.valueChanges.debounceTime(300).subscribe((searchKeywords) => {
-        this.router.navigate(['/home', searchKeywords.trim()]);
-      });
+    });
+    this.searchKeywords.valueChanges.debounceTime(300).subscribe((searchKeywords) => {
+      this.router.navigate([location.pathname.split('/').slice(0, 3).join('/'), searchKeywords.trim()]);
     });
   }
 

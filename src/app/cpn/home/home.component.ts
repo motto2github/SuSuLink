@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 interface ILinkObj {
   title: string;
@@ -19,12 +19,11 @@ export class HomeComponent implements OnInit {
 
   private myLinkObjs: Array<ILinkObj>;
 
+  private listFlag: string;
+
   private searchKeywords: string;
 
-  constructor(private route: ActivatedRoute) {
-    route.params.subscribe((params) => {
-      this.searchKeywords = params.searchKeywords;
-    });
+  constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -48,6 +47,14 @@ export class HomeComponent implements OnInit {
       this.myLinkObjs = [];
       localStorage.setItem('__ssl_myLinkObjs', JSON.stringify(this.myLinkObjs));
     }
+    this.listFlag = location.pathname.split('/')[2];
+    this.route.params.subscribe((params) => {
+      this.searchKeywords = params.searchKeywords;
+    });
+  }
+
+  private switchList(flag: string) {
+    this.router.navigate(['/home/' + flag, this.searchKeywords]);
   }
 
   private randomIntWithRange(min = 1, max = 10000000): number {
