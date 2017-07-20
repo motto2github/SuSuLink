@@ -1,0 +1,23 @@
+<div class="ssl-home">
+  <div class="container">
+    <div class="btn-group" style="margin-bottom: 10px;">
+      <button type="button" class="btn btn-default active" style="outline: none;">
+        <i class="glyphicon glyphicon-th-list"></i> 全部
+      </button>
+      <button type="button" class="btn btn-default" style="outline: none;">
+        <i class="glyphicon glyphicon-star"></i> 我的
+      </button>
+    </div>
+    <div class="list-group">
+      <div *ngFor="let linkObj of commonLinkObjs.concat(myLinkObjs).filter(linkObjArrayFilterHandler).sort(linkObjArraySortHandler)" class="list-group-item">
+        <h4 class="list-group-item-heading">
+          <a href="{{linkObj.href}}" class="title" target="_blank">{{linkObj.title}}</a>
+          <a href="javascript:;" class="badge"><i class="glyphicon glyphicon-star"></i> {{linkObj.collectCount}}</a>
+          <br>
+          <small><i class="glyphicon glyphicon-link"></i> {{linkObj.href}}</small>
+        </h4>
+        <p class="list-group-item-text">{{linkObj.desc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
