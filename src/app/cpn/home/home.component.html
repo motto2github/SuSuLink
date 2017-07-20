@@ -12,7 +12,7 @@
       <div *ngFor="let linkObj of (listFlag === 'all' ? commonLinkObjs.concat(myLinkObjs) : myLinkObjs).filter(linkObjArrayFilterHandler).sort(linkObjArraySortHandler)" class="list-group-item">
         <h4 class="list-group-item-heading">
           <a href="{{linkObj.href}}" class="title" target="_blank">{{linkObj.title}}</a>
-          <a href="javascript:;" class="badge"><i class="glyphicon glyphicon-star"></i> {{linkObj.collectCount}}</a>
+          <a href="javascript:;" class="badge" (click)="starHandler(linkObj)"><i class="glyphicon glyphicon-star"></i> {{linkObj.collectCount}}</a>
           <br>
           <small><i class="glyphicon glyphicon-link"></i> {{linkObj.href}}</small>
         </h4>
