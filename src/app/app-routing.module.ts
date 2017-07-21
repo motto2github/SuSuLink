@@ -4,8 +4,10 @@ import {HomeComponent} from "./cpn/home/home.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'}
-  , {path: 'home', redirectTo: 'home/all/', pathMatch: 'full'}
+  , {path: 'home', redirectTo: 'home/all', pathMatch: 'full'}
+  , {path: 'home/all', redirectTo: 'home/all/', pathMatch: 'full'}
   , {path: 'home/all/:searchKeywords', component: HomeComponent}
+  , {path: 'home/my', redirectTo: 'home/my/', pathMatch: 'full'}
   , {path: 'home/my/:searchKeywords', component: HomeComponent}
   , {path: '**', redirectTo: 'home/all/', pathMatch: 'full'}
 ];
