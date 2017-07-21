@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class MarkToRedPipe implements PipeTransform {
 
   transform(src: string, matched?: string): string {
-    return src.replace(new RegExp(`(${matched})`, 'i'), '<span class="text-red">$1</span>');
+    return src.replace(new RegExp(`(${matched.replace(/\./g, '\\.')})`, 'i'), '<span class="text-red">$1</span>');
   }
 
 }
