@@ -17,7 +17,7 @@
           <br>
           <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="linkObj.href | markToRed:searchKeywords"></span></small>
         </h4>
-        <p class="list-group-item-text">{{linkObj.desc}}</p>
+        <p class="list-group-item-text" [innerHTML]="linkObj.desc"></p>
       </div>
     </div>
   </div>
