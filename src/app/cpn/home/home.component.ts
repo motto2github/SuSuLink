@@ -66,16 +66,10 @@ export class HomeComponent implements OnInit {
   private markRedForMatchedKeywords() {
     (() => {
       setTimeout(() => {
-        let searchKeywords = this.searchKeywords.toUpperCase();
-        let beginTag = '<span style="color:red;">', endTag = '</span>';
+        let regexps = [new RegExp(`(${this.searchKeywords})`, 'i'), new RegExp('<span.+>(.+)</span>')];
         Array.prototype.slice.call($('.ssl-home a.title, .ssl-home span.href')).forEach((el) => {
-          let $el = $(el), html = $el.html().replace(beginTag, '').replace(endTag, ''), index = html.toUpperCase().indexOf(searchKeywords);
-          if (index !== -1) {
-            let htmlArr = html.split('');
-            htmlArr.splice(index, 0, ...(beginTag.split('')));
-            htmlArr.splice(index + beginTag.length + searchKeywords.length, 0, ...(endTag.split('')));
-            html = htmlArr.join('');
-          }
+          let $el = $(el), html = $el.html();
+          html = html.replace(regexps[1], '$1').replace(regexps[0], '<span style="color: red;">$1</span>');
           $el.html(html);
         });
       }, 1);
