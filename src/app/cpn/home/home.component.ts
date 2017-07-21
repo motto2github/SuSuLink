@@ -1,5 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import 'jquery';
 
 interface ILinkObj {
   id: any;
@@ -15,7 +16,7 @@ interface ILinkObj {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   private commonLinkObjs: Array<ILinkObj>;
 
@@ -57,7 +58,29 @@ export class HomeComponent implements OnInit {
     this.listFlag = location.pathname.split('/')[2];
     this.route.params.subscribe((params) => {
       this.searchKeywords = params.searchKeywords;
+      this.markRedForMatchedKeywords();
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.markRedForMatchedKeywords();
+  }
+
+  // 把匹配的关键字标红
+  private markRedForMatchedKeywords() {
+    (() => {
+      let searchKeywords = this.searchKeywords.toUpperCase();
+      let beginTag = '<span style="color:red;">', endTag = '</span>';
+      Array.prototype.slice.call($('.ssl-home a.title, .ssl-home span.href')).forEach((el) => {
+        let $el = $(el), html = $el.html().replace(beginTag, '').replace(endTag, ''), index = html.toUpperCase().indexOf(searchKeywords);
+        if (index !== -1) {
+          let htmlArr = html.split('');
+          htmlArr.splice(index, 0, ...(beginTag.split('')));
+          htmlArr.splice(index + beginTag.length + searchKeywords.length, 0, ...(endTag.split('')));
+          $el.html(htmlArr.join(''));
+        }
+      });
+    })();
   }
 
   private randomIntWithRange(min = 1, max = 10000000): number {
