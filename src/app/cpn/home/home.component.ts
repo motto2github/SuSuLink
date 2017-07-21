@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
       linkObj.isStar = false;
       this.myLinkObjs.splice(this.myLinkObjs.indexOf(this.myLinkObjs.find(myLinkObj => myLinkObj.href === linkObj.href)), 1);
       this.commonLinkObjs.find(commonLinkObj => commonLinkObj.href === linkObj.href).isStar = false;
+      if (this.searchKeywords) this.markRedForMatchedKeywords();
     } else {
       linkObj.isStar = true;
       this.myLinkObjs.push(linkObj);
