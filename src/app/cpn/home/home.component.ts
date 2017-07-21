@@ -58,22 +58,7 @@ export class HomeComponent implements OnInit {
     this.listFlag = location.pathname.split('/')[2];
     this.route.params.subscribe((params) => {
       this.searchKeywords = params.searchKeywords;
-      this.markRedForMatchedKeywords();
     });
-  }
-
-  // 把匹配的关键字标红
-  private markRedForMatchedKeywords() {
-    (() => {
-      setTimeout(() => {
-        let regexps = [new RegExp(`(${this.searchKeywords})`, 'i'), new RegExp('<span.+>(.+)</span>')];
-        Array.prototype.slice.call($('.ssl-home a.title, .ssl-home span.href')).forEach((el) => {
-          let $el = $(el), html = $el.html();
-          html = html.replace(regexps[1], '$1').replace(regexps[0], '<span style="color: red;">$1</span>');
-          $el.html(html);
-        });
-      }, 1);
-    })();
   }
 
   private randomIntWithRange(min = 1, max = 10000000): number {
@@ -89,7 +74,6 @@ export class HomeComponent implements OnInit {
       linkObj.isStar = false;
       this.myLinkObjs.splice(this.myLinkObjs.indexOf(this.myLinkObjs.find(myLinkObj => myLinkObj.href === linkObj.href)), 1);
       this.commonLinkObjs.find(commonLinkObj => commonLinkObj.href === linkObj.href).isStar = false;
-      if (this.searchKeywords) this.markRedForMatchedKeywords();
     } else {
       linkObj.isStar = true;
       this.myLinkObjs.push(linkObj);
@@ -97,45 +81,12 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('__ssl_myLinkObjs', JSON.stringify(this.myLinkObjs));
   }
 
-  private linkObjArrayFilterHandler = (v: ILinkObj): boolean => {
-    let titleUpperCase = v.title.toUpperCase();
-    let hrefUpperCase = v.href.toUpperCase();
-    // let descUpperCase = v.desc.toUpperCase();
-    let searchKeywordsUpperCase = this.searchKeywords.toUpperCase();
-    return titleUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || hrefUpperCase.indexOf(searchKeywordsUpperCase) !== -1;// || descUpperCase.indexOf(searchKeywordsUpperCase) !== -1;
-  };
-
-  private linkObjArraySortHandler = (a: ILinkObj, b: ILinkObj): number => {
-    let a_title_uppercase = a.title.toUpperCase();
-    let a_href_uppercase = a.href.toUpperCase();
-    let b_title_uppercase = b.title.toUpperCase();
-    let b_href_uppercase = b.href.toUpperCase();
-    let searchKeywordsUpperCase = this.searchKeywords.toUpperCase();
-    if (searchKeywordsUpperCase) {
-      let a_title_contain = a_title_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-      let a_href_contain = a_href_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-      let b_title_contain = b_title_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-      let b_href_contain = b_href_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-      if (a_title_contain && !b_title_contain) return -1;
-      if (!a_title_contain && b_title_contain) return 1;
-      if (a_href_contain && !b_href_contain) return -1;
-      if (!a_href_contain && b_href_contain) return 1;
-    }
-    if (a.starCount >= b.starCount) return -1;
-    return 1;
-  };
-
-  private getMatchedLinkObjs() {
-    return (() => {
+  private getMatchedLinkObjs(): Array<ILinkObj> {
+    return ((): Array<ILinkObj> => {
       if (this.listFlag === 'my') {
         return this.myLinkObjs;
       }
-      return this.commonLinkObjs.filter((commonLinkObj: ILinkObj) => {
-        return !commonLinkObj.isStar;
-        // return !this.myLinkObjs.find((myLinkObj: ILinkObj) => {
-        //   return myLinkObj.href === commonLinkObj.href;
-        // });
-      }).concat(this.myLinkObjs);
+      return this.commonLinkObjs.filter((commonLinkObj: ILinkObj): boolean => !commonLinkObj.isStar).concat(this.myLinkObjs);
     })().filter((v: ILinkObj): boolean => {
       let titleUpperCase = v.title.toUpperCase();
       let hrefUpperCase = v.href.toUpperCase();
