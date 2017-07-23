@@ -9,15 +9,14 @@
       </button>
     </div>
     <div class="list-group">
-      <!--<div *ngFor="let linkObj of (listFlag === 'all' ? commonLinkObjs.concat(myLinkObjs) : myLinkObjs).filter(linkObjArrayFilterHandler).sort(linkObjArraySortHandler)" class="list-group-item">-->
       <div *ngFor="let linkObj of getMatchedLinkObjs()" class="list-group-item">
         <h4 class="list-group-item-heading">
-          <a href="{{linkObj.href}}" class="title" target="_blank" [innerHTML]="linkObj.title | markToRed:searchKeywords"></a>
-          <a href="javascript:;" class="badge" [class.active]="linkObj.isStar" (click)="starHandler(linkObj)"><i class="glyphicon glyphicon-star"></i> {{linkObj.starCount}}</a>
+          <a href="{{linkObj.href}}" target="_blank" class="title" [innerHTML]="linkObj.title | markToRed:searchKeywords"></a>
+          <a href="javascript:;" class="badge" [class.active]="linkObj.isStar" (click)="starHandler(linkObj);"><i class="glyphicon glyphicon-star"></i> {{linkObj.starCount}}</a>
           <br>
           <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="linkObj.href | markToRed:searchKeywords"></span></small>
         </h4>
-        <p class="list-group-item-text" [innerHTML]="linkObj.desc"></p>
+        <p class="list-group-item-text" [innerHTML]="linkObj.desc | markToRed:searchKeywords"></p>
       </div>
     </div>
   </div>

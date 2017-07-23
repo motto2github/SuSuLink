@@ -90,9 +90,9 @@ export class HomeComponent implements OnInit {
     })().filter((v: ILinkObj): boolean => {
       let titleUpperCase = v.title.toUpperCase();
       let hrefUpperCase = v.href.toUpperCase();
-      // let descUpperCase = v.desc.toUpperCase();
+      let descUpperCase = v.desc.toUpperCase();
       let searchKeywordsUpperCase = this.searchKeywords.toUpperCase();
-      return titleUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || hrefUpperCase.indexOf(searchKeywordsUpperCase) !== -1;// || descUpperCase.indexOf(searchKeywordsUpperCase) !== -1;
+      return titleUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || hrefUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || descUpperCase.indexOf(searchKeywordsUpperCase) !== -1;
     }).sort((a: ILinkObj, b: ILinkObj): number => {
       let a_title_uppercase = a.title.toUpperCase();
       let a_href_uppercase = a.href.toUpperCase();
