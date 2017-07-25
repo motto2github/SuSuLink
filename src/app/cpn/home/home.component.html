@@ -1,23 +1,48 @@
 <div class="ssl-home">
-  <div class="container">
+  <div class="banner-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <p class="text logotext">SuSuLink</p>
+          <p class="text desc0">快速、稳定、丰富、免费的链接地址查询与管理站点</p>
+          <p class="text desc1">在这里，已为您收录了许许多多常用的链接地址，以便您查询、收藏、管理</p>
+          <div class="form-group search-wrapper">
+            <input [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" autofocus tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <i class="glyphicon glyphicon-search"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="recommend-wrapper hidden-sm hidden-xs">
+    <ul class="list-inline text-center">
+      <li *ngFor="let obj of recommendLinkObjs">
+        <a href="{{obj.href}}" title="{{obj.title}}" target="_blank" data-toggle="tooltip" data-placement="top">
+          <img src="{{obj.logoUrl}}" alt="{{obj.title}}">
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="container list-wrapper">
     <div class="btn-group" style="margin-bottom: 10px;">
-      <button type="button" class="btn btn-default" style="outline: none;" [class.active]="listFlag === 'all'" (click)="switchList('all')">
+      <button type="button" class="btn btn-default" [class.active]="listFlag === 'all'" (click)="switchList('all')">
         <i class="glyphicon glyphicon-th-list"></i> 全部
       </button>
-      <button type="button" class="btn btn-default" style="outline: none;" [class.active]="listFlag === 'my'" (click)="switchList('my')">
+      <button type="button" class="btn btn-default" [class.active]="listFlag === 'my'" (click)="switchList('my')">
         <i class="glyphicon glyphicon-star"></i> 我的
       </button>
     </div>
-    <div class="list-group">
+    <router-outlet></router-outlet>
+    <!--<div class="list-group">
       <div *ngFor="let linkObj of getMatchedLinkObjs()" class="list-group-item">
         <h4 class="list-group-item-heading">
-          <a href="{{linkObj.href}}" target="_blank" class="title" [innerHTML]="linkObj.title | markToRed:searchKeywords"></a>
+          <a href="{{linkObj.href}}" target="_blank" class="title" [innerHTML]="linkObj.title"></a>
           <a href="javascript:;" class="badge" [class.active]="linkObj.isStar" (click)="starHandler(linkObj);"><i class="glyphicon glyphicon-star"></i> {{linkObj.starCount}}</a>
           <br>
-          <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="linkObj.href | markToRed:searchKeywords"></span></small>
+          <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="linkObj.href"></span></small>
         </h4>
-        <p class="list-group-item-text" [innerHTML]="linkObj.desc | markToRed:searchKeywords"></p>
+        <p class="list-group-item-text" [innerHTML]="linkObj.desc"></p>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>

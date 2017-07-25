@@ -8,38 +8,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand ssl-logotext" href="javascript:;">SuSuLink</a>
+        <a class="navbar-brand ssl-logotext" href="javascript:;" [routerLink]="['']">SuSuLink</a>
       </div>
       <nav id="bs-navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <!--<li><a href="javascript:;" class="text-center">登录</a></li>-->
-          <!--<li><a href="javascript:;" class="text-center">注册</a></li>-->
+          <li><a href="javascript:;" class="text-center" [routerLink]="['/sign/up']">注册</a></li>
+          <li><a href="javascript:;" class="text-center" [routerLink]="['/sign/in']">登入</a></li>
           <li><a href="https://github.com/motto2github/SuSuLink" class="text-center" target="_blank">GitHub地址</a></li>
           <li><a href="javascript:$('body,html').animate({scrollTop: 9999}, 100);" class="text-center">关于</a></li>
         </ul>
       </nav>
     </div>
   </nav>
-  <div class="container content-wrapper">
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <p class="text logotext">SuSuLink</p>
-        <p class="text desc0">快速、稳定、丰富、免费的链接地址查询与管理站点</p>
-        <p class="text desc1">在这里，已为您收录了许许多多常用的链接地址，以便您查询、收藏、管理</p>
-        <div class="form-group search-wrapper">
-          <input [formControl]="searchKeywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" autofocus tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
-          <i class="glyphicon glyphicon-search"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="bottom-wrapper hidden-sm hidden-xs">
-    <ul class="list-inline text-center">
-      <li *ngFor="let obj of recommendLinkObjs">
-        <a href="{{obj.href}}" title="{{obj.title}}" target="_blank" data-toggle="tooltip" data-placement="top">
-          <img src="{{obj.logoUrl}}" alt="{{obj.title}}">
-        </a>
-      </li>
-    </ul>
-  </div>
 </div>

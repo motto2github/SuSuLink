@@ -1,0 +1,13 @@
+<div class="ssl-home-list-my">
+  <div class="list-group">
+    <div *ngFor="let obj of links | async" class="list-group-item">
+      <h4 class="list-group-item-heading">
+        <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+        <a href="javascript:;" class="badge" [class.active]="obj.isStar" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i> {{obj.starCount}}</a>
+        <br>
+        <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
+      </h4>
+      <p class="list-group-item-text" [innerHTML]="obj.desc | markToRed:keywords"></p>
+    </div>
+  </div>
+</div>
