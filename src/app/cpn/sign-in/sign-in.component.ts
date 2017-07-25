@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'ssl-sign-in',
@@ -7,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  private name: string;
+
+  private password: string;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
