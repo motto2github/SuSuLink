@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
+import {Http} from "@angular/http";
+import 'rxjs';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'ssl-sign-up',
@@ -10,7 +13,9 @@ export class SignUpComponent implements OnInit {
 
   private fg: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  private submitted: boolean = false;
+
+  constructor(private fb: FormBuilder, private http: Http, private router: Router) {
     this.initFormGroup();
   }
 
@@ -27,6 +32,19 @@ export class SignUpComponent implements OnInit {
 
   private onSubmit() {
     console.log('submit...', this.fg.value);
+    this.submitted = true;
+    this.fg.disable();
+    this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(data => {
+      setTimeout(() => {
+        console.log(data);
+        if (data.code !== 1) {
+          this.submitted = false;
+          this.fg.enable();
+        } else {
+          this.router.navigate(['/']);
+        }
+      }, 3000);
+    });
   }
 
   private passwordNotEqualValidator(fg: AbstractControl): {[key: string]: any} {
@@ -41,6 +59,10 @@ export class SignUpComponent implements OnInit {
 
   get password1() {
     return this.fg.get('password1');
+  }
+
+  get password2() {
+    return this.fg.get('password2');
   }
 
 }
