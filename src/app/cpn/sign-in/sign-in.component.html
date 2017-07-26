@@ -7,20 +7,24 @@
             <h1>欢迎登入</h1>
           </div>
         </div>
-        <form class="form-horizontal" #_form="ngForm">
+        <form class="form-horizontal" [formGroup]="fg" (ngSubmit)="onSubmit()" novalidate>
           <div class="form-group">
             <label for="name" class="control-label col-md-3">用户名</label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="name" [(ngModel)]="name" name="name" #_name="ngModel" required>
+              <input type="text" class="form-control" id="name" formControlName="name">
             </div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="_name.valid || _name.pristine">请输入用户名</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('required') || name.pristine">请输入用户名</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('minlength') || name.pristine">最少{{ name.getError('minlength')?.requiredLength }}位，目前{{ name.getError('minlength')?.actualLength }}位</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('maxlength') || name.pristine">最多{{ name.getError('maxlength')?.requiredLength }}位，目前{{ name.getError('maxlength')?.actualLength }}位</div>
           </div>
           <div class="form-group">
             <label for="password" class="control-label col-md-3">密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" #_password="ngModel" required>
+              <input type="password" class="form-control" id="password" formControlName="password">
             </div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="_password.valid || _password.pristine">请输入密码</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('required') || password.pristine">请输入密码</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('minlength') || password.pristine">最少{{ password.getError('minlength')?.requiredLength }}位，目前{{ password.getError('minlength')?.actualLength }}位</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('maxlength') || password.pristine">最多{{ password.getError('maxlength')?.requiredLength }}位，目前{{ password.getError('maxlength')?.actualLength }}位</div>
           </div>
           <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
@@ -33,7 +37,7 @@
           </div>
           <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-              <button type="submit" class="btn btn-default" [disabled]="_form.form.invalid">登入 <span class="glyphicon glyphicon-log-in"></span></button>
+              <button type="submit" class="btn btn-default" [disabled]="fg.invalid">登入 <span class="glyphicon glyphicon-log-in"></span></button>
               <button type="button" class="btn btn-success" [routerLink]="['/sign/up']">我还没有帐号，去注册 <span class="glyphicon glyphicon-hand-up"></span></button>
             </div>
           </div>

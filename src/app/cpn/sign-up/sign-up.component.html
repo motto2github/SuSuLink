@@ -15,6 +15,7 @@
               <input type="text" class="form-control" id="name" formControlName="name">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('required') || name.pristine">请输入用户名</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('minlength') || name.pristine">最少{{name.getError('minlength')?.requiredLength}}位, 目前{{name.getError('minlength')?.actualLength}}位</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('maxlength') || name.pristine">最多{{name.getError('maxlength')?.requiredLength}}位, 目前{{name.getError('maxlength')?.actualLength}}位</div>
           </div>
           <div class="form-group">
@@ -23,6 +24,7 @@
               <input type="password" class="form-control" id="password1" formControlName="password1">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('required') || password1.pristine">请输入登入密码</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('minlength') || password1.pristine">最少{{password1.getError('minlength')?.requiredLength}}位, 目前{{password1.getError('minlength')?.actualLength}}位</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('maxlength') || password1.pristine">最多{{password1.getError('maxlength')?.requiredLength}}位, 目前{{password1.getError('maxlength')?.actualLength}}位</div>
           </div>
           <div class="form-group">

@@ -19,8 +19,8 @@ export class SignUpComponent implements OnInit {
 
   private initFormGroup() {
     this.fg = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(16)]],
-      password1: ['', [Validators.required, Validators.maxLength(16)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
+      password1: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
       password2: ['', Validators.required]
     }, {validator: this.passwordNotEqualValidator});
   }
