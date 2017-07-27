@@ -28,8 +28,8 @@ export class SignUpComponent implements OnInit {
   private initFormGroup() {
     this.fg = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
-      password1: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
-      password2: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+      confirmPassword: ['', Validators.required]
     }, {validator: this.passwordNotEqualValidator});
   }
 
@@ -54,8 +54,8 @@ export class SignUpComponent implements OnInit {
   }
 
   private passwordNotEqualValidator(fg: AbstractControl): {[key: string]: any} {
-    const pw1 = fg.get('password1').value;
-    const pw2 = fg.get('password2').value;
+    const pw1 = fg.get('password').value;
+    const pw2 = fg.get('confirmPassword').value;
     return pw1 === pw2 ? null : {passwordNotEqual: true};
   }
 
@@ -63,12 +63,12 @@ export class SignUpComponent implements OnInit {
     return this.fg.get('name');
   }
 
-  get password1() {
-    return this.fg.get('password1');
+  get password() {
+    return this.fg.get('password');
   }
 
-  get password2() {
-    return this.fg.get('password2');
+  get confirmPassword() {
+    return this.fg.get('confirmPassword');
   }
 
   private countDown: number;

@@ -19,21 +19,21 @@
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('maxlength') || name.pristine">最多{{name.getError('maxlength')?.requiredLength}}位, 目前{{name.getError('maxlength')?.actualLength}}位</div>
           </div>
           <div class="form-group">
-            <label for="password1" class="control-label col-md-3">登入密码</label>
+            <label for="password" class="control-label col-md-3">登入密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password1" formControlName="password1" [class.ssl-valid]="!password1.errors" [class.ssl-invalid]="password1.errors">
+              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors">
             </div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('required') || password1.pristine">请输入登入密码</div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('minlength') || password1.pristine">最少{{password1.getError('minlength')?.requiredLength}}位, 目前{{password1.getError('minlength')?.actualLength}}位</div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password1.hasError('maxlength') || password1.pristine">最多{{password1.getError('maxlength')?.requiredLength}}位, 目前{{password1.getError('maxlength')?.actualLength}}位</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('required') || password.pristine">请输入登入密码</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('minlength') || password.pristine">最少{{password.getError('minlength')?.requiredLength}}位, 目前{{password.getError('minlength')?.actualLength}}位</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('maxlength') || password.pristine">最多{{password.getError('maxlength')?.requiredLength}}位, 目前{{password.getError('maxlength')?.actualLength}}位</div>
           </div>
           <div class="form-group">
-            <label for="password2" class="control-label col-md-3">确认密码</label>
+            <label for="confirmPassword" class="control-label col-md-3">确认密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password2" formControlName="password2" [class.ssl-valid]="!password2.errors" [class.ssl-invalid]="password2.errors || fg.hasError('passwordNotEqual')">
+              <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" [class.ssl-valid]="!confirmPassword.errors" [class.ssl-invalid]="confirmPassword.errors || fg.hasError('passwordNotEqual')">
             </div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password2.hasError('required') || password2.pristine">请确认密码</div>
-            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!fg.hasError('passwordNotEqual') || password2.invalid">两次密码不一致</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!confirmPassword.hasError('required') || confirmPassword.pristine">请确认密码</div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!fg.hasError('passwordNotEqual') || confirmPassword.invalid">两次密码不一致</div>
           </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
