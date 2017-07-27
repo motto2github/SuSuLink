@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import {CommonLink} from "./model/CommonLink";
 import {ResInfo} from "./util";
+import {User} from "./model/User";
 
 mongoose.connect('mongodb://localhost:6969/susulink', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', () => {
@@ -64,7 +65,17 @@ app.post('/api/links', (req, res) => {
 app.post('/api/sign/up', (req, res) => {
   console.log(req.body);
   let ri = new ResInfo();
-  res.json(ri);
+  let {name, password} = req.body;
+  if (name && password) {
+    User.find({name}).exec((err, data: Array<any>) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', null));
+      if (data.length !== 0) return res.json(ri.set(-1, '该用户名已被注册', null));
+      new User({name, password}).save();
+      return res.json(ri.set(1, '注册成功', null));
+    });
+  } else {
+    res.json(ri.set(-88, '请求参数异常', null));
+  }
 });
 
 app.post('/api/sign/in', (req, res) => {

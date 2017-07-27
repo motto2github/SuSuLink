@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var CommonLink_1 = require("./model/CommonLink");
 var util_1 = require("./util");
+var User_1 = require("./model/User");
 mongoose.connect('mongodb://localhost:6969/susulink', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function () {
     console.log('db connect success, at mongodb://localhost:6969/susulink');
@@ -68,7 +69,20 @@ app.post('/api/links', function (req, res) {
 app.post('/api/sign/up', function (req, res) {
     console.log(req.body);
     var ri = new util_1.ResInfo();
-    res.json(ri);
+    var _a = req.body, name = _a.name, password = _a.password;
+    if (name && password) {
+        User_1.User.find({ name: name }).exec(function (err, data) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试', null));
+            if (data.length !== 0)
+                return res.json(ri.set(-1, '该用户名已被注册', null));
+            new User_1.User({ name: name, password: password }).save();
+            return res.json(ri.set(1, '注册成功', null));
+        });
+    }
+    else {
+        res.json(ri.set(-88, '请求参数异常', null));
+    }
 });
 app.post('/api/sign/in', function (req, res) {
     console.log(req.body);
