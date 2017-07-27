@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {Http} from "@angular/http";
 
 @Component({
   selector: 'ssl-sign-in',
@@ -10,7 +11,11 @@ export class SignInComponent implements OnInit {
 
   private fg: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  private signInSuccess: boolean = false;
+
+  private errMsg: string;
+
+  constructor(private fb: FormBuilder, private http: Http) {
   }
 
   ngOnInit() {
@@ -26,6 +31,19 @@ export class SignInComponent implements OnInit {
 
   private onSubmit() {
     console.log('submit...', this.fg.value);
+    this.fg.disable();
+    this.errMsg = null;
+    this.http.post('/api/sign/in', this.fg.value).map(res => res.json()).subscribe(ri => {
+      setTimeout(() => {
+        console.log(ri);
+        if (ri.code === 1) {
+          this.signInSuccess = true;
+        } else {
+          this.fg.enable();
+          this.errMsg = ri.msg;
+        }
+      }, 3000);
+    });
   }
 
   get name() {

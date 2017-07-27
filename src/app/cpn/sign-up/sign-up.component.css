@@ -5,3 +5,9 @@
 .ssl-invalid {
   border-left: 5px solid #a94442;
 }
+
+.ssl-msg-err {
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 10px;
+}

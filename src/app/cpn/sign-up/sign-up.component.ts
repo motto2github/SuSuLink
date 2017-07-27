@@ -16,6 +16,8 @@ export class SignUpComponent implements OnInit {
 
   private signUpSuccess: boolean = false;
 
+  private errMsg: string;
+
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
     this.initFormGroup();
   }
@@ -35,16 +37,17 @@ export class SignUpComponent implements OnInit {
     console.log('submit...', this.fg.value);
     this.submitted = true;
     this.fg.disable();
+    this.errMsg = null;
     this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         console.log(ri);
-        if (ri.code !== 0) {
-          this.submitted = false;
-          this.fg.enable();
-        } else {
+        if (ri.code === 1) {
           this.signUpSuccess = true;
           this.startCountDown();
-          // this.router.navigate(['/sign/in']);
+        } else {
+          this.submitted = false;
+          this.fg.enable();
+          this.errMsg = ri.msg;
         }
       }, 3000);
     });
