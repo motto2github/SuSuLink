@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
-import 'rxjs';
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,6 +13,8 @@ export class SignUpComponent implements OnInit {
   private fg: FormGroup;
 
   private submitted: boolean = false;
+
+  private signUpSuccess: boolean = false;
 
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
     this.initFormGroup();
@@ -34,14 +35,16 @@ export class SignUpComponent implements OnInit {
     console.log('submit...', this.fg.value);
     this.submitted = true;
     this.fg.disable();
-    this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(data => {
+    this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        console.log(data);
-        if (data.code !== 1) {
+        console.log(ri);
+        if (ri.code !== 0) {
           this.submitted = false;
           this.fg.enable();
         } else {
-          this.router.navigate(['/']);
+          this.signUpSuccess = true;
+          this.startCountDown();
+          // this.router.navigate(['/sign/in']);
         }
       }, 3000);
     });
@@ -63,6 +66,25 @@ export class SignUpComponent implements OnInit {
 
   get password2() {
     return this.fg.get('password2');
+  }
+
+  private countDown: number;
+
+  private countDownInterval: any;
+
+  private startCountDown() {
+    this.countDown = 5;
+    this.countDownInterval = setInterval(() => {
+      this.countDown--;
+      if (this.countDown === 0) {
+        this.router.navigate(['/sign/in']);
+      }
+    }, 1000);
+  }
+
+  private stopCountDown() {
+    this.countDown = 5;
+    clearInterval(this.countDownInterval);
   }
 
 }

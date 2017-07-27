@@ -8,20 +8,13 @@ button {
   color: red;
 }
 
-@keyframes ssl-anim-kf-rotate {
+@keyframes ssl-keyframes-rotate {
   0% {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    transform: rotate(180deg);
   }
   100% {
     -webkit-transform: rotate(360deg);
@@ -33,5 +26,18 @@ button {
 }
 
 .ssl-anim-rotate {
-  animation: ssl-anim-kf-rotate 1s infinite linear;
+  animation: ssl-keyframes-rotate 1s infinite linear;
+}
+
+@keyframes ssl-keyframes-move-right{
+  0% {
+    transform: translate(-50%);
+  }
+  100% {
+    transform: translate(50%);
+  }
+}
+
+.ssl-anim-move-right {
+  animation: ssl-keyframes-move-right 1s infinite linear;
 }

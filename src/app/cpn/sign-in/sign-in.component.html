@@ -11,7 +11,7 @@
           <div class="form-group">
             <label for="name" class="control-label col-md-3">用户名</label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="name" formControlName="name">
+              <input type="text" class="form-control" id="name" formControlName="name" [class.ssl-valid]="!name.errors" [class.ssl-invalid]="name.errors">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('required') || name.pristine">请输入用户名</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('minlength') || name.pristine">最少{{ name.getError('minlength')?.requiredLength }}位，目前{{ name.getError('minlength')?.actualLength }}位</div>
@@ -20,7 +20,7 @@
           <div class="form-group">
             <label for="password" class="control-label col-md-3">密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password" formControlName="password">
+              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('required') || password.pristine">请输入密码</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('minlength') || password.pristine">最少{{ password.getError('minlength')?.requiredLength }}位，目前{{ password.getError('minlength')?.actualLength }}位</div>
