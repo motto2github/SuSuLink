@@ -52,11 +52,11 @@ app.post('/api/links', function (req, res) {
         else {
             condition = {};
         }
-        CommonLink_1.CommonLink.find(condition).exec(function (err, data) {
+        CommonLink_1.CommonLink.find(condition, function (err, commonLinks) {
             if (err)
                 res.json(ri.set(-99, '数据库异常，请稍后重试'));
             else
-                res.json(ri.set(1, 'success', sortLinks(data, keywords)));
+                res.json(ri.set(1, 'success', sortLinks(commonLinks, keywords)));
         });
     }
     else if (listFlag === 'my') {
@@ -71,13 +71,17 @@ app.post('/api/sign/up', function (req, res) {
     var _a = req.body, name = _a.name, password = _a.password;
     if (!name || !password)
         return res.json(ri.set(-88, '请求参数异常'));
-    User_1.User.find({ name: name }, { _id: true }).limit(1).exec(function (err, data) {
+    User_1.User.findOne({ name: name }, { _id: true }, function (err, user) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-        if (data.length !== 0)
+        if (user)
             return res.json(ri.set(-1, '该用户名已被注册'));
-        new User_1.User({ name: name, password: password }).save();
-        return res.json(ri.set(1, '注册成功'));
+        console.log(user);
+        new User_1.User({ name: name, password: password }).save(function (err) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            return res.json(ri.set(1, '注册成功'));
+        });
     });
 });
 app.post('/api/sign/in', function (req, res) {
@@ -85,12 +89,12 @@ app.post('/api/sign/in', function (req, res) {
     var _a = req.body, name = _a.name, password = _a.password;
     if (!name || !password)
         return res.json(ri.set(-88, '请求参数异常'));
-    User_1.User.find({ name: name, password: password }, { _id: true, name: true }).limit(1).exec(function (err, data) {
+    User_1.User.findOne({ name: name, password: password }, { _id: true, name: true }, function (err, user) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-        if (data.length === 0)
+        if (!user)
             return res.json(ri.set(-1, '账号或密码错误'));
-        return res.json(ri.set(1, '登录成功', { user: data[0] }));
+        return res.json(ri.set(1, '登录成功', { user: user }));
     });
 });
 app.listen(4201, 'localhost', function () {
