@@ -6,8 +6,9 @@ var mongoose = require("mongoose");
 var CommonLink_1 = require("./model/CommonLink");
 var util_1 = require("./util");
 var User_1 = require("./model/User");
-mongoose.connect('mongodb://localhost:6969/susulink', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function () {
+mongoose.connect('mongodb://localhost:6969/susulink', function (err) {
+    if (err)
+        return console.error(err);
     console.log('db connect success, at mongodb://localhost:6969/susulink');
 });
 var sortLinks = function (links, keywords) {
@@ -41,29 +42,43 @@ var app = express();
 // parse application/json
 app.use(bodyParser.json());
 app.post('/api/links', function (req, res) {
+    console.log(req.body);
     var ri = new util_1.ResInfo();
-    var _a = req.body, keywords = _a.keywords, listFlag = _a.listFlag;
+    var _a = req.body, keywords = _a.keywords, listFlag = _a.listFlag, curUserId = _a.curUserId;
     if (listFlag === 'all') {
         var condition = null;
         if (keywords) {
             var regexp = new RegExp(keywords, 'i');
             condition = { $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
         }
-        else {
+        else
             condition = {};
-        }
         CommonLink_1.CommonLink.find(condition, function (err, commonLinks) {
             if (err)
-                res.json(ri.set(-99, '数据库异常，请稍后重试'));
-            else
-                res.json(ri.set(1, 'success', sortLinks(commonLinks, keywords)));
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            if (!curUserId)
+                return res.json(ri.set(1, 'success', { links: sortLinks(commonLinks, keywords) }));
+            User_1.User.findOne({ _id: curUserId }, { links: true }, function (err, user) {
+                if (err)
+                    return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+                if (!user)
+                    return res.json(ri.set(-88, '请求参数异常'));
+                console.log(user);
+                return res.json(ri.set(1, 'success', { links: sortLinks(commonLinks.concat(user.links), keywords) }));
+            });
         });
     }
     else if (listFlag === 'my') {
-        res.json(ri.set(1, 'success', [
-            { id: '__ssl_myLink_0', title: '百度一下，你就知道', href: 'http://www.baidu.com/', isStar: true, starCount: 9787361, desc: '全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。' },
-            { id: '__ssl_myLink_1', title: 'ECMAScript 6 入门 - 阮一峰', href: 'http://es6.ruanyifeng.com/', isStar: true, starCount: 1238764, desc: '本书覆盖 ES6 与上一个版本 ES5 的所有不同之处，对涉及的语法知识给予详细介绍，并给出大量简洁易懂的示例代码。本书为中级难度，适合已经掌握 ES5 的读者，用来了解这门语言的最新发展；也可当作参考手册，查寻新增的语法点。全书已由电子工业出版社出版，目前是第二版，书名为《ES6 标准入门》，2017年下半年即将推出第三版。纸版是基于网站内容排版印刷的。感谢张春雨编辑支持我将全书开源的做法。如果您认可这本书，建议购买纸版。这样可以使出版社不因出版开源书籍而亏钱，进而鼓励更多的作者开源自己的书籍。下面是第二版的购买地址。' }
-        ]));
+        if (!curUserId)
+            return res.json(ri.set(-88, '请求参数异常'));
+        User_1.User.findOne({ _id: curUserId }, function (err, user) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            if (!user)
+                return res.json(ri.set(-88, '请求参数异常'));
+            console.log(user);
+            res.json(ri.set(1, 'success', { links: user.links }));
+        });
     }
 });
 app.post('/api/sign/up', function (req, res) {
@@ -76,7 +91,6 @@ app.post('/api/sign/up', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (user)
             return res.json(ri.set(-1, '该用户名已被注册'));
-        console.log(user);
         new User_1.User({ name: name, password: password }).save(function (err) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));

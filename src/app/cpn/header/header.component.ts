@@ -7,7 +7,7 @@ import {Component, OnInit, DoCheck} from '@angular/core';
 })
 export class HeaderComponent implements OnInit, DoCheck {
 
-  private curUser;
+  private curUser: {[key: string]: any};
 
   constructor() {
   }

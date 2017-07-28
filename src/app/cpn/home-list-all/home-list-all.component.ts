@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
-import {ILink} from "../home/home.component";
 
 @Component({
   selector: 'ssl-home-list-all',
@@ -11,28 +10,42 @@ import {ILink} from "../home/home.component";
 })
 export class HomeListAllComponent implements OnInit {
 
-  private links: Observable<Array<ILink>>;
+  private links: Observable<Array<{[key: string]: any}>>;
 
   private keywords: string;
+
+  private curUser: {[key: string]: any};
 
   constructor(private route: ActivatedRoute, private http: Http) {
   }
 
   ngOnInit() {
+    this.curUser = JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
-      this.links = this.http.post('/api/links', {listFlag: 'all', keywords: this.keywords}).map(res => res.json().data);
+      this.links = this.http.post('/api/links', {
+        listFlag: 'all',
+        keywords: this.keywords,
+        curUserId: this.curUser ? this.curUser._id : null
+      }).map(res => {
+        let ri = res.json();
+        if (ri.code !== 1) {
+          alert(ri.msg);
+          return [];
+        }
+        return ri.data.links;
+      });
     });
   }
 
-  private starHandler(link: ILink) {
-    // if (linkObj.isStar) {
-    //   linkObj.isStar = false
-    //   this.myLinkObjs.splice(this.myLinkObjs.indexOf(this.myLinkObjs.find(myLinkObj => myLinkObj.href === linkObj.href)), 1)
-    //   this.commonLinkObjs.find(commonLinkObj => commonLinkObj.href === linkObj.href).isStar = false
+  private starHandler(link: {[key: string]: any}) {
+    // if (link.isStar) {
+    //   link.isStar = false;
+    //   this.myLinkObjs.splice(this.myLinkObjs.indexOf(this.myLinkObjs.find(myLinkObj => myLinkObj.href === link.href)), 1)
+    //   this.commonLinkObjs.find(commonLinkObj => commonLinkObj.href === link.href).isStar = false
     // } else {
-    //   linkObj.isStar = true
-    //   this.myLinkObjs.push(linkObj)
+    //   link.isStar = true;
+    //   this.myLinkObjs.push(link)
     // }
     // localStorage.setItem('__ssl_myLinkObjs', JSON.stringify(this.myLinkObjs))
   }
