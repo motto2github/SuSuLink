@@ -10,8 +10,6 @@ var ResInfo = (function () {
         this.data = data;
     }
     ResInfo.prototype.set = function (code, msg, data) {
-        if (code === void 0) { code = 0; }
-        if (msg === void 0) { msg = 'fail'; }
         this.code = code;
         this.msg = msg;
         if (data !== undefined) {

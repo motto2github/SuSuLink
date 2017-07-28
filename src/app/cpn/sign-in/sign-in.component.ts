@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Http} from "@angular/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'ssl-sign-in',
@@ -11,11 +12,9 @@ export class SignInComponent implements OnInit {
 
   private fg: FormGroup;
 
-  private signInSuccess: boolean = false;
-
   private errMsg: string;
 
-  constructor(private fb: FormBuilder, private http: Http) {
+  constructor(private fb: FormBuilder, private http: Http, private router: Router) {
   }
 
   ngOnInit() {
@@ -37,7 +36,8 @@ export class SignInComponent implements OnInit {
       setTimeout(() => {
         console.log(ri);
         if (ri.code === 1) {
-          this.signInSuccess = true;
+          sessionStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));
+          this.router.navigate(['/']);
         } else {
           this.fg.enable();
           this.errMsg = ri.msg;
