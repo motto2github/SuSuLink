@@ -14,19 +14,15 @@ export class HomeListAllComponent implements OnInit {
 
   private keywords: string;
 
-  private curUser: {[key: string]: any};
-
   constructor(private route: ActivatedRoute, private http: Http) {
   }
 
   ngOnInit() {
-    this.curUser = JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
       this.links = this.http.post('/api/links', {
         listFlag: 'all',
-        keywords: this.keywords,
-        curUserId: this.curUser ? this.curUser._id : null
+        keywords: this.keywords
       }).map(res => {
         let ri = res.json();
         if (ri.code !== 1) {

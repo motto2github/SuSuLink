@@ -38,7 +38,6 @@ let app = express();
 app.use(bodyParser.json());
 
 app.post('/api/links', (req, res) => {
-  console.log(req.body);
   let ri = new ResInfo();
   let {keywords, listFlag, curUserId} = req.body;
   if (listFlag === 'all') {
@@ -47,22 +46,15 @@ app.post('/api/links', (req, res) => {
       let regexp = new RegExp(keywords, 'i');
       condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
     } else condition = {};
-    CommonLink.find(condition, (err, commonLinks: Array<{[key: string]: any}>) => {
+    CommonLink.find(condition, (err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-      if (!curUserId) return res.json(ri.set(1, 'success', {links: sortLinks(commonLinks, keywords)}));
-      User.findOne({_id: curUserId}, {links: true}, (err, user) => {
-        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-        if (!user) return res.json(ri.set(-88, '请求参数异常'));
-        console.log(user);
-        return res.json(ri.set(1, 'success', {links: sortLinks(commonLinks.concat(user.links), keywords)}));
-      });
+      return res.json(ri.set(1, 'success', {links: sortLinks(links, keywords)}));
     });
   } else if (listFlag === 'my') {
     if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
-    User.findOne({_id: curUserId}, (err, user) => {
+    User.findOne({_id: curUserId}, {links: true}, (err, user) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (!user) return res.json(ri.set(-88, '请求参数异常'));
-      console.log(user);
       res.json(ri.set(1, 'success', {links: user.links}));
     });
   }
