@@ -64,7 +64,7 @@ app.post('/api/sign/up', (req, res) => {
   let ri = new ResInfo();
   let {name, password} = req.body;
   if (!name || !password) return res.json(ri.set(-88, '请求参数异常'));
-  User.find({name}, {_id: true}).limit(1).exec((err, data: Array<any>) => {
+  User.find({name}, {_id: true}).limit(1).exec((err, data: Array<{[key: string]: any}>) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (data.length !== 0) return res.json(ri.set(-1, '该用户名已被注册'));
     new User({name, password}).save();
@@ -76,7 +76,7 @@ app.post('/api/sign/in', (req, res) => {
   let ri = new ResInfo();
   let {name, password} = req.body;
   if (!name || !password) return res.json(ri.set(-88, '请求参数异常'));
-  User.find({name, password}, {_id: true, name: true}).limit(1).exec((err, data) => {
+  User.find({name, password}, {_id: true, name: true}).limit(1).exec((err, data: Array<{[key: string]: any}>) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (data.length === 0) return res.json(ri.set(-1, '账号或密码错误'));
     return res.json(ri.set(1, '登录成功', {user: data[0]}));
