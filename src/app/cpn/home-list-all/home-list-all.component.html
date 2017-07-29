@@ -1,13 +1,31 @@
 <div class="ssl-home-list-all">
-  <div class="list-group">
-    <div *ngFor="let obj of links | async" class="list-group-item">
-      <h4 class="list-group-item-heading">
-        <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
-        <a href="javascript:;" class="badge" [class.active]="obj.isStar" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i> {{obj.starCount}}</a>
-        <br>
-        <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
-      </h4>
-      <p class="list-group-item-text" [innerHTML]="obj.desc | markToRed:keywords"></p>
+  <div class="row">
+    <div class="col-md-12">
+      <ng-template *ngIf="!links; then tpl_loading; else tpl_loaded;"></ng-template>
+      <ng-template *ngIf="linksObservable | async"></ng-template>
     </div>
   </div>
+  <ng-template #tpl_loading>
+    <h5><span class="glyphicon glyphicon-repeat ssl-anim-rotate"></span> 加载中</h5>
+  </ng-template>
+  <ng-template #tpl_loaded>
+    <ng-template *ngIf="links.length; then tpl_hasData; else tpl_noData;"></ng-template>
+    <ng-template #tpl_noData>
+      <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无匹配数据！</h5>
+      <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 希望您能反馈链接建议，我们会定期筛选更新哦！</h5>
+    </ng-template>
+    <ng-template #tpl_hasData>
+      <div class="list-group">
+        <div *ngFor="let obj of links" class="list-group-item">
+          <h4 class="list-group-item-heading">
+            <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+            <a href="javascript:;" class="badge" [class.active]="obj.isStar" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i> {{obj.starCount}}</a>
+            <br>
+            <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
+          </h4>
+          <p class="list-group-item-text" [innerHTML]="obj.desc | markToRed:keywords"></p>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
 </div>

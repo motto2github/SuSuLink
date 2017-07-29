@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import {CommonLink} from "./model/CommonLink";
 import {ResInfo} from "./util";
 import {User} from "./model/User";
+import {Link} from "./model/Link";
 
 mongoose.connect('mongodb://localhost:6969/susulink', (err) => {
   if (err) return console.error(err);
@@ -40,22 +41,26 @@ app.use(bodyParser.json());
 app.post('/api/links', (req, res) => {
   let ri = new ResInfo();
   let {keywords, listFlag, curUserId} = req.body;
+  let condition = null;
+  if (keywords) {
+    let regexp = new RegExp(keywords, 'i');
+    condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+  } else condition = {};
   if (listFlag === 'all') {
-    let condition = null;
-    if (keywords) {
-      let regexp = new RegExp(keywords, 'i');
-      condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
-    } else condition = {};
     CommonLink.find(condition, (err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, 'success', {links: sortLinks(links, keywords)}));
     });
   } else if (listFlag === 'my') {
     if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
-    User.findOne({_id: curUserId}, {links: true}, (err, user) => {
+    User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (!user) return res.json(ri.set(-88, '请求参数异常'));
-      res.json(ri.set(1, 'success', {links: user.links}));
+      condition.starUser = curUserId;
+      Link.find(condition, {}, (err, links) => {
+        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
+        res.json(ri.set(1, 'success', {links}));
+      });
     });
   }
 });
@@ -85,6 +90,20 @@ app.post('/api/sign/in', (req, res) => {
   });
 });
 
-app.listen(4201, 'localhost', () => {
-  console.log('susulink server start at localhost:4201');
+app.post('/api/link/add', (req, res) => {
+  let ri = new ResInfo();
+  let {title, href, desc, curUserId} = req.body;
+  if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
+  User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!user) return res.json(ri.set(-88, '请求参数异常'));
+    new Link({title, href, desc, starUser: curUserId}).save(err => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, '添加成功'));
+    });
+  });
+});
+
+app.listen(4201, '192.168.0.104', () => {
+  console.log('susulink server start at 192.168.0.104:4201');
 });

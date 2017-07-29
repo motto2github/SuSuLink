@@ -59,15 +59,15 @@ export class SignUpComponent implements OnInit {
     return pw1 === pw2 ? null : {passwordNotEqual: true};
   }
 
-  get name() {
+  private get name(): AbstractControl | null {
     return this.fg.get('name');
   }
 
-  get password() {
+  private get password(): AbstractControl | null {
     return this.fg.get('password');
   }
 
-  get confirmPassword() {
+  private get confirmPassword(): AbstractControl | null {
     return this.fg.get('confirmPassword');
   }
 

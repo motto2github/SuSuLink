@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'ssl-home-list-all',
@@ -10,7 +9,9 @@ import {Observable} from "rxjs";
 })
 export class HomeListAllComponent implements OnInit {
 
-  private links: Observable<Array<{[key: string]: any}>>;
+  private linksObservable: any;
+
+  private links: any;
 
   private keywords: string;
 
@@ -20,16 +21,21 @@ export class HomeListAllComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
-      this.links = this.http.post('/api/links', {
+      this.links = null;
+      this.linksObservable = this.http.post('/api/links', {
         listFlag: 'all',
         keywords: this.keywords
       }).map(res => {
-        let ri = res.json();
-        if (ri.code !== 1) {
-          alert(ri.msg);
-          return [];
-        }
-        return ri.data.links;
+        setTimeout(() => {
+          let ri = res.json();
+          if (ri.code !== 1) {
+            alert(ri.msg);
+            this.links = [];
+            return [];
+          }
+          this.links = ri.data.links;
+          return ri.data.links;
+        }, 3000);
       });
     });
   }

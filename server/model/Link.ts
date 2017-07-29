@@ -4,7 +4,7 @@ let schema = mongoose.Schema({
   title: String,
   href: String,
   desc: String,
-  starUser: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+  starUser: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
   createAt: {type: Date, default: Date.now()},
   updateAt: {type: Date, default: Date.now()}
 });

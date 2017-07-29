@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 
@@ -46,11 +46,11 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  get name() {
+  private get name(): AbstractControl | null {
     return this.fg.get('name');
   }
 
-  get password() {
+  private get password(): AbstractControl | null {
     return this.fg.get('password');
   }
 

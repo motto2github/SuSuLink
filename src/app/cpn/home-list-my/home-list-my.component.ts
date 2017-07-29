@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, OnInit, DoCheck} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
 
@@ -8,25 +7,26 @@ import {Http} from "@angular/http";
   templateUrl: './home-list-my.component.html',
   styleUrls: ['./home-list-my.component.css']
 })
-export class HomeListMyComponent implements OnInit {
-
-  private links: Observable<Array<{[key: string]: any}>>;
+export class HomeListMyComponent implements OnInit, DoCheck {
 
   private keywords: string;
 
-  private curUser: {[key: string]: any};
+  private curUser: {[key: string]: any} = this.getCurUser();
+
+  private links: any;
 
   constructor(private route: ActivatedRoute, private http: Http) {
   }
 
   ngOnInit() {
-    this.curUser = JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
-      this.links = this.http.post('/api/links', {
+      this.links = null;
+      if (!this.curUser) return;
+      this.http.post('/api/links', {
         listFlag: 'my',
         keywords: this.keywords,
-        curUserId: this.curUser ? this.curUser._id : null
+        curUserId: this.curUser._id
       }).map(res => {
         let ri = res.json();
         if (ri.code !== 1) {
@@ -34,8 +34,16 @@ export class HomeListMyComponent implements OnInit {
           return [];
         }
         return ri.data.links;
+      }).subscribe(links => {
+        setTimeout(() => {
+          this.links = links;
+        }, 3000);
       });
     });
+  }
+
+  ngDoCheck(): void {
+    this.curUser = this.getCurUser();
   }
 
   private starHandler(link: {[key: string]: any}) {
@@ -48,6 +56,10 @@ export class HomeListMyComponent implements OnInit {
     //   this.myLinkObjs.push(linkObj)
     // }
     // localStorage.setItem('__ssl_myLinkObjs', JSON.stringify(this.myLinkObjs))
+  }
+
+  private getCurUser(): {[key: string]: any} {
+    return JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
   }
 
 }
