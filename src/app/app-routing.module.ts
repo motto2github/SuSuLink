@@ -5,6 +5,7 @@ import { HomeListAllComponent } from "./cpn/home-list-all/home-list-all.componen
 import { HomeListMyComponent } from "./cpn/home-list-my/home-list-my.component";
 import { SignUpComponent } from "./cpn/sign-up/sign-up.component";
 import { SignInComponent } from "./cpn/sign-in/sign-in.component";
+import { LinkAddComponent } from "./cpn/link-add/link-add.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home/all/', pathMatch: 'full' }
@@ -18,6 +19,7 @@ const routes: Routes = [
   }
   , { path: 'sign/up', component: SignUpComponent }
   , { path: 'sign/in', component: SignInComponent }
+  , { path: 'link/add', component: LinkAddComponent }
   , { path: '**', redirectTo: 'home/all/', pathMatch: 'full' }
 ];
 

@@ -5,7 +5,7 @@
         <div class="col-xs-12 text-center">
           <p class="text logotext">SuSuLink</p>
           <p class="text desc0">快速、稳定、丰富、免费的链接地址查询与管理站点</p>
-          <p class="text desc1">在这里，已为您收录了许许多多常用的链接地址，以便您查询、收藏、管理</p>
+          <p class="text desc1">在这里，已收录了许多常用的链接地址，并会定期上新，您也可自行添加，以便查询、收藏、管理</p>
           <div class="form-group search-wrapper">
             <input [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" autofocus tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
             <i class="glyphicon glyphicon-search"></i>
@@ -29,7 +29,7 @@
         <i class="glyphicon glyphicon-th-list"></i> 全部
       </button>
       <button type="button" class="btn btn-default" [class.active]="listFlag === 'my'" (click)="switchList('my')">
-        <i class="glyphicon glyphicon-star"></i> 我的
+        <i class="glyphicon glyphicon-user"></i> 我的
       </button>
     </div>
     <router-outlet></router-outlet>

@@ -13,6 +13,7 @@ import { HomeListMyComponent } from './cpn/home-list-my/home-list-my.component';
 import { HttpModule } from "@angular/http";
 import { SignUpComponent } from "./cpn/sign-up/sign-up.component";
 import { SignInComponent } from './cpn/sign-in/sign-in.component';
+import { LinkAddComponent } from './cpn/link-add/link-add.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SignInComponent } from './cpn/sign-in/sign-in.component';
     HomeListAllComponent,
     HomeListMyComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    LinkAddComponent
   ],
   imports: [
     BrowserModule,
