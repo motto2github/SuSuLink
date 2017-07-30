@@ -20,7 +20,7 @@ export class FooterComponent implements OnInit {
       });
       $back_to_top.click(function (e) {
         e.preventDefault();
-        $html_body.animate({scrollTop: 0}, 100);
+        $html_body.animate({scrollTop: 0}, 300);
       });
     })();
     // ] back to top btn

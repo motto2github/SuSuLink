@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
+import 'jquery';
 
 @Component({
   selector: 'ssl-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, AfterViewInit {
 
   private fg: FormGroup;
 
@@ -19,6 +20,10 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     this.initFormGroup();
+  }
+
+  ngAfterViewInit(): void {
+    $("#back-to-top").click();
   }
 
   private initFormGroup() {
