@@ -34,13 +34,11 @@ export class SignUpComponent implements OnInit {
   }
 
   private onSubmit() {
-    console.log('submit...', this.fg.value);
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
     this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        console.log(ri);
         if (ri.code === 1) {
           this.signUpSuccess = true;
           this.startCountDown();
@@ -49,7 +47,7 @@ export class SignUpComponent implements OnInit {
           this.fg.enable();
           this.errMsg = ri.msg;
         }
-      }, 3000);
+      }, 1000);
     });
   }
 

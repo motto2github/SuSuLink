@@ -1,5 +1,5 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import 'bootstrap';
 import 'jquery';
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private keywords: FormControl = new FormControl();
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
@@ -46,40 +46,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/home/${this.listFlag}`, this.keywords.value || '']);
   }
 
-  // private getMatchedLinkObjs(): Array<ILink> {
-  //   return this.commonLinkObjs.concat(this.myLinkObjs);
-  // return ((): Array<ILink> => {
-  //   if (this.listFlag === 'my') {
-  //     return this.myLinkObjs;
-  //   }
-  //   return this.commonLinkObjs.filter((commonLinkObj: ILink): boolean => !commonLinkObj.isStar).concat(this.myLinkObjs);
-  // })().filter((v: ILink): boolean => {
-  //   let titleUpperCase = v.title.toUpperCase();
-  //   let hrefUpperCase = v.href.toUpperCase();
-  //   let descUpperCase = v.desc.toUpperCase();
-  //   let searchKeywordsUpperCase = this.searchKeywords.value.toUpperCase();
-  //   return titleUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || hrefUpperCase.indexOf(searchKeywordsUpperCase) !== -1 || descUpperCase.indexOf(searchKeywordsUpperCase) !== -1;
-  // }).sort((a: ILink, b: ILink): number => {
-  //   let a_title_uppercase = a.title.toUpperCase();
-  //   let a_href_uppercase = a.href.toUpperCase();
-  //   let b_title_uppercase = b.title.toUpperCase();
-  //   let b_href_uppercase = b.href.toUpperCase();
-  //   let searchKeywordsUpperCase = this.searchKeywords.value.toUpperCase();
-  //   if (searchKeywordsUpperCase) {
-  //     let a_title_contain = a_title_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-  //     let a_href_contain = a_href_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-  //     let b_title_contain = b_title_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-  //     let b_href_contain = b_href_uppercase.indexOf(searchKeywordsUpperCase) !== -1;
-  //     if (a_title_contain && !b_title_contain) return -1;
-  //     if (!a_title_contain && b_title_contain) return 1;
-  //     if (a_href_contain && !b_href_contain) return -1;
-  //     if (!a_href_contain && b_href_contain) return 1;
-  //   }
-  //   if (a.starCount >= b.starCount) return -1;
-  //   return 1;
-  // });
-  // }
-
   ngAfterViewInit(): void {
     $('[data-toggle="tooltip"]').tooltip();
   }
@@ -92,14 +58,14 @@ interface IRecommendLink {
   logoUrl: string;
 }
 
-export interface ILink {
-  id: any;
-  title: string;
-  href: string;
-  starCount: number;
-  desc: string;
-  isStar: boolean;
-}
+// export interface ILink {
+//   id: any;
+//   title: string;
+//   href: string;
+//   starCount: number;
+//   desc: string;
+//   isStar: boolean;
+// }
 
 // export let commonLinkObjs: Array<ILink> = [
 //   {id: '__ssl_commonLinkObj_0', title: '百度一下，你就知道', href: 'http://www.baidu.com/', isStar: false, starCount: 9787361, desc: '全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。'}

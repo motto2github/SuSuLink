@@ -39,10 +39,9 @@ export class LinkAddComponent implements OnInit, DoCheck {
   }
 
   private submit() {
-    console.log('submit...', this.fg.value);
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user_link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         console.log(ri);
         if (ri.code !== 1) {

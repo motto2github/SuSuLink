@@ -11,24 +11,24 @@ mongoose.connect('mongodb://localhost:6969/susulink', (err) => {
   console.log('db connect success, at mongodb://localhost:6969/susulink');
 });
 
-let sortLinks = (links, keywords) => {
-  let regexp = new RegExp(keywords, 'i');
-  links.sort((a, b): number => {
-    if (keywords) {
-      let a_title_test = regexp.test(a.title), a_href_test = regexp.test(a.href), a_desc_test = regexp.test(a.desc);
-      let b_title_test = regexp.test(b.title), b_href_test = regexp.test(b.href), b_desc_test = regexp.test(b.desc);
-      if (a_title_test && !b_title_test) return -1;
-      if (!a_title_test && b_title_test) return 1;
-      if (a_href_test && !b_href_test) return -1;
-      if (!a_href_test && b_href_test) return 1;
-      if (a_desc_test && !b_desc_test) return -1;
-      if (!a_desc_test && b_desc_test) return 1;
-    }
-    if (a.starCount >= b.starCount) return -1;
-    return 1;
-  })
-  return links;
-};
+/*let sortLinks = (links, keywords) => {
+ let regexp = new RegExp(keywords, 'i');
+ links.sort((a, b): number => {
+ if (keywords) {
+ let a_title_test = regexp.test(a.title), a_href_test = regexp.test(a.href), a_desc_test = regexp.test(a.desc);
+ let b_title_test = regexp.test(b.title), b_href_test = regexp.test(b.href), b_desc_test = regexp.test(b.desc);
+ if (a_title_test && !b_title_test) return -1;
+ if (!a_title_test && b_title_test) return 1;
+ if (a_href_test && !b_href_test) return -1;
+ if (!a_href_test && b_href_test) return 1;
+ if (a_desc_test && !b_desc_test) return -1;
+ if (!a_desc_test && b_desc_test) return 1;
+ }
+ if (a.starCount >= b.starCount) return -1;
+ return 1;
+ })
+ return links;
+ };*/
 
 let app = express();
 
@@ -47,9 +47,9 @@ app.post('/api/links', (req, res) => {
     condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
   } else condition = {};
   if (listFlag === 'all') {
-    CommonLink.find(condition, (err, links) => {
+    CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-      return res.json(ri.set(1, 'success', {links: sortLinks(links, keywords)}));
+      return res.json(ri.set(1, 'success', {links}));
     });
   } else if (listFlag === 'my') {
     if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
@@ -90,7 +90,7 @@ app.post('/api/sign/in', (req, res) => {
   });
 });
 
-app.post('/api/link/add', (req, res) => {
+app.post('/api/user_link/add', (req, res) => {
   let ri = new ResInfo();
   let {title, href, desc, curUserId} = req.body;
   if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
@@ -100,6 +100,42 @@ app.post('/api/link/add', (req, res) => {
     new UserLink({title, href, desc, owner: curUserId}).save(err => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '添加成功'));
+    });
+  });
+});
+
+app.post('/api/common_link/star', (req, res) => {
+  let ri = new ResInfo();
+  let {id, userId} = req.body;
+  if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
+  User.findOne({_id: userId}, {_id: true}).exec((err, user) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!user) return res.json(ri.set(-88, '请求参数异常'));
+    CommonLink.findOne({_id: id}, {starCount: true, starUsers: true}).exec((err, link) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      if (!link) return res.json(ri.set(-88, '请求参数异常'));
+      link.starCount++;
+      link.starUsers.push(userId);
+      link.save(err => {
+        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        return res.json(ri.set(1, '操作成功'));
+      });
+    });
+  });
+});
+
+app.post('/api/common_link/unstar', (req, res) => {
+  let ri = new ResInfo();
+  let {id, userId} = req.body;
+  if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
+  CommonLink.findOne({_id: id}, {starCount: true, starUsers: true}).exec((err, link) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!link || link.starUsers.indexOf(userId)) return res.json(ri.set(-88, '请求参数异常'));
+    link.starUsers.pull(userId);
+    link.starCount--;
+    link.save(err => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, '操作成功'));
     });
   });
 });
