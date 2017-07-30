@@ -35,9 +35,9 @@ export class HomeListMyComponent implements OnInit, DoCheck {
         }
         return ri.data.links;
       }).subscribe(links => {
-        setTimeout(() => {
-          this.links = links;
-        }, 3000);
+        // setTimeout(() => {
+        this.links = links;
+        // }, 3000);
       });
     });
   }

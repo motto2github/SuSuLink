@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import {CommonLink} from "./model/CommonLink";
 import {ResInfo} from "./util";
 import {User} from "./model/User";
-import {Link} from "./model/Link";
+import {UserLink} from "./model/UserLink";
 
 mongoose.connect('mongodb://localhost:6969/susulink', (err) => {
   if (err) return console.error(err);
@@ -56,8 +56,8 @@ app.post('/api/links', (req, res) => {
     User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (!user) return res.json(ri.set(-88, '请求参数异常'));
-      condition.starUser = curUserId;
-      Link.find(condition, {}, (err, links) => {
+      condition.owner = curUserId;
+      UserLink.find(condition).exec((err, links) => {
         if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
         res.json(ri.set(1, 'success', {links}));
       });
@@ -97,7 +97,7 @@ app.post('/api/link/add', (req, res) => {
   User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
-    new Link({title, href, desc, starUser: curUserId}).save(err => {
+    new UserLink({title, href, desc, owner: curUserId}).save(err => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '添加成功'));
     });

@@ -5,6 +5,7 @@ let schema = mongoose.Schema({
   href: String,
   desc: String,
   starCount: Number,
+  starUsers: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
   createAt: {type: Date, default: Date.now()},
   updateAt: {type: Date, default: Date.now()}
 });

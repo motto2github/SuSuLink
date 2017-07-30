@@ -9,8 +9,6 @@ import {Http} from "@angular/http";
 })
 export class HomeListAllComponent implements OnInit {
 
-  private linksObservable: any;
-
   private links: any;
 
   private keywords: string;
@@ -22,20 +20,20 @@ export class HomeListAllComponent implements OnInit {
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
       this.links = null;
-      this.linksObservable = this.http.post('/api/links', {
+      this.http.post('/api/links', {
         listFlag: 'all',
         keywords: this.keywords
       }).map(res => {
-        setTimeout(() => {
-          let ri = res.json();
-          if (ri.code !== 1) {
-            alert(ri.msg);
-            this.links = [];
-            return [];
-          }
-          this.links = ri.data.links;
-          return ri.data.links;
-        }, 3000);
+        let ri = res.json();
+        if (ri.code !== 1) {
+          alert(ri.msg);
+          return [];
+        }
+        return ri.data.links;
+      }).subscribe(links => {
+        // setTimeout(() => {
+        this.links = links;
+        // }, 3000);
       });
     });
   }

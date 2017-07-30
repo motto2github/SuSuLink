@@ -5,8 +5,8 @@ var schema = mongoose.Schema({
     title: String,
     href: String,
     desc: String,
-    starUser: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     createAt: { type: Date, "default": Date.now() },
     updateAt: { type: Date, "default": Date.now() }
 });
-exports.Link = mongoose.model('link', schema);
+exports.UserLink = mongoose.model('user_link', schema);

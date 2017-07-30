@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 var CommonLink_1 = require("./model/CommonLink");
 var util_1 = require("./util");
 var User_1 = require("./model/User");
-var Link_1 = require("./model/Link");
+var UserLink_1 = require("./model/UserLink");
 mongoose.connect('mongodb://localhost:6969/susulink', function (err) {
     if (err)
         return console.error(err);
@@ -67,8 +67,8 @@ app.post('/api/links', function (req, res) {
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             if (!user)
                 return res.json(ri.set(-88, '请求参数异常'));
-            condition.starUser = curUserId;
-            Link_1.Link.find(condition, {}, function (err, links) {
+            condition.owner = curUserId;
+            UserLink_1.UserLink.find(condition).exec(function (err, links) {
                 if (err)
                     return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
                 res.json(ri.set(1, 'success', { links: links }));
@@ -116,7 +116,7 @@ app.post('/api/link/add', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        new Link_1.Link({ title: title, href: href, desc: desc, starUser: curUserId }).save(function (err) {
+        new UserLink_1.UserLink({ title: title, href: href, desc: desc, owner: curUserId }).save(function (err) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             return res.json(ri.set(1, '添加成功'));

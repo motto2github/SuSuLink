@@ -3,10 +3,6 @@
   background-color: #f5f5f5;
 }
 
-.ssl-home-list-my .list-group > .list-group-item > .list-group-item-heading > .badge.active {
-  background-color: #1E9FFF;
-}
-
 .ssl-home-list-my .list-group > .list-group-item > .list-group-item-heading > a.title {
   color: #333;
 }
