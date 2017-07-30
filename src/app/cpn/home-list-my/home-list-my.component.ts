@@ -46,20 +46,25 @@ export class HomeListMyComponent implements OnInit, DoCheck {
     this.curUser = this.getCurUser();
   }
 
-  private starHandler(link: {[key: string]: any}) {
-    // if (linkObj.isStar) {
-    //   linkObj.isStar = false
-    //   this.myLinkObjs.splice(this.myLinkObjs.indexOf(this.myLinkObjs.find(myLinkObj => myLinkObj.href === linkObj.href)), 1)
-    //   this.commonLinkObjs.find(commonLinkObj => commonLinkObj.href === linkObj.href).isStar = false
-    // } else {
-    //   linkObj.isStar = true
-    //   this.myLinkObjs.push(linkObj)
-    // }
-    // localStorage.setItem('__ssl_myLinkObjs', JSON.stringify(this.myLinkObjs))
-  }
-
   private getCurUser(): {[key: string]: any} {
     return JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
+  }
+
+  private confirmRemove() {
+    let id = this.wantRemoveLink._id;
+    this.http.post('/api/user_link/remove', {id}).map(res => res.json()).subscribe(ri => {
+      if (ri.code !== 1) return alert(ri.msg);
+      let index = this.links.findIndex(v => v._id === id);
+      this.links.splice(index, 1);
+      $('.ssl-home-list-my .modal').modal('hide');
+    });
+  }
+
+  private wantRemoveLink: any;
+
+  private onRemove(link) {
+    this.wantRemoveLink = link;
+    $('.ssl-home-list-my .modal').modal('show');
   }
 
 }

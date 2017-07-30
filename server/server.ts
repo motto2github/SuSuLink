@@ -104,6 +104,16 @@ app.post('/api/user_link/add', (req, res) => {
   });
 });
 
+app.post('/api/user_link/remove', (req, res) => {
+  let ri = new ResInfo();
+  let {id} = req.body;
+  if (!id) return res.json(ri.set(-88, '请求参数异常'));
+  UserLink.remove({_id: id}, (err) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    return res.json(ri.set(1, '删除成功'));
+  })
+});
+
 app.post('/api/common_link/star', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;

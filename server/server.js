@@ -116,6 +116,17 @@ app.post('/api/user_link/add', function (req, res) {
         });
     });
 });
+app.post('/api/user_link/remove', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var id = req.body.id;
+    if (!id)
+        return res.json(ri.set(-88, '请求参数异常'));
+    UserLink_1.UserLink.remove({ _id: id }, function (err) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        return res.json(ri.set(1, '删除成功'));
+    });
+});
 app.post('/api/common_link/star', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, id = _a.id, userId = _a.userId;
