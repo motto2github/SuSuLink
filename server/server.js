@@ -192,7 +192,7 @@ app.post('/api/common-link/unstar', function (req, res) {
     CommonLink_1.CommonLink.findOne({ _id: id }, { starCount: true, starUsers: true }).exec(function (err, link) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-        if (!link || link.starUsers.indexOf(userId))
+        if (!link || link.starUsers.indexOf(userId) === -1)
             return res.json(ri.set(-88, '请求参数异常'));
         link.starUsers.pull(userId);
         link.starCount--;
