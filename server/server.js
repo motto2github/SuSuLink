@@ -45,14 +45,14 @@ app.post('/api/links', function (req, res) {
     }
     else
         condition = {};
-    if (listFlag === 'all') {
+    if (listFlag === 'common-link') {
         CommonLink_1.CommonLink.find(condition).sort({ title: 1 }).exec(function (err, links) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             return res.json(ri.set(1, 'success', { links: links }));
         });
     }
-    else if (listFlag === 'my') {
+    else if (listFlag === 'user-link') {
         if (!curUserId)
             return res.json(ri.set(-88, '请求参数异常'));
         User_1.User.findOne({ _id: curUserId }, { _id: true }, function (err, user) {
@@ -171,6 +171,6 @@ app.post('/api/common_link/unstar', function (req, res) {
         });
     });
 });
-app.listen(4201, '192.168.0.104', function () {
-    console.log('susulink server start at 192.168.0.104:4201');
+app.listen(4201, '10.120.224.237', function () {
+    console.log('susulink server start at 10.120.224.237:4201');
 });

@@ -34,16 +34,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     let params = location.pathname.split('/');
-    this.keywords.setValue(decodeURIComponent(params[3]), {emitEvent: false});
+    this.keywords.setValue(decodeURIComponent(params[4]), {emitEvent: false});
     this.listFlag = params[2];
     this.keywords.valueChanges.debounceTime(300).subscribe((value) => {
-      this.router.navigate([`/home/${this.listFlag}`, value]);
+      this.router.navigate([`/home/${this.listFlag}/list`, value]);
     });
   }
 
   private switchList(flag: string) {
     this.listFlag = flag;
-    this.router.navigate([`/home/${this.listFlag}`, this.keywords.value || '']);
+    this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value || '']);
   }
 
   ngAfterViewInit(): void {

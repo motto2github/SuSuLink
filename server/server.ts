@@ -46,12 +46,12 @@ app.post('/api/links', (req, res) => {
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
   } else condition = {};
-  if (listFlag === 'all') {
+  if (listFlag === 'common-link') {
     CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, 'success', {links}));
     });
-  } else if (listFlag === 'my') {
+  } else if (listFlag === 'user-link') {
     if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
     User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
@@ -150,6 +150,6 @@ app.post('/api/common_link/unstar', (req, res) => {
   });
 });
 
-app.listen(4201, '192.168.0.104', () => {
-  console.log('susulink server start at 192.168.0.104:4201');
+app.listen(4201, '10.120.224.237', () => {
+  console.log('susulink server start at 10.120.224.237:4201');
 });

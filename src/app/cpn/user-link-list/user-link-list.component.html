@@ -1,4 +1,4 @@
-<div class="ssl-home-list-my">
+<div class="ssl-user-link-list">
   <div class="row">
     <div class="col-md-12">
       <ng-template *ngIf="curUser; then tpl_isSignIn; else tpl_noSignIn;"></ng-template>
@@ -49,7 +49,7 @@
           <h4 class="modal-title" id="myModalLabel">询问框 <small>SuSuLink</small></h4>
         </div>
         <div class="modal-body">
-          您确定要删除 "{{wantRemoveLink?.title}}" 吗？&hellip;
+          您确定要删除 "<span class="bg-danger text-danger">{{wantRemoveLink?.title}}</span>" 吗？&hellip;
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

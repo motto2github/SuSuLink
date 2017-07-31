@@ -25,11 +25,11 @@
   </div>
   <div class="container list-wrapper">
     <div class="btn-group" style="margin-bottom: 10px;">
-      <button type="button" class="btn btn-default" [class.active]="listFlag === 'all'" (click)="switchList('all')">
-        <i class="glyphicon glyphicon-th-list"></i> 全部
+      <button type="button" class="btn btn-default" [class.active]="listFlag === 'common-link'" (click)="switchList('common-link')">
+        <i class="glyphicon glyphicon-certificate"></i> 常用链接
       </button>
-      <button type="button" class="btn btn-default" [class.active]="listFlag === 'my'" (click)="switchList('my')">
-        <i class="glyphicon glyphicon-user"></i> 我的
+      <button type="button" class="btn btn-default" [class.active]="listFlag === 'user-link'" (click)="switchList('user-link')">
+        <i class="glyphicon glyphicon-user"></i> 我的链接
       </button>
     </div>
     <router-outlet></router-outlet>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeListAllComponent } from './home-list-all.component';
+import { CommonLinkListComponent } from './common-link-list.component';
 
-describe('HomeListAllComponent', () => {
-  let component: HomeListAllComponent;
-  let fixture: ComponentFixture<HomeListAllComponent>;
+describe('CommonLinkListComponent', () => {
+  let component: CommonLinkListComponent;
+  let fixture: ComponentFixture<CommonLinkListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeListAllComponent ]
+      declarations: [ CommonLinkListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeListAllComponent);
+    fixture = TestBed.createComponent(CommonLinkListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

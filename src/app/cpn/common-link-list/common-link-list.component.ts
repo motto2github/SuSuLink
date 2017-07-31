@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Http} from "@angular/http";
 
 @Component({
-  selector: 'ssl-home-list-all',
-  templateUrl: './home-list-all.component.html',
-  styleUrls: ['./home-list-all.component.css']
+  selector: 'ssl-common-link-list',
+  templateUrl: './common-link-list.component.html',
+  styleUrls: ['./common-link-list.component.css']
 })
-export class HomeListAllComponent implements OnInit, DoCheck {
+export class CommonLinkListComponent implements OnInit, DoCheck {
 
   private keywords: string;
 
@@ -23,7 +23,7 @@ export class HomeListAllComponent implements OnInit, DoCheck {
       this.keywords = params.keywords;
       this.links = null;
       this.http.post('/api/links', {
-        listFlag: 'all',
+        listFlag: 'common-link',
         keywords: this.keywords
       }).map(res => {
         let ri = res.json();

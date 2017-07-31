@@ -1,30 +1,31 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from "./cpn/home/home.component";
-import { HomeListAllComponent } from "./cpn/home-list-all/home-list-all.component";
-import { HomeListMyComponent } from "./cpn/home-list-my/home-list-my.component";
-import { SignUpComponent } from "./cpn/sign-up/sign-up.component";
-import { SignInComponent } from "./cpn/sign-in/sign-in.component";
-import { LinkAddComponent } from "./cpn/link-add/link-add.component";
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {HomeComponent} from "./cpn/home/home.component";
+import {CommonLinkListComponent} from "./cpn/common-link-list/common-link-list.component";
+import {UserLinkListComponent} from "./cpn/user-link-list/user-link-list.component";
+import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
+import {SignInComponent} from "./cpn/sign-in/sign-in.component";
+import {LinkAddComponent} from "./cpn/link-add/link-add.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home/all/', pathMatch: 'full' }
+  {path: '', redirectTo: 'home/common-link/list', pathMatch: 'full'}
   , {
     path: 'home', component: HomeComponent, children: [
-      { path: 'all', redirectTo: 'all/', pathMatch: 'full' }
-      , { path: 'all/:keywords', component: HomeListAllComponent }
-      , { path: 'my', redirectTo: 'my/', pathMatch: 'full' }
-      , { path: 'my/:keywords', component: HomeListMyComponent }
+      {path: 'common-link/list', redirectTo: 'common-link/list/', pathMatch: 'full'}
+      , {path: 'common-link/list/:keywords', component: CommonLinkListComponent}
+      , {path: 'user-link/list', redirectTo: 'user-link/list/', pathMatch: 'full'}
+      , {path: 'user-link/list/:keywords', component: UserLinkListComponent}
     ]
   }
-  , { path: 'sign/up', component: SignUpComponent }
-  , { path: 'sign/in', component: SignInComponent }
-  , { path: 'link/add', component: LinkAddComponent }
-  , { path: '**', redirectTo: 'home/all/', pathMatch: 'full' }
+  , {path: 'sign/up', component: SignUpComponent}
+  , {path: 'sign/in', component: SignInComponent}
+  , {path: 'link/add', component: LinkAddComponent}
+  , {path: '**', redirectTo: 'home/common-link/list', pathMatch: 'full'}
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot( routes ) ]
-  , exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)]
+  , exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

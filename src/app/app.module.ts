@@ -1,19 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import { AppRoutingModule } from './app-routing.module';
-import { RootComponent } from './cpn/root/root.component';
-import { HeaderComponent } from './cpn/header/header.component';
-import { FooterComponent } from './cpn/footer/footer.component';
-import { HomeComponent } from './cpn/home/home.component';
-import { MarkToRedPipe } from './pipe/mark-to-red.pipe';
-import { HomeListAllComponent } from './cpn/home-list-all/home-list-all.component';
-import { HomeListMyComponent } from './cpn/home-list-my/home-list-my.component';
-import { HttpModule } from "@angular/http";
-import { SignUpComponent } from "./cpn/sign-up/sign-up.component";
-import { SignInComponent } from './cpn/sign-in/sign-in.component';
-import { LinkAddComponent } from './cpn/link-add/link-add.component';
+import {AppRoutingModule} from './app-routing.module';
+import {RootComponent} from './cpn/root/root.component';
+import {HeaderComponent} from './cpn/header/header.component';
+import {FooterComponent} from './cpn/footer/footer.component';
+import {HomeComponent} from './cpn/home/home.component';
+import {MarkToRedPipe} from './pipe/mark-to-red.pipe';
+import {CommonLinkListComponent} from './cpn/common-link-list/common-link-list.component';
+import {UserLinkListComponent} from './cpn/user-link-list/user-link-list.component';
+import {HttpModule} from "@angular/http";
+import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
+import {SignInComponent} from './cpn/sign-in/sign-in.component';
+import {LinkAddComponent} from './cpn/link-add/link-add.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +22,8 @@ import { LinkAddComponent } from './cpn/link-add/link-add.component';
     FooterComponent,
     HomeComponent,
     MarkToRedPipe,
-    HomeListAllComponent,
-    HomeListMyComponent,
+    CommonLinkListComponent,
+    UserLinkListComponent,
     SignUpComponent,
     SignInComponent,
     LinkAddComponent
@@ -36,6 +36,7 @@ import { LinkAddComponent } from './cpn/link-add/link-add.component';
     HttpModule
   ],
   providers: [],
-  bootstrap: [ RootComponent ]
+  bootstrap: [RootComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

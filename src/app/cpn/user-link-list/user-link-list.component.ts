@@ -3,11 +3,11 @@ import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
 
 @Component({
-  selector: 'ssl-home-list-my',
-  templateUrl: './home-list-my.component.html',
-  styleUrls: ['./home-list-my.component.css']
+  selector: 'ssl-user-link-list',
+  templateUrl: './user-link-list.component.html',
+  styleUrls: ['./user-link-list.component.css']
 })
-export class HomeListMyComponent implements OnInit, DoCheck {
+export class UserLinkListComponent implements OnInit, DoCheck {
 
   private keywords: string;
 
@@ -24,7 +24,7 @@ export class HomeListMyComponent implements OnInit, DoCheck {
       this.links = null;
       if (!this.curUser) return;
       this.http.post('/api/links', {
-        listFlag: 'my',
+        listFlag: 'user-link',
         keywords: this.keywords,
         curUserId: this.curUser._id
       }).map(res => {
@@ -56,7 +56,7 @@ export class HomeListMyComponent implements OnInit, DoCheck {
       if (ri.code !== 1) return alert(ri.msg);
       let index = this.links.findIndex(v => v._id === id);
       this.links.splice(index, 1);
-      $('.ssl-home-list-my .modal').modal('hide');
+      $('.ssl-user-link-list .modal').modal('hide');
     });
   }
 
@@ -64,7 +64,7 @@ export class HomeListMyComponent implements OnInit, DoCheck {
 
   private onRemove(link) {
     this.wantRemoveLink = link;
-    $('.ssl-home-list-my .modal').modal('show');
+    $('.ssl-user-link-list .modal').modal('show');
   }
 
 }
