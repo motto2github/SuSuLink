@@ -49,6 +49,13 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     return JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
   }
 
+  private wantRemoveLink: any;
+
+  private onRemove(link) {
+    this.wantRemoveLink = link;
+    $('.ssl-user-link-list .modal').modal('show');
+  }
+
   private confirmRemove() {
     let id = this.wantRemoveLink._id;
     this.http.post('/api/user-link/remove', {id}).map(res => res.json()).subscribe(ri => {
@@ -57,13 +64,6 @@ export class UserLinkListComponent implements OnInit, DoCheck {
       this.links.splice(index, 1);
       $('.ssl-user-link-list .modal').modal('hide');
     });
-  }
-
-  private wantRemoveLink: any;
-
-  private onRemove(link) {
-    this.wantRemoveLink = link;
-    $('.ssl-user-link-list .modal').modal('show');
   }
 
 }

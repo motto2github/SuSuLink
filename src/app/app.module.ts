@@ -14,6 +14,7 @@ import {HttpModule} from "@angular/http";
 import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
 import {SignInComponent} from './cpn/sign-in/sign-in.component';
 import {UserLinkAddComponent} from './cpn/user-link-add/user-link-add.component';
+import { UserLinkUpdateComponent } from './cpn/user-link-update/user-link-update.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {UserLinkAddComponent} from './cpn/user-link-add/user-link-add.component'
     UserLinkListComponent,
     SignUpComponent,
     SignInComponent,
-    UserLinkAddComponent
+    UserLinkAddComponent,
+    UserLinkUpdateComponent
   ],
   imports: [
     BrowserModule,

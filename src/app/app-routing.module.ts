@@ -6,6 +6,7 @@ import {UserLinkListComponent} from "./cpn/user-link-list/user-link-list.compone
 import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
 import {SignInComponent} from "./cpn/sign-in/sign-in.component";
 import {UserLinkAddComponent} from "./cpn/user-link-add/user-link-add.component";
+import {UserLinkUpdateComponent} from "./cpn/user-link-update/user-link-update.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home/common-link/list', pathMatch: 'full'}
@@ -20,6 +21,7 @@ const routes: Routes = [
   , {path: 'sign-up', component: SignUpComponent}
   , {path: 'sign-in', component: SignInComponent}
   , {path: 'user-link/add', component: UserLinkAddComponent}
+  , {path: 'user-link/update/:id', component: UserLinkUpdateComponent}
   , {path: '**', redirectTo: 'home/common-link/list', pathMatch: 'full'}
 ];
 

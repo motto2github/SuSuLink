@@ -64,7 +64,7 @@ app.post('/api/user-link/list', function (req, res) {
         var condition = null;
         if (keywords) {
             var regexp = new RegExp(keywords, 'i');
-            condition = { owner: curUserId, $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
+            condition = { owner: curUserId, $or: [{ title: regexp }, { href: regexp }, { summary: regexp }] };
         }
         else
             condition = { owner: curUserId };
@@ -133,7 +133,7 @@ app.post('/api/sign-in', function (req, res) {
 });
 app.post('/api/user-link/add', function (req, res) {
     var ri = new util_1.ResInfo();
-    var _a = req.body, title = _a.title, href = _a.href, desc = _a.desc, curUserId = _a.curUserId;
+    var _a = req.body, title = _a.title, href = _a.href, summary = _a.summary, curUserId = _a.curUserId;
     if (!title || !href || !curUserId)
         return res.json(ri.set(-88, '请求参数异常'));
     User_1.User.findOne({ _id: curUserId }, { _id: true }, function (err, user) {
@@ -141,7 +141,7 @@ app.post('/api/user-link/add', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        new UserLink_1.UserLink({ title: title, href: href, desc: desc, owner: curUserId }).save(function (err) {
+        new UserLink_1.UserLink({ title: title, href: href, summary: summary, owner: curUserId }).save(function (err) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             return res.json(ri.set(1, '添加成功'));
@@ -157,6 +157,39 @@ app.post('/api/user-link/remove', function (req, res) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, '删除成功'));
+    });
+});
+app.post('/api/user-link/update', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var _a = req.body, _id = _a._id, title = _a.title, href = _a.href, summary = _a.summary, owner = _a.owner;
+    if (!_id || !owner || !title || !href)
+        return res.json(ri.set(-88, '请求参数异常'));
+    UserLink_1.UserLink.findOne({ _id: _id, owner: owner }, function (err, link) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        if (!link)
+            return res.json(ri.set(-88, '请求参数异常'));
+        link.title = title;
+        link.href = href;
+        link.summary = summary;
+        link.save(function (err) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            return res.json(ri.set(1, '修改成功'));
+        });
+    });
+});
+app.post('/api/user-link/findOne', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var _a = req.body, id = _a.id, userId = _a.userId;
+    if (!id || !userId)
+        return res.json(ri.set(-88, '请求参数异常'));
+    UserLink_1.UserLink.findOne({ _id: id, owner: userId }).exec(function (err, link) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        if (!link)
+            return res.json(ri.set(-88, '请求参数异常'));
+        return res.json(ri.set(1, '查找成功', { link: link }));
     });
 });
 app.post('/api/common-link/star', function (req, res) {
@@ -203,6 +236,6 @@ app.post('/api/common-link/unstar', function (req, res) {
         });
     });
 });
-app.listen(4201, '10.120.224.237', function () {
-    console.log('susulink server start at 10.120.224.237:4201');
+app.listen(4201, '192.168.0.102', function () {
+    console.log('susulink server start at 192.168.0.102:4201');
 });

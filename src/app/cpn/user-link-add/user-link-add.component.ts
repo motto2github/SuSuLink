@@ -38,26 +38,25 @@ export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
     this.fg = this.fb.group({
       title: ['', [Validators.required]],
       href: ['', [Validators.required, Validators.pattern(new RegExp('^https?://', 'i'))]],
-      desc: ['']
+      summary: ['']
     });
   }
 
-  private submit() {
+  private onSubmit() {
     this.fg.disable();
     this.errMsg = null;
     this.succMsg = null;
     this.http.post('/api/user-link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
-        console.log(ri);
-        if (ri.code !== 1) {
-          this.errMsg = ri.msg;
-          this.fg.enable();
-        } else {
-          this.succMsg = ri.msg;
-          this.fg.reset();
-          this.fg.enable();
-        }
-      }, 3000);
+      // setTimeout(() => {
+      if (ri.code !== 1) {
+        this.errMsg = ri.msg;
+        this.fg.enable();
+      } else {
+        this.succMsg = ri.msg;
+        this.fg.reset();
+        this.fg.enable();
+      }
+      // }, 1000);
     });
   }
 
@@ -69,8 +68,8 @@ export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
     return this.fg.get('href');
   }
 
-  private get desc(): AbstractControl | null {
-    return this.fg.get('desc');
+  private get summary(): AbstractControl | null {
+    return this.fg.get('summary');
   }
 
   private getCurUser(): {[key: string]: any} {

@@ -62,7 +62,7 @@ app.post('/api/user-link/list', (req, res) => {
     let condition = null;
     if (keywords) {
       let regexp = new RegExp(keywords, 'i');
-      condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+      condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
     } else condition = {owner: curUserId};
     UserLink.find(condition).sort({starCount: -1, title: 1}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
@@ -125,12 +125,12 @@ app.post('/api/sign-in', (req, res) => {
 
 app.post('/api/user-link/add', (req, res) => {
   let ri = new ResInfo();
-  let {title, href, desc, curUserId} = req.body;
+  let {title, href, summary, curUserId} = req.body;
   if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
   User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
-    new UserLink({title, href, desc, owner: curUserId}).save(err => {
+    new UserLink({title, href, summary, owner: curUserId}).save(err => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '添加成功'));
     });
@@ -145,6 +145,34 @@ app.post('/api/user-link/remove', (req, res) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     return res.json(ri.set(1, '删除成功'));
   })
+});
+
+app.post('/api/user-link/update', (req, res) => {
+  let ri = new ResInfo();
+  let {_id, title, href, summary, owner} = req.body;
+  if (!_id || !owner || !title || !href) return res.json(ri.set(-88, '请求参数异常'));
+  UserLink.findOne({_id, owner}, (err, link) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!link) return res.json(ri.set(-88, '请求参数异常'));
+    link.title = title;
+    link.href = href;
+    link.summary = summary;
+    link.save(err => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, '修改成功'));
+    });
+  });
+});
+
+app.post('/api/user-link/findOne', (req, res) => {
+  let ri = new ResInfo();
+  let {id, userId} = req.body;
+  if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
+  UserLink.findOne({_id: id, owner: userId}).exec((err, link) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!link) return res.json(ri.set(-88, '请求参数异常'));
+    return res.json(ri.set(1, '查找成功', {link: link}));
+  });
 });
 
 app.post('/api/common-link/star', (req, res) => {
@@ -183,6 +211,6 @@ app.post('/api/common-link/unstar', (req, res) => {
   });
 });
 
-app.listen(4201, '10.120.224.237', () => {
-  console.log('susulink server start at 10.120.224.237:4201');
+app.listen(4201, '192.168.0.102', () => {
+  console.log('susulink server start at 192.168.0.102:4201');
 });

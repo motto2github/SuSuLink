@@ -1,0 +1,53 @@
+<div class="ssl-user-link-update">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-9 col-md-offset-3">
+            <h1>修改链接</h1>
+          </div>
+        </div>
+        <ng-template *ngIf="fg; then tpl_loaded; else tpl_loading;"></ng-template>
+        <ng-template #tpl_loading>
+          <div class="row">
+            <div class="col-md-9 col-md-offset-3">
+              <h5><span class="glyphicon glyphicon-repeat ssl-anim-rotate"></span> 加载中&hellip;</h5>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #tpl_loaded>
+          <form class="form-horizontal" [formGroup]="fg" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group">
+              <label for="title" class="control-label col-md-3">标题</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors">
+              </div>
+              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!title.hasError('required') || title.pristine">请输入标题</div>
+            </div>
+            <div class="form-group">
+              <label for="href" class="control-label col-md-3">链接地址</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors">
+              </div>
+              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('required') || href.pristine">请输入链接地址</div>
+              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('pattern') || href.pristine">请以 http:// 或 https:// 开头</div>
+            </div>
+            <div class="form-group">
+              <label for="summary" class="control-label col-md-3">描述</label>
+              <div class="col-md-6">
+                <textarea class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-success" [disabled]="fg.pristine || fg.invalid || fg.disabled">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+                <button type="button" class="btn btn-default" [routerLink]="['/home/user-link/list']">返回列表 <span class="glyphicon glyphicon-th-list"></span></button>
+                <p class="bg-danger text-danger ssl-res-msg" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
