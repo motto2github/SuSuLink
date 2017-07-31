@@ -46,7 +46,7 @@ app.post('/api/common-link/list', (req, res) => {
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
   } else condition = {};
-  CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
+  CommonLink.find(condition).sort({starCount: -1, title: 1}).exec((err, links) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     return res.json(ri.set(1, 'success', {links}));
   });
@@ -64,7 +64,7 @@ app.post('/api/user-link/list', (req, res) => {
       let regexp = new RegExp(keywords, 'i');
       condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
     } else condition = {owner: curUserId};
-    UserLink.find(condition).sort({title: 1}).exec((err, links) => {
+    UserLink.find(condition).sort({starCount: -1, title: 1}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
       res.json(ri.set(1, 'success', {links}));
     });

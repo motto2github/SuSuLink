@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 let schema = mongoose.Schema({
-  title: String,
+  title: {type: String, unique: true},
   href: String,
   desc: String,
   owner: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},

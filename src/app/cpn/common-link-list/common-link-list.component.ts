@@ -78,7 +78,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         if (a_desc_test && !b_desc_test) return -1;
         if (!a_desc_test && b_desc_test) return 1;
       }
-      return b.starCount - a.starCount;
+      return 0;
     });
   }
 

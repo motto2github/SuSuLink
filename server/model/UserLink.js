@@ -2,7 +2,7 @@
 exports.__esModule = true;
 var mongoose = require("mongoose");
 var schema = mongoose.Schema({
-    title: String,
+    title: { type: String, unique: true },
     href: String,
     desc: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },

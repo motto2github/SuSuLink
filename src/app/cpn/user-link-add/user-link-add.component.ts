@@ -45,6 +45,7 @@ export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
   private submit() {
     this.fg.disable();
     this.errMsg = null;
+    this.succMsg = null;
     this.http.post('/api/user-link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         console.log(ri);

@@ -37,8 +37,8 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-              <button type="submit" class="btn btn-default" [disabled]="fg.invalid || submitted">{{submitted ? signUpSuccess ? '恭喜您，注册成功' : '提交中' : '注册'}} <span class="glyphicon" [class.glyphicon-hand-up]="!submitted" [class.glyphicon-repeat]="submitted && !signUpSuccess" [class.ssl-anim-rotate]="submitted && !signUpSuccess" [class.glyphicon-ok-sign]="signUpSuccess"></span></button>
-              <button type="button" class="btn btn-success" [routerLink]="['/sign-in']" (click)="stopCountDown()">{{signUpSuccess ? '现在去登入（' + countDown + '）' : '已经注册了？去登入'}} <span class="glyphicon glyphicon-log-in" [class.ssl-anim-move-right]="signUpSuccess"></span></button>
+              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || submitted">{{submitted ? signUpSuccess ? '恭喜您，注册成功' : '提交中' : '注册'}} <span class="glyphicon" [class.glyphicon-hand-up]="!submitted" [class.glyphicon-repeat]="submitted && !signUpSuccess" [class.ssl-anim-rotate]="submitted && !signUpSuccess" [class.glyphicon-ok-sign]="signUpSuccess"></span></button>
+              <button type="button" class="btn btn-link" [routerLink]="['/sign-in']" (click)="stopCountDown()">{{signUpSuccess ? '现在去登入（' + countDown + '）' : '已经注册了？去登入'}} <span class="glyphicon glyphicon-log-in" [class.ssl-anim-move-right]="signUpSuccess"></span></button>
               <p class="bg-danger text-danger ssl-msg-err" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
             </div>
           </div>
