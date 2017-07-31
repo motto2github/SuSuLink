@@ -46,7 +46,7 @@ app.post('/api/common-link/list', (req, res) => {
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
   } else condition = {};
-  CommonLink.find(condition).exec((err, links) => {
+  CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     return res.json(ri.set(1, 'success', {links}));
   });
@@ -64,39 +64,39 @@ app.post('/api/user-link/list', (req, res) => {
       let regexp = new RegExp(keywords, 'i');
       condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
     } else condition = {owner: curUserId};
-    UserLink.find(condition).exec((err, links) => {
+    UserLink.find(condition).sort({title: 1}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
       res.json(ri.set(1, 'success', {links}));
     });
   });
 });
 
-app.post('/api/links', (req, res) => {
-  let ri = new ResInfo();
-  let {keywords, listFlag, curUserId} = req.body;
-  let condition = null;
-  if (keywords) {
-    let regexp = new RegExp(keywords, 'i');
-    condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
-  } else condition = {};
-  if (listFlag === 'common-link') {
-    CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
-      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-      return res.json(ri.set(1, 'success', {links}));
-    });
-  } else if (listFlag === 'user-link') {
-    if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
-    User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
-      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-      if (!user) return res.json(ri.set(-88, '请求参数异常'));
-      condition.owner = curUserId;
-      UserLink.find(condition).exec((err, links) => {
-        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
-        res.json(ri.set(1, 'success', {links}));
-      });
-    });
-  }
-});
+/*app.post('/api/links', (req, res) => {
+ let ri = new ResInfo();
+ let {keywords, listFlag, curUserId} = req.body;
+ let condition = null;
+ if (keywords) {
+ let regexp = new RegExp(keywords, 'i');
+ condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+ } else condition = {};
+ if (listFlag === 'common-link') {
+ CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+ return res.json(ri.set(1, 'success', {links}));
+ });
+ } else if (listFlag === 'user-link') {
+ if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
+ User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+ if (!user) return res.json(ri.set(-88, '请求参数异常'));
+ condition.owner = curUserId;
+ UserLink.find(condition).exec((err, links) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
+ res.json(ri.set(1, 'success', {links}));
+ });
+ });
+ }
+ });*/
 
 app.post('/api/sign-up', (req, res) => {
   let ri = new ResInfo();

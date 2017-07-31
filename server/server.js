@@ -45,7 +45,7 @@ app.post('/api/common-link/list', function (req, res) {
     }
     else
         condition = {};
-    CommonLink_1.CommonLink.find(condition).exec(function (err, links) {
+    CommonLink_1.CommonLink.find(condition).sort({ title: 1 }).exec(function (err, links) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, 'success', { links: links }));
@@ -68,47 +68,39 @@ app.post('/api/user-link/list', function (req, res) {
         }
         else
             condition = { owner: curUserId };
-        UserLink_1.UserLink.find(condition).exec(function (err, links) {
+        UserLink_1.UserLink.find(condition).sort({ title: 1 }).exec(function (err, links) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
             res.json(ri.set(1, 'success', { links: links }));
         });
     });
 });
-app.post('/api/links', function (req, res) {
-    var ri = new util_1.ResInfo();
-    var _a = req.body, keywords = _a.keywords, listFlag = _a.listFlag, curUserId = _a.curUserId;
-    var condition = null;
-    if (keywords) {
-        var regexp = new RegExp(keywords, 'i');
-        condition = { $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
-    }
-    else
-        condition = {};
-    if (listFlag === 'common-link') {
-        CommonLink_1.CommonLink.find(condition).sort({ title: 1 }).exec(function (err, links) {
-            if (err)
-                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-            return res.json(ri.set(1, 'success', { links: links }));
-        });
-    }
-    else if (listFlag === 'user-link') {
-        if (!curUserId)
-            return res.json(ri.set(-88, '请求参数异常'));
-        User_1.User.findOne({ _id: curUserId }, { _id: true }, function (err, user) {
-            if (err)
-                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-            if (!user)
-                return res.json(ri.set(-88, '请求参数异常'));
-            condition.owner = curUserId;
-            UserLink_1.UserLink.find(condition).exec(function (err, links) {
-                if (err)
-                    return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
-                res.json(ri.set(1, 'success', { links: links }));
-            });
-        });
-    }
-});
+/*app.post('/api/links', (req, res) => {
+ let ri = new ResInfo();
+ let {keywords, listFlag, curUserId} = req.body;
+ let condition = null;
+ if (keywords) {
+ let regexp = new RegExp(keywords, 'i');
+ condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+ } else condition = {};
+ if (listFlag === 'common-link') {
+ CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+ return res.json(ri.set(1, 'success', {links}));
+ });
+ } else if (listFlag === 'user-link') {
+ if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
+ User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+ if (!user) return res.json(ri.set(-88, '请求参数异常'));
+ condition.owner = curUserId;
+ UserLink.find(condition).exec((err, links) => {
+ if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
+ res.json(ri.set(1, 'success', {links}));
+ });
+ });
+ }
+ });*/
 app.post('/api/sign-up', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, name = _a.name, password = _a.password;
