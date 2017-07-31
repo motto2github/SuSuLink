@@ -9,8 +9,8 @@
     <button class="btn btn-success btn-block" [routerLink]="['/sign-in']">现在就去登入 <i class="glyphicon glyphicon-log-in"></i></button>
   </ng-template>
   <ng-template #tpl_isSignIn>
-    <button class="btn btn-success btn-block" [routerLink]="['/user-link/add']" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-plus"></i> 添加</button>
     <ng-template *ngIf="!links; then tpl_loading; else tpl_loaded;"></ng-template>
+    <button class="btn btn-success btn-block" [routerLink]="['/user-link/add']"><i class="glyphicon glyphicon-plus"></i> 添加</button>
     <ng-template #tpl_loading>
       <h5><span class="glyphicon glyphicon-repeat ssl-anim-rotate"></span> 加载中&hellip;</h5>
     </ng-template>

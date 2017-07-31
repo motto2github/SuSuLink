@@ -9,7 +9,7 @@
 .ssl-home > .banner-wrapper .search-wrapper {
   position: relative;
   max-width: 680px;
-  margin: 30px auto 76px auto;
+  margin: 30px auto;
   height: 50px;
 }
 
@@ -92,5 +92,5 @@
 
 
 .ssl-home > .list-wrapper {
-  margin-top: 40px;
+  margin-top: 30px;
 }
