@@ -4,11 +4,11 @@ import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'ssl-link-add',
-  templateUrl: './link-add.component.html',
-  styleUrls: ['./link-add.component.css']
+  selector: 'ssl-user-link-add',
+  templateUrl: './user-link-add.component.html',
+  styleUrls: ['./user-link-add.component.css']
 })
-export class LinkAddComponent implements OnInit, DoCheck, AfterViewInit {
+export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
 
   private fg: FormGroup;
 
@@ -31,7 +31,7 @@ export class LinkAddComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngDoCheck(): void {
     this.curUser = this.getCurUser();
-    if (!this.curUser) this.router.navigate(['/home/my']);
+    if (!this.curUser) this.router.navigate(['/home/user-link/list']);
   }
 
   private initFormGroup() {
@@ -45,7 +45,7 @@ export class LinkAddComponent implements OnInit, DoCheck, AfterViewInit {
   private submit() {
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/user_link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user-link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         console.log(ri);
         if (ri.code !== 1) {

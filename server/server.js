@@ -35,6 +35,46 @@ var app = express();
 // app.use(bodyParser.urlencoded({extended: false}))
 // parse application/json
 app.use(bodyParser.json());
+app.post('/api/common-link/list', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var keywords = req.body.keywords;
+    var condition = null;
+    if (keywords) {
+        var regexp = new RegExp(keywords, 'i');
+        condition = { $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
+    }
+    else
+        condition = {};
+    CommonLink_1.CommonLink.find(condition).exec(function (err, links) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        return res.json(ri.set(1, 'success', { links: links }));
+    });
+});
+app.post('/api/user-link/list', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var _a = req.body, keywords = _a.keywords, curUserId = _a.curUserId;
+    if (!curUserId)
+        return res.json(ri.set(-88, '请求参数异常'));
+    User_1.User.findOne({ _id: curUserId }, { _id: true }, function (err, user) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        if (!user)
+            return res.json(ri.set(-88, '请求参数异常'));
+        var condition = null;
+        if (keywords) {
+            var regexp = new RegExp(keywords, 'i');
+            condition = { owner: curUserId, $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
+        }
+        else
+            condition = { owner: curUserId };
+        UserLink_1.UserLink.find(condition).exec(function (err, links) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
+            res.json(ri.set(1, 'success', { links: links }));
+        });
+    });
+});
 app.post('/api/links', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, keywords = _a.keywords, listFlag = _a.listFlag, curUserId = _a.curUserId;
@@ -69,7 +109,7 @@ app.post('/api/links', function (req, res) {
         });
     }
 });
-app.post('/api/sign/up', function (req, res) {
+app.post('/api/sign-up', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, name = _a.name, password = _a.password;
     if (!name || !password)
@@ -86,7 +126,7 @@ app.post('/api/sign/up', function (req, res) {
         });
     });
 });
-app.post('/api/sign/in', function (req, res) {
+app.post('/api/sign-in', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, name = _a.name, password = _a.password;
     if (!name || !password)
@@ -99,7 +139,7 @@ app.post('/api/sign/in', function (req, res) {
         return res.json(ri.set(1, '登录成功', { user: user }));
     });
 });
-app.post('/api/user_link/add', function (req, res) {
+app.post('/api/user-link/add', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, title = _a.title, href = _a.href, desc = _a.desc, curUserId = _a.curUserId;
     if (!title || !href || !curUserId)
@@ -116,7 +156,7 @@ app.post('/api/user_link/add', function (req, res) {
         });
     });
 });
-app.post('/api/user_link/remove', function (req, res) {
+app.post('/api/user-link/remove', function (req, res) {
     var ri = new util_1.ResInfo();
     var id = req.body.id;
     if (!id)
@@ -127,7 +167,7 @@ app.post('/api/user_link/remove', function (req, res) {
         return res.json(ri.set(1, '删除成功'));
     });
 });
-app.post('/api/common_link/star', function (req, res) {
+app.post('/api/common-link/star', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, id = _a.id, userId = _a.userId;
     if (!id || !userId)
@@ -152,7 +192,7 @@ app.post('/api/common_link/star', function (req, res) {
         });
     });
 });
-app.post('/api/common_link/unstar', function (req, res) {
+app.post('/api/common-link/unstar', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, id = _a.id, userId = _a.userId;
     if (!id || !userId)

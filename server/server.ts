@@ -38,6 +38,39 @@ let app = express();
 // parse application/json
 app.use(bodyParser.json());
 
+app.post('/api/common-link/list', (req, res) => {
+  let ri = new ResInfo();
+  let {keywords} = req.body;
+  let condition = null;
+  if (keywords) {
+    let regexp = new RegExp(keywords, 'i');
+    condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+  } else condition = {};
+  CommonLink.find(condition).exec((err, links) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    return res.json(ri.set(1, 'success', {links}));
+  });
+});
+
+app.post('/api/user-link/list', (req, res) => {
+  let ri = new ResInfo();
+  let {keywords, curUserId} = req.body;
+  if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
+  User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!user) return res.json(ri.set(-88, '请求参数异常'));
+    let condition = null;
+    if (keywords) {
+      let regexp = new RegExp(keywords, 'i');
+      condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
+    } else condition = {owner: curUserId};
+    UserLink.find(condition).exec((err, links) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
+      res.json(ri.set(1, 'success', {links}));
+    });
+  });
+});
+
 app.post('/api/links', (req, res) => {
   let ri = new ResInfo();
   let {keywords, listFlag, curUserId} = req.body;
@@ -65,7 +98,7 @@ app.post('/api/links', (req, res) => {
   }
 });
 
-app.post('/api/sign/up', (req, res) => {
+app.post('/api/sign-up', (req, res) => {
   let ri = new ResInfo();
   let {name, password} = req.body;
   if (!name || !password) return res.json(ri.set(-88, '请求参数异常'));
@@ -79,7 +112,7 @@ app.post('/api/sign/up', (req, res) => {
   });
 });
 
-app.post('/api/sign/in', (req, res) => {
+app.post('/api/sign-in', (req, res) => {
   let ri = new ResInfo();
   let {name, password} = req.body;
   if (!name || !password) return res.json(ri.set(-88, '请求参数异常'));
@@ -90,7 +123,7 @@ app.post('/api/sign/in', (req, res) => {
   });
 });
 
-app.post('/api/user_link/add', (req, res) => {
+app.post('/api/user-link/add', (req, res) => {
   let ri = new ResInfo();
   let {title, href, desc, curUserId} = req.body;
   if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
@@ -104,7 +137,7 @@ app.post('/api/user_link/add', (req, res) => {
   });
 });
 
-app.post('/api/user_link/remove', (req, res) => {
+app.post('/api/user-link/remove', (req, res) => {
   let ri = new ResInfo();
   let {id} = req.body;
   if (!id) return res.json(ri.set(-88, '请求参数异常'));
@@ -114,7 +147,7 @@ app.post('/api/user_link/remove', (req, res) => {
   })
 });
 
-app.post('/api/common_link/star', (req, res) => {
+app.post('/api/common-link/star', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
@@ -134,7 +167,7 @@ app.post('/api/common_link/star', (req, res) => {
   });
 });
 
-app.post('/api/common_link/unstar', (req, res) => {
+app.post('/api/common-link/unstar', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));

@@ -41,7 +41,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/sign/up', this.fg.value).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/sign-up', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         if (ri.code === 1) {
           this.signUpSuccess = true;
@@ -82,7 +82,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.countDownInterval = setInterval(() => {
       this.countDown--;
       if (this.countDown === 0) {
-        this.router.navigate(['/sign/in']);
+        this.router.navigate(['/sign-in']);
       }
     }, 1000);
   }

@@ -5,7 +5,7 @@ import {CommonLinkListComponent} from "./cpn/common-link-list/common-link-list.c
 import {UserLinkListComponent} from "./cpn/user-link-list/user-link-list.component";
 import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
 import {SignInComponent} from "./cpn/sign-in/sign-in.component";
-import {LinkAddComponent} from "./cpn/link-add/link-add.component";
+import {UserLinkAddComponent} from "./cpn/user-link-add/user-link-add.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home/common-link/list', pathMatch: 'full'}
@@ -17,9 +17,9 @@ const routes: Routes = [
       , {path: 'user-link/list/:keywords', component: UserLinkListComponent}
     ]
   }
-  , {path: 'sign/up', component: SignUpComponent}
-  , {path: 'sign/in', component: SignInComponent}
-  , {path: 'link/add', component: LinkAddComponent}
+  , {path: 'sign-up', component: SignUpComponent}
+  , {path: 'sign-in', component: SignInComponent}
+  , {path: 'user-link/add', component: UserLinkAddComponent}
   , {path: '**', redirectTo: 'home/common-link/list', pathMatch: 'full'}
 ];
 

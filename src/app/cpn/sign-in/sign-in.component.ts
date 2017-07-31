@@ -36,7 +36,7 @@ export class SignInComponent implements OnInit, AfterViewInit {
   private onSubmit() {
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/sign/in', this.fg.value).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/sign-in', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         if (ri.code === 1) {
           sessionStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));

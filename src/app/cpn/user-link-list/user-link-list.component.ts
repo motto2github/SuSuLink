@@ -23,8 +23,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
       this.keywords = params.keywords;
       this.links = null;
       if (!this.curUser) return;
-      this.http.post('/api/links', {
-        listFlag: 'user-link',
+      this.http.post('/api/user-link/list', {
         keywords: this.keywords,
         curUserId: this.curUser._id
       }).map(res => {
@@ -52,7 +51,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private confirmRemove() {
     let id = this.wantRemoveLink._id;
-    this.http.post('/api/user_link/remove', {id}).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user-link/remove', {id}).map(res => res.json()).subscribe(ri => {
       if (ri.code !== 1) return alert(ri.msg);
       let index = this.links.findIndex(v => v._id === id);
       this.links.splice(index, 1);

@@ -13,7 +13,7 @@ import {UserLinkListComponent} from './cpn/user-link-list/user-link-list.compone
 import {HttpModule} from "@angular/http";
 import {SignUpComponent} from "./cpn/sign-up/sign-up.component";
 import {SignInComponent} from './cpn/sign-in/sign-in.component';
-import {LinkAddComponent} from './cpn/link-add/link-add.component';
+import {UserLinkAddComponent} from './cpn/user-link-add/user-link-add.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import {LinkAddComponent} from './cpn/link-add/link-add.component';
     UserLinkListComponent,
     SignUpComponent,
     SignInComponent,
-    LinkAddComponent
+    UserLinkAddComponent
   ],
   imports: [
     BrowserModule,
