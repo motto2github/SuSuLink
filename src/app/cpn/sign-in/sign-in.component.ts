@@ -40,7 +40,7 @@ export class SignInComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         if (ri.code === 1) {
           sessionStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));
-          this.router.navigate(['/']);
+          this.router.navigate(['/home/user-link/list']);
         } else {
           this.fg.enable();
           this.errMsg = ri.msg;

@@ -12,14 +12,15 @@
     <button class="btn btn-success btn-block" [routerLink]="['/user-link/add']" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-plus"></i> 添加</button>
     <ng-template *ngIf="!links; then tpl_loading; else tpl_loaded;"></ng-template>
     <ng-template #tpl_loading>
-      <h5><span class="glyphicon glyphicon-repeat ssl-anim-rotate"></span> 加载中</h5>
+      <h5><span class="glyphicon glyphicon-repeat ssl-anim-rotate"></span> 加载中&hellip;</h5>
     </ng-template>
     <ng-template #tpl_loaded>
       <ng-template *ngIf="links.length; then hasData; else noData;"></ng-template>
       <ng-template #noData>
-        <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无数据，去添加一条看看！</h5>
+        <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无{{keywords ? '匹配' : ''}}数据，去添加一条看看！</h5>
       </ng-template>
       <ng-template #hasData>
+        <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
         <div class="list-group">
           <div *ngFor="let obj of links" class="list-group-item">
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
