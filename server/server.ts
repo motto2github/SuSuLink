@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
+import * as path from 'path';
 import {CommonLink} from "./model/CommonLink";
 import {ResInfo} from "./util";
 import {User} from "./model/User";
@@ -31,6 +32,8 @@ mongoose.connect('mongodb://localhost:6969/susulink', (err) => {
  };*/
 
 let app = express();
+
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 // parse application/x-www-form-urlencoded
 // app.use(bodyParser.urlencoded({extended: false}))
@@ -70,33 +73,6 @@ app.post('/api/user-link/list', (req, res) => {
     });
   });
 });
-
-/*app.post('/api/links', (req, res) => {
- let ri = new ResInfo();
- let {keywords, listFlag, curUserId} = req.body;
- let condition = null;
- if (keywords) {
- let regexp = new RegExp(keywords, 'i');
- condition = {$or: [{title: regexp}, {href: regexp}, {desc: regexp}]};
- } else condition = {};
- if (listFlag === 'common-link') {
- CommonLink.find(condition).sort({title: 1}).exec((err, links) => {
- if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
- return res.json(ri.set(1, 'success', {links}));
- });
- } else if (listFlag === 'user-link') {
- if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
- User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
- if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
- if (!user) return res.json(ri.set(-88, '请求参数异常'));
- condition.owner = curUserId;
- UserLink.find(condition).exec((err, links) => {
- if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
- res.json(ri.set(1, 'success', {links}));
- });
- });
- }
- });*/
 
 app.post('/api/sign-up', (req, res) => {
   let ri = new ResInfo();
@@ -211,6 +187,6 @@ app.post('/api/common-link/unstar', (req, res) => {
   });
 });
 
-app.listen(4201, 'localhost', () => {
-  console.log('susulink server start at localhost:4201');
+app.listen(4201, '10.120.225.56', () => {
+  console.log('susulink server start at 10.120.225.56:4201');
 });
