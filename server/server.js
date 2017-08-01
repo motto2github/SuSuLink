@@ -142,7 +142,7 @@ app.post('/api/user-link/findone', function (req, res) {
     var _a = req.body, id = _a.id, userId = _a.userId;
     if (!id || !userId)
         return res.json(ri.set(-88, '请求参数异常'));
-    UserLink_1.UserLink.findOne({ _id: id, owner: userId }).exec(function (err, link) {
+    UserLink_1.UserLink.findOne({ _id: id, owner: userId }, { title: true, href: true, summary: true, owner: true }).exec(function (err, link) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!link)
@@ -160,12 +160,11 @@ app.post('/api/common-link/star', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        CommonLink_1.CommonLink.findOne({ _id: id }, { starCount: true, starUsers: true }).exec(function (err, link) {
+        CommonLink_1.CommonLink.findOne({ _id: id }, { starUsers: true }).exec(function (err, link) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             if (!link)
                 return res.json(ri.set(-88, '请求参数异常'));
-            link.starCount++;
             link.starUsers.push(userId);
             link.save(function (err) {
                 if (err)
@@ -180,13 +179,12 @@ app.post('/api/common-link/unstar', function (req, res) {
     var _a = req.body, id = _a.id, userId = _a.userId;
     if (!id || !userId)
         return res.json(ri.set(-88, '请求参数异常'));
-    CommonLink_1.CommonLink.findOne({ _id: id }, { starCount: true, starUsers: true }).exec(function (err, link) {
+    CommonLink_1.CommonLink.findOne({ _id: id }, { starUsers: true }).exec(function (err, link) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!link || link.starUsers.indexOf(userId) === -1)
             return res.json(ri.set(-88, '请求参数异常'));
         link.starUsers.pull(userId);
-        link.starCount--;
         link.save(function (err) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));

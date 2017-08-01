@@ -125,7 +125,7 @@ app.post('/api/user-link/findone', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
-  UserLink.findOne({_id: id, owner: userId}).exec((err, link) => {
+  UserLink.findOne({_id: id, owner: userId}, {title: true, href: true, summary: true, owner: true}).exec((err, link) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!link) return res.json(ri.set(-88, '请求参数异常'));
     return res.json(ri.set(1, '查找成功', {link: link}));
@@ -139,10 +139,9 @@ app.post('/api/common-link/star', (req, res) => {
   User.findOne({_id: userId}, {_id: true}).exec((err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
-    CommonLink.findOne({_id: id}, {starCount: true, starUsers: true}).exec((err, link) => {
+    CommonLink.findOne({_id: id}, {starUsers: true}).exec((err, link) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (!link) return res.json(ri.set(-88, '请求参数异常'));
-      link.starCount++;
       link.starUsers.push(userId);
       link.save(err => {
         if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
@@ -156,11 +155,10 @@ app.post('/api/common-link/unstar', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
-  CommonLink.findOne({_id: id}, {starCount: true, starUsers: true}).exec((err, link) => {
+  CommonLink.findOne({_id: id}, {starUsers: true}).exec((err, link) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!link || link.starUsers.indexOf(userId) === -1) return res.json(ri.set(-88, '请求参数异常'));
     link.starUsers.pull(userId);
-    link.starCount--;
     link.save(err => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '操作成功'));
