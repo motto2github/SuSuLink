@@ -166,6 +166,6 @@ app.post('/api/common-link/unstar', (req, res) => {
   });
 });
 
-app.listen(4201, '10.120.225.56', () => {
-  console.log('susulink server start at 10.120.225.56:4201');
+app.listen(4201, '192.168.0.102', () => {
+  console.log('susulink server start at 192.168.0.102:4201');
 });
