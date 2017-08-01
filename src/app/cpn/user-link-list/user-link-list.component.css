@@ -1,9 +1,9 @@
 .ssl-user-link-list .list-group .list-group-item:hover {
   background-color: #f5f5f5;
   z-index: 1;
-  -webkit-box-shadow: 0 0 20px #ccc;
-  -moz-box-shadow: 0 0 20px #ccc;
-  box-shadow: 0 0 20px #ccc;
+  -webkit-box-shadow: 0 0 10px 0 #ccc;
+  -moz-box-shadow: 0 0 10px 0 #ccc;
+  box-shadow: 0 0 10px 0 #ccc;
   -webkit-transition-duration: .3s;
   -moz-transition-duration: .3s;
   -ms-transition-duration: .3s;
