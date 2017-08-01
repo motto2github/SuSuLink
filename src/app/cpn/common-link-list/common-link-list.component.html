@@ -20,7 +20,7 @@
           <h4 class="list-group-item-heading">
             <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
-              <button class="btn btn-xs btn-default" [class.btn-warning]="curUser && obj.starUsers.indexOf(curUser._id) !== -1" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i>{{curUser && obj.starUsers.indexOf(curUser._id) !== -1 ? 'Unstar' : 'Star'}}</button>
+              <button class="btn btn-xs btn-default" [class.btn-danger]="curUser && obj.starUsers.indexOf(curUser._id) !== -1" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i>{{curUser && obj.starUsers.indexOf(curUser._id) !== -1 ? 'Unstar' : 'Star'}}</button>
               <button class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
             </div>
             <!--<a href="javascript:;" class="badge" [class.active]="curUser && obj.starUsers.indexOf(curUser._id) !== -1" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i>{{curUser && obj.starUsers.indexOf(curUser._id) !== -1 ? 'Unstar' : 'Star'}} {{obj.starUsers.length}}</a>-->
