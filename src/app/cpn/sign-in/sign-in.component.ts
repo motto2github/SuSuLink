@@ -45,7 +45,7 @@ export class SignInComponent implements OnInit, AfterViewInit {
           this.fg.enable();
           this.errMsg = ri.msg;
         }
-      }, 1000);
+      }, 300);
     });
   }
 

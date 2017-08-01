@@ -30,11 +30,10 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         }
         return ri.data.links;
       }).subscribe(links => {
-        window['links'] = links;
-        // setTimeout(() => {
-        this.links = links;
-        this.sortLinks();
-        // }, 3000);
+        setTimeout(() => {
+          this.links = links;
+          this.sortLinks();
+        }, 300);
       });
     });
   }
@@ -44,22 +43,30 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
   }
 
   private starHandler(link: {[key: string]: any}) {
+    if (link.__tmp_starProcessing) return;
     if (!this.curUser) return this.router.navigate(['/sign-in']);
-    if (link.starUsers.indexOf(this.curUser._id) === -1) {
-      this.http.post('/api/common-link/star', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
-        if (ri.code !== 1) return alert(ri.msg);
-        link.starCount++;
-        link.starUsers.push(this.curUser._id);
-        // this.sortLinks();
-      });
-    } else {
-      this.http.post('/api/common-link/unstar', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
-        if (ri.code !== 1) return alert(ri.msg);
-        link.starCount--;
-        link.starUsers.splice(link.starUsers.findIndex(id => id === this.curUser._id), 1);
-        // this.sortLinks();
-      });
-    }
+    link.__tmp_starProcessing = true;
+    setTimeout(() => {
+      if (link.starUsers.indexOf(this.curUser._id) === -1) {
+        this.http.post('/api/common-link/star', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
+          if (ri.code !== 1) {
+            alert(ri.msg);
+          } else {
+            link.starUsers.push(this.curUser._id);
+          }
+          delete link.__tmp_starProcessing;
+        });
+      } else {
+        this.http.post('/api/common-link/unstar', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
+          if (ri.code !== 1) {
+            alert(ri.msg);
+          } else {
+            link.starUsers.splice(link.starUsers.findIndex(id => id === this.curUser._id), 1);
+          }
+          delete link.__tmp_starProcessing;
+        });
+      }
+    }, 300);
   }
 
   private getCurUser(): {[key: string]: any} {

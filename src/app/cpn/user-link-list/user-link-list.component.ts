@@ -34,10 +34,10 @@ export class UserLinkListComponent implements OnInit, DoCheck {
         }
         return ri.data.links;
       }).subscribe(links => {
-        // setTimeout(() => {
-        this.links = links;
-        this.sortLinks();
-        // }, 3000);
+        setTimeout(() => {
+          this.links = links;
+          this.sortLinks();
+        }, 300);
       });
     });
   }

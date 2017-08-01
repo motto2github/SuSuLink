@@ -47,16 +47,16 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     this.errMsg = null;
     this.succMsg = null;
     this.http.post('/api/user-link/insert', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
-      // setTimeout(() => {
-      if (ri.code !== 1) {
-        this.errMsg = ri.msg;
-        this.fg.enable();
-      } else {
-        this.succMsg = ri.msg;
-        this.fg.reset();
-        this.fg.enable();
-      }
-      // }, 1000);
+      setTimeout(() => {
+        if (ri.code !== 1) {
+          this.errMsg = ri.msg;
+          this.fg.enable();
+        } else {
+          this.succMsg = ri.msg;
+          this.fg.reset();
+          this.fg.enable();
+        }
+      }, 300);
     });
   }
 

@@ -35,6 +35,29 @@ button {
   animation: ssl-keyframes-rotate 1s infinite linear;
 }
 
+@keyframes ssl-keyframes-contrarotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+
+.ssl-anim-contrarotate {
+  -webkit-animation: ssl-keyframes-contrarotate 1s infinite linear;
+  -o-animation: ssl-keyframes-contrarotate 1s infinite linear;
+  animation: ssl-keyframes-contrarotate 1s infinite linear;
+}
+
 @keyframes ssl-keyframes-move-right {
   0% {
     -webkit-transform: translate(-50%);
