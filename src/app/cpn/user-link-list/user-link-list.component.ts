@@ -36,6 +36,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
       }).subscribe(links => {
         // setTimeout(() => {
         this.links = links;
+        this.sortLinks();
         // }, 3000);
       });
     });
@@ -43,6 +44,23 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     this.curUser = this.getCurUser();
+  }
+
+  private sortLinks() {
+    let regexp = new RegExp(this.keywords, 'i');
+    this.links.sort((a, b) => {
+      if (this.keywords) {
+        let a_title_test = regexp.test(a.title), a_href_test = regexp.test(a.href), a_summary_test = regexp.test(a.summary);
+        let b_title_test = regexp.test(b.title), b_href_test = regexp.test(b.href), b_summary_test = regexp.test(b.summary);
+        if (a_title_test && !b_title_test) return -1;
+        if (!a_title_test && b_title_test) return 1;
+        if (a_href_test && !b_href_test) return -1;
+        if (!a_href_test && b_href_test) return 1;
+        if (a_summary_test && !b_summary_test) return -1;
+        if (!a_summary_test && b_summary_test) return 1;
+      }
+      return 0;
+    });
   }
 
   private getCurUser(): {[key: string]: any} {

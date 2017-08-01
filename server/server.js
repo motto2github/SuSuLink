@@ -13,24 +13,6 @@ mongoose.connect('mongodb://localhost:6969/susulink', function (err) {
         return console.error(err);
     console.log('db connect success, at mongodb://localhost:6969/susulink');
 });
-/*let sortLinks = (links, keywords) => {
- let regexp = new RegExp(keywords, 'i');
- links.sort((a, b): number => {
- if (keywords) {
- let a_title_test = regexp.test(a.title), a_href_test = regexp.test(a.href), a_desc_test = regexp.test(a.desc);
- let b_title_test = regexp.test(b.title), b_href_test = regexp.test(b.href), b_desc_test = regexp.test(b.desc);
- if (a_title_test && !b_title_test) return -1;
- if (!a_title_test && b_title_test) return 1;
- if (a_href_test && !b_href_test) return -1;
- if (!a_href_test && b_href_test) return 1;
- if (a_desc_test && !b_desc_test) return -1;
- if (!a_desc_test && b_desc_test) return 1;
- }
- if (a.starCount >= b.starCount) return -1;
- return 1;
- })
- return links;
- };*/
 var app = express();
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 // parse application/x-www-form-urlencoded
@@ -43,11 +25,11 @@ app.post('/api/common-link/list', function (req, res) {
     var condition = null;
     if (keywords) {
         var regexp = new RegExp(keywords, 'i');
-        condition = { $or: [{ title: regexp }, { href: regexp }, { desc: regexp }] };
+        condition = { $or: [{ title: regexp }, { href: regexp }, { summary: regexp }] };
     }
     else
         condition = {};
-    CommonLink_1.CommonLink.find(condition, { title: true, href: true, desc: true, starUsers: true }).exec(function (err, links) {
+    CommonLink_1.CommonLink.find(condition, { title: true, href: true, summary: true, starUsers: true, sortNumber: true }).exec(function (err, links) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, 'success', { links: links }));
@@ -70,7 +52,7 @@ app.post('/api/user-link/list', function (req, res) {
         }
         else
             condition = { owner: curUserId };
-        UserLink_1.UserLink.find(condition, { title: true, href: true, summary: true, owner: true }).sort({ title: 1 }).exec(function (err, links) {
+        UserLink_1.UserLink.find(condition, { title: true, href: true, summary: true, owner: true }).exec(function (err, links) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
             res.json(ri.set(1, 'success', { links: links }));

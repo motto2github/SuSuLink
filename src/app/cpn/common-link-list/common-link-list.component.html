@@ -27,7 +27,7 @@
             <br>
             <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
           </h4>
-          <p class="list-group-item-text" [innerHTML]="obj.desc | markToRed:keywords"></p>
+          <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
         </div>
       </div>
     </ng-template>
