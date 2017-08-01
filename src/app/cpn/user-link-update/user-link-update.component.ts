@@ -57,7 +57,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
       if (ri.code !== 1) {
         this.errMsg = ri.msg;
         this.fg.enable();
-      } else this.router.navigate(['/home/user-link/list']);
+      } else history.back(); // this.router.navigate(['/home/user-link/list']);
       // }, 1000);
     });
   }
