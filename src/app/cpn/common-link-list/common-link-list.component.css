@@ -1,3 +1,6 @@
+.ssl-common-link-list .list-group > .list-group-item {
+  cursor: default;
+}
 
 .ssl-common-link-list .list-group > .list-group-item:hover {
   background-color: #f5f5f5;

@@ -1,3 +1,7 @@
+.ssl-user-link-list .list-group .list-group-item {
+  cursor: default;
+}
+
 .ssl-user-link-list .list-group .list-group-item:hover {
   background-color: #f5f5f5;
   z-index: 1;
