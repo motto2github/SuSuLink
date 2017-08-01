@@ -47,7 +47,7 @@ app.post('/api/common-link/list', function (req, res) {
     }
     else
         condition = {};
-    CommonLink_1.CommonLink.find(condition).sort({ starCount: -1, title: 1 }).exec(function (err, links) {
+    CommonLink_1.CommonLink.find(condition, { title: true, href: true, desc: true, starUsers: true }).exec(function (err, links) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, 'success', { links: links }));
@@ -70,7 +70,7 @@ app.post('/api/user-link/list', function (req, res) {
         }
         else
             condition = { owner: curUserId };
-        UserLink_1.UserLink.find(condition).sort({ starCount: -1, title: 1 }).exec(function (err, links) {
+        UserLink_1.UserLink.find(condition, { title: true, href: true, summary: true, owner: true }).sort({ title: 1 }).exec(function (err, links) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
             res.json(ri.set(1, 'success', { links: links }));
