@@ -99,10 +99,16 @@ app.post('/api/user-link/insert', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        new UserLink_1.UserLink({ title: title, href: href, summary: summary, owner: curUserId }).save(function (err) {
+        UserLink_1.UserLink.findOne({ owner: curUserId, title: title }, { _id: true }).exec(function (err, link) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-            return res.json(ri.set(1, '添加成功'));
+            if (link)
+                return res.json(ri.set(-1, '该标题已存在'));
+            new UserLink_1.UserLink({ title: title, href: href, summary: summary, owner: curUserId }).save(function (err) {
+                if (err)
+                    return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+                return res.json(ri.set(1, '添加成功'));
+            });
         });
     });
 });
