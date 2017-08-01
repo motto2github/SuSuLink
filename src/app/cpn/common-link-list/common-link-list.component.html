@@ -16,7 +16,7 @@
     <ng-template #tpl_hasData>
       <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
       <div class="list-group">
-        <div *ngFor="let obj of links" class="list-group-item">
+        <button *ngFor="let obj of links" class="list-group-item" (dblclick)="onDblclick(obj.href)">
           <h4 class="list-group-item-heading">
             <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
@@ -28,7 +28,7 @@
             <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
           </h4>
           <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
-        </div>
+        </button>
       </div>
     </ng-template>
   </ng-template>

@@ -92,6 +92,10 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     });
   }
 
+  private onDblclick(href) {
+    window.open(href);
+  }
+
 }
 
 /*

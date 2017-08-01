@@ -84,4 +84,8 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     });
   }
 
+  private onDblclick(href) {
+    window.open(href);
+  }
+
 }

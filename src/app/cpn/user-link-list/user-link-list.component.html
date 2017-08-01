@@ -22,7 +22,7 @@
       <ng-template #hasData>
         <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
         <div class="list-group">
-          <div *ngFor="let obj of links" class="list-group-item">
+          <button *ngFor="let obj of links" class="list-group-item" (dblclick)="onDblclick(obj.href)">
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
               <h4 class="list-group-item-heading">
                 <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
@@ -36,7 +36,7 @@
               <button class="btn btn-danger remove" style="height: 100%; border: none; border-radius: 0;" (click)="onRemove(obj)"><i class="glyphicon glyphicon-trash"></i></button>
             </div>
             <div style="clear: both;"></div>
-          </div>
+          </button>
         </div>
       </ng-template>
     </ng-template>
