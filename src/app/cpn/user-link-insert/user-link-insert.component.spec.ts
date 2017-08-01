@@ -1,19 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {UserLinkAddComponent} from './user-link-add.component';
+import {UserLinkInsertComponent} from './user-link-insert.component';
 
-describe('UserLinkAddComponent', () => {
-  let component: UserLinkAddComponent;
-  let fixture: ComponentFixture<UserLinkAddComponent>;
+describe('UserLinkInsertComponent', () => {
+  let component: UserLinkInsertComponent;
+  let fixture: ComponentFixture<UserLinkInsertComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserLinkAddComponent]
+      declarations: [UserLinkInsertComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserLinkAddComponent);
+    fixture = TestBed.createComponent(UserLinkInsertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

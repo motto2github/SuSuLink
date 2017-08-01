@@ -123,7 +123,7 @@ app.post('/api/sign-in', (req, res) => {
   });
 });
 
-app.post('/api/user-link/add', (req, res) => {
+app.post('/api/user-link/insert', (req, res) => {
   let ri = new ResInfo();
   let {title, href, summary, curUserId} = req.body;
   if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
@@ -164,7 +164,7 @@ app.post('/api/user-link/update', (req, res) => {
   });
 });
 
-app.post('/api/user-link/findOne', (req, res) => {
+app.post('/api/user-link/findone', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));

@@ -131,7 +131,7 @@ app.post('/api/sign-in', function (req, res) {
         return res.json(ri.set(1, '登录成功', { user: user }));
     });
 });
-app.post('/api/user-link/add', function (req, res) {
+app.post('/api/user-link/insert', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, title = _a.title, href = _a.href, summary = _a.summary, curUserId = _a.curUserId;
     if (!title || !href || !curUserId)
@@ -179,7 +179,7 @@ app.post('/api/user-link/update', function (req, res) {
         });
     });
 });
-app.post('/api/user-link/findOne', function (req, res) {
+app.post('/api/user-link/findone', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, id = _a.id, userId = _a.userId;
     if (!id || !userId)

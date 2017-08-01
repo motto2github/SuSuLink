@@ -4,11 +4,11 @@ import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'ssl-user-link-add',
-  templateUrl: './user-link-add.component.html',
-  styleUrls: ['./user-link-add.component.css']
+  selector: 'ssl-user-link-insert',
+  templateUrl: './user-link-insert.component.html',
+  styleUrls: ['./user-link-insert.component.css']
 })
-export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
+export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
   private fg: FormGroup;
 
@@ -46,7 +46,7 @@ export class UserLinkAddComponent implements OnInit, DoCheck, AfterViewInit {
     this.fg.disable();
     this.errMsg = null;
     this.succMsg = null;
-    this.http.post('/api/user-link/add', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user-link/insert', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
       // setTimeout(() => {
       if (ri.code !== 1) {
         this.errMsg = ri.msg;
