@@ -4,8 +4,12 @@ button {
   outline: none !important;
 }
 
-.text-red {
+.ssl-text-red {
   color: red;
+}
+
+.ssl-inline-block {
+  display: inline-block;
 }
 
 @keyframes ssl-keyframes-rotate {
@@ -26,18 +30,60 @@ button {
 }
 
 .ssl-anim-rotate {
+  -webkit-animation: ssl-keyframes-rotate 1s infinite linear;
+  -o-animation: ssl-keyframes-rotate 1s infinite linear;
   animation: ssl-keyframes-rotate 1s infinite linear;
 }
 
-@keyframes ssl-keyframes-move-right{
+@keyframes ssl-keyframes-move-right {
   0% {
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
     transform: translate(-50%);
   }
   100% {
+    -webkit-transform: translate(50%);
+    -moz-transform: translate(50%);
+    -ms-transform: translate(50%);
+    -o-transform: translate(50%);
     transform: translate(50%);
   }
 }
 
 .ssl-anim-move-right {
+  -webkit-animation: ssl-keyframes-move-right 1s infinite linear;
+  -o-animation: ssl-keyframes-move-right 1s infinite linear;
   animation: ssl-keyframes-move-right 1s infinite linear;
+}
+
+@keyframes ssl-keyframes-scale {
+  0% {
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  50% {
+    -webkit-transform: scale(1.25, 1.25);
+    -moz-transform: scale(1.25, 1.25);
+    -ms-transform: scale(1.25, 1.25);
+    -o-transform: scale(1.25, 1.25);
+    transform: scale(1.25, 1.25);
+  }
+  100% {
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+}
+
+.ssl-anim-sacle-2 {
+  -webkit-animation: ssl-keyframes-scale .8s linear 2;
+  -o-animation: ssl-keyframes-scale .8s linear 2;
+  animation: ssl-keyframes-scale .8s linear 2;
 }
