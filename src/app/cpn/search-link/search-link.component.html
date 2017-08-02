@@ -1,0 +1,41 @@
+<div class="ssl-search-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="input-group">
+          <input [formControl]="keywords" (keyup.enter)="onSubmit()" type="text" class="form-control" placeholder="搜索链接，例如：百度">
+          <span class="input-group-btn">
+            <button (click)="onSubmit()" class="btn btn-success" type="button"><i class="glyphicon glyphicon-search"></i> 搜索</button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h5 class="text-center ssl-title">热门搜索</h5>
+        <button class="btn btn-link col-xs-3">百度</button>
+        <button class="btn btn-link col-xs-3">Angular</button>
+        <button class="btn btn-link col-xs-3">Bootstrap</button>
+        <button class="btn btn-link col-xs-3">GitHub</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h5 class="text-center ssl-title">搜索历史</h5>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+        <button class="btn btn-link col-xs-3">要要</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-default btn-block" onclick="history.back();">返回 <span class="glyphicon glyphicon-share-alt"></span></button>
+      </div>
+    </div>
+  </div>
+</div>

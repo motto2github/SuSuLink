@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private onSearchAtMobile(event) {
-    this.router.navigate(['/sign-in']);
+    this.router.navigate(['/search-link', this.listFlag, this.keywords.value]);
   }
 
 }
