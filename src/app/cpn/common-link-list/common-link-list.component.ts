@@ -74,7 +74,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
   }
 
   private sortLinks() {
-    let regexp = new RegExp(this.keywords, 'i');
+    let regexp = new RegExp(this.keywords.replace(/\\/g, '\\\\'), 'i');
     this.links.sort((a, b) => {
       if (this.keywords) {
         let a_title_test = regexp.test(a.title), a_href_test = regexp.test(a.href), a_summary_test = regexp.test(a.summary);
