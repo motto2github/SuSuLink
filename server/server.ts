@@ -22,6 +22,10 @@ app.use(express.static(path.join(__dirname, '..', 'dist')));
 // parse application/json
 app.use(bodyParser.json());
 
+app.get('**', (req, res) => {
+  res.redirect('/');
+});
+
 app.post('/api/common-link/list', (req, res) => {
   let ri = new ResInfo();
   let {keywords} = req.body;

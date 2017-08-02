@@ -19,6 +19,9 @@ app.use(express.static(path.join(__dirname, '..', 'dist')));
 // app.use(bodyParser.urlencoded({extended: false}))
 // parse application/json
 app.use(bodyParser.json());
+app.get('**', function (req, res) {
+    res.redirect('/');
+});
 app.post('/api/common-link/list', function (req, res) {
     var ri = new util_1.ResInfo();
     var keywords = req.body.keywords;
