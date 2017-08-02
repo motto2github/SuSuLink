@@ -6,8 +6,12 @@
           <p class="text logotext">SuSuLink</p>
           <p class="text desc0">统一、快速、稳定<!--、丰富、免费-->的链接地址查询与管理站点</p>
           <p class="text desc1">在这里，已收录了许多常用的链接地址，并会定期上新，您也可自行添加，以便查询、收藏、管理</p>
-          <div class="form-group search-wrapper">
+          <div class="form-group search-wrapper hidden-xs hidden-sm">
             <input [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <i class="glyphicon glyphicon-search"></i>
+          </div>
+          <div class="form-group search-wrapper hidden-md hidden-lg">
+            <input (click)="onSearchAtMobile();" [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
             <i class="glyphicon glyphicon-search"></i>
           </div>
         </div>
@@ -33,16 +37,5 @@
       </button>
     </div>
     <router-outlet></router-outlet>
-    <!--<div class="list-group">
-      <div *ngFor="let linkObj of getMatchedLinkObjs()" class="list-group-item">
-        <h4 class="list-group-item-heading">
-          <a href="{{linkObj.href}}" target="_blank" class="title" [innerHTML]="linkObj.title"></a>
-          <a href="javascript:;" class="badge" [class.active]="linkObj.isStar" (click)="starHandler(linkObj);"><i class="glyphicon glyphicon-star"></i> {{linkObj.starCount}}</a>
-          <br>
-          <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="linkObj.href"></span></small>
-        </h4>
-        <p class="list-group-item-text" [innerHTML]="linkObj.desc"></p>
-      </div>
-    </div>-->
   </div>
 </div>

@@ -50,6 +50,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     $('[data-toggle="tooltip"]').tooltip();
   }
 
+  private onSearchAtMobile(event) {
+    this.router.navigate(['/sign-in']);
+  }
+
 }
 
 interface IRecommendLink {
