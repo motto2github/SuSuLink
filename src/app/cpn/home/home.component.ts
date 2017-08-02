@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log($);
     $('[data-toggle="tooltip"]').tooltip();
   }
 
