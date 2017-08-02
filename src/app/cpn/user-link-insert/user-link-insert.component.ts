@@ -27,6 +27,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngAfterViewInit(): void {
     $("#back-to-top").click();
+    $('#title').focus();
   }
 
   ngDoCheck(): void {

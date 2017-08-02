@@ -1,9 +1,6 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
-import 'bootstrap';
-import 'jquery';
-import 'rxjs';
 
 @Component({
   selector: 'ssl-home',
@@ -56,6 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    console.log($);
     $('[data-toggle="tooltip"]').tooltip();
   }
 

@@ -1,5 +1,4 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import 'jquery';
 import {FormControl} from "@angular/forms";
 import {Router, ActivatedRoute} from "@angular/router";
 
