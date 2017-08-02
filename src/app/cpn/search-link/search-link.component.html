@@ -12,28 +12,30 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <h5 class="text-center ssl-title">热门搜索</h5>
-        <button class="btn btn-link col-xs-3">百度</button>
-        <button class="btn btn-link col-xs-3">Angular</button>
-        <button class="btn btn-link col-xs-3">Bootstrap</button>
-        <button class="btn btn-link col-xs-3">GitHub</button>
+        <h4 class="text-center ssl-title">热门搜索</h4>
+        <button class="btn btn-link" (click)="onHotItemClick('百度')">百度</button>
+        <button class="btn btn-link" (click)="onHotItemClick('Angular')">Angular</button>
+        <button class="btn btn-link" (click)="onHotItemClick('Bootstrap')">Bootstrap</button>
+        <button class="btn btn-link" (click)="onHotItemClick('GitHub')">GitHub</button>
+        <button class="btn btn-link" (click)="onHotItemClick('博客园')">博客园</button>
+        <button class="btn btn-link" (click)="onHotItemClick('SuSuLink')">SuSuLink</button>
+        <button class="btn btn-link" (click)="onHotItemClick('速速链接')">速速链接</button>
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <h5 class="text-center ssl-title">搜索历史</h5>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
-        <button class="btn btn-link col-xs-3">要要</button>
+        <h4 class="text-center ssl-title">搜索历史</h4>
+        <div *ngIf="search_histories.length === 0" class="text-center">
+          <h6 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无搜索记录&hellip;</h6>
+        </div>
+        <div style="overflow: scroll;">
+          <button *ngFor="let item of search_histories;" (click)="onHistoryItemClick(item);" class="btn btn-link">{{item}}</button>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12" style="margin: 15px 0;">
+        <button class="btn btn-warning btn-block" (click)="onClearHistoriesClick()"><i class="glyphicon glyphicon-trash"></i> 清空历史记录</button>
         <button class="btn btn-default btn-block" onclick="history.back();">返回 <span class="glyphicon glyphicon-share-alt"></span></button>
       </div>
     </div>
