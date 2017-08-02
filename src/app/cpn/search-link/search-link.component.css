@@ -13,3 +13,7 @@
 .ssl-title {
   color: #999;
 }
+
+.ssl-history-item {
+  white-space: pre-wrap;
+}

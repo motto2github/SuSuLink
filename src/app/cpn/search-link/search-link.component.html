@@ -28,9 +28,7 @@
         <div *ngIf="search_histories.length === 0" class="text-center">
           <h6 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无搜索记录&hellip;</h6>
         </div>
-        <div style="overflow: scroll;">
-          <button *ngFor="let item of search_histories;" (click)="onHistoryItemClick(item);" class="btn btn-link">{{item}}</button>
-        </div>
+        <button *ngFor="let item of search_histories;" (click)="onHistoryItemClick(item);" class="btn btn-link ssl-history-item">{{item}}</button>
       </div>
     </div>
     <div class="row">
