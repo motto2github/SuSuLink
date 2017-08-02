@@ -1,5 +1,5 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute, UrlSegment} from "@angular/router";
 import {FormControl} from "@angular/forms";
 
 @Component({
@@ -28,13 +28,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private search_histories: Array<string>;
 
-  constructor(private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    let params = location.pathname.split('/');
-    this.keywords.setValue(decodeURIComponent(params[4]), {emitEvent: false});
-    this.listFlag = params[2];
+    let firstChildUrlSegment: UrlSegment[] = this.route.snapshot.firstChild.url;
+    this.keywords.setValue(decodeURIComponent(firstChildUrlSegment[2].path), {emitEvent: false});
+    this.listFlag = firstChildUrlSegment[0].path;
     this.search_histories = JSON.parse(localStorage.getItem('__ssl_search_histories')) || [];
     this.keywords.valueChanges.debounceTime(300).subscribe((value) => {
       this.keywords.setValue(value.trim(), {emitEvent: false});
