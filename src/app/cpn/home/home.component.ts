@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private keywords: FormControl = new FormControl();
 
+  private search_histories: Array<string>;
+
   constructor(private router: Router) {
   }
 
@@ -36,8 +38,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let params = location.pathname.split('/');
     this.keywords.setValue(decodeURIComponent(params[4]), {emitEvent: false});
     this.listFlag = params[2];
+    this.search_histories = JSON.parse(localStorage.getItem('__ssl_search_histories')) || [];
     this.keywords.valueChanges.debounceTime(300).subscribe((value) => {
-      this.router.navigate([`/home/${this.listFlag}/list`, value]);
+      this.keywords.setValue(value.trim(), {emitEvent: false});
+      if (this.keywords.value !== '') {
+        this.search_histories = this.search_histories.filter(item => this.keywords.value !== item);
+        this.search_histories.unshift(this.keywords.value);
+        localStorage.setItem('__ssl_search_histories', JSON.stringify(this.search_histories));
+      }
+      this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value]);
     });
   }
 
