@@ -31,6 +31,7 @@ app.post('/api/common-link/list', (req, res) => {
   let {keywords} = req.body;
   let condition = null;
   if (keywords) {
+    keywords = keywords.replace(/\\/g, '\\\\').replace(/\./g, '\\.');
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
   } else condition = {};
@@ -49,6 +50,7 @@ app.post('/api/user-link/list', (req, res) => {
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
     let condition = null;
     if (keywords) {
+      keywords = keywords.replace(/\\/g, '\\\\').replace(/\./g, '\\.');
       let regexp = new RegExp(keywords, 'i');
       condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
     } else condition = {owner: curUserId};
