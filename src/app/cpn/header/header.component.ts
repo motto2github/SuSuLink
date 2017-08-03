@@ -16,10 +16,11 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    this.curUser = JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
+    this.curUser = JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
   private signOut() {
+    localStorage.removeItem('__ssl_cur_user');
     sessionStorage.removeItem('__ssl_cur_user');
   }
 

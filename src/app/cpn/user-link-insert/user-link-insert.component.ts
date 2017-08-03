@@ -74,7 +74,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   private getCurUser(): {[key: string]: any} {
-    return JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
+    return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
 }

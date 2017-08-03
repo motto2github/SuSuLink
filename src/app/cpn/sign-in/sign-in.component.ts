@@ -29,7 +29,8 @@ export class SignInComponent implements OnInit, AfterViewInit {
   private initFormGroup() {
     this.fg = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]]
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+      rememberMe: [true]
     });
   }
 
@@ -39,7 +40,8 @@ export class SignInComponent implements OnInit, AfterViewInit {
     this.http.post('/api/sign-in', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         if (ri.code === 1) {
-          sessionStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));
+          if (this.rememberMe.value) localStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));
+          else sessionStorage.setItem('__ssl_cur_user', JSON.stringify(ri.data.user));
           this.router.navigate(['/home/user-link/list']);
         } else {
           this.fg.enable();
@@ -55,6 +57,10 @@ export class SignInComponent implements OnInit, AfterViewInit {
 
   private get password(): AbstractControl | null {
     return this.fg.get('password');
+  }
+
+  private get rememberMe(): AbstractControl | null {
+    return this.fg.get('rememberMe');
   }
 
 }

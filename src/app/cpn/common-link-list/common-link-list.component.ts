@@ -70,7 +70,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
   }
 
   private getCurUser(): {[key: string]: any} {
-    return JSON.parse(sessionStorage.getItem('__ssl_cur_user'));
+    return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
   private sortLinks() {

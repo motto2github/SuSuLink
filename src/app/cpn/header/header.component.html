@@ -8,21 +8,21 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand ssl-logotext" href="javascript:;" [routerLink]="['/']">SuSuLink</a>
+        <a class="navbar-brand ssl-logotext" href="javascript:;" [routerLink]="['/']" tabindex="-1">SuSuLink</a>
       </div>
       <nav id="bs-navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <ng-template *ngIf="curUser; then isSignIn; else noSignIn;"></ng-template>
           <ng-template #isSignIn>
-            <li><a href="javascript:;" class="text-center">{{curUser.name}}</a></li>
-            <li><a href="javascript:;" class="text-center" (click)="signOut()">登出</a></li>
+            <li><a href="javascript:;" class="text-center" tabindex="-1">{{curUser.name}}</a></li>
+            <li><a href="javascript:;" class="text-center" (click)="signOut()" tabindex="-1">登出</a></li>
           </ng-template>
           <ng-template #noSignIn>
-            <li><a href="javascript:;" class="text-center" [routerLink]="['/sign-up']">注册</a></li>
-            <li><a href="javascript:;" class="text-center" [routerLink]="['/sign-in']">登入</a></li>
+            <li><a href="javascript:;" class="text-center" [routerLink]="['/sign-up']" tabindex="-1">注册</a></li>
+            <li><a href="javascript:;" class="text-center" [routerLink]="['/sign-in']" tabindex="-1">登入</a></li>
           </ng-template>
-          <li><a href="https://github.com/motto2github/SuSuLink" class="text-center" target="_blank">GitHub地址</a></li>
-          <li><a href="javascript:$('body,html').animate({scrollTop: $(document).height()}, 300);" class="text-center">关于</a></li>
+          <li><a href="https://github.com/motto2github/SuSuLink" class="text-center" target="_blank" tabindex="-1">GitHub地址</a></li>
+          <li><a href="javascript:$('body,html').animate({scrollTop: $(document).height()}, 300);" class="text-center" tabindex="-1">关于</a></li>
         </ul>
       </nav>
     </div>

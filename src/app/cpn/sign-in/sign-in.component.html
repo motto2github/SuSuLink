@@ -12,7 +12,7 @@
           <div class="form-group">
             <label for="name" class="control-label col-md-3">用户名</label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="name" formControlName="name" [class.ssl-valid]="!name.errors" [class.ssl-invalid]="name.errors">
+              <input type="text" class="form-control" id="name" formControlName="name" [class.ssl-valid]="!name.errors" [class.ssl-invalid]="name.errors" tabindex="1">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('required') || name.pristine">请输入用户名</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('minlength') || name.pristine">最少{{ name.getError('minlength')?.requiredLength }}位，目前{{ name.getError('minlength')?.actualLength }}位</div>
@@ -21,7 +21,7 @@
           <div class="form-group">
             <label for="password" class="control-label col-md-3">密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors">
+              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors" tabindex="2">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('required') || password.pristine">请输入密码</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('minlength') || password.pristine">最少{{ password.getError('minlength')?.requiredLength }}位，目前{{ password.getError('minlength')?.actualLength }}位</div>
@@ -31,15 +31,15 @@
             <div class="col-md-offset-3 col-md-9">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"> Remember me
+                  <input formControlName="rememberMe" type="checkbox" tabindex="3"> Remember me
                 </label>
               </div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || fg.disabled">{{fg.disabled ? '提交中' : '登入'}} <span class="glyphicon" [class.glyphicon-log-in]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
-              <button type="button" class="btn btn-link" [routerLink]="['/sign-up']">还没有帐号？去注册 <span class="glyphicon glyphicon-hand-up"></span></button>
+              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '登入'}} <span class="glyphicon" [class.glyphicon-log-in]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+              <button type="button" class="btn btn-link" [routerLink]="['/sign-up']" tabindex="5">还没有帐号？去注册 <span class="glyphicon glyphicon-hand-up"></span></button>
               <p class="bg-danger text-danger ssl-msg-err" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
             </div>
           </div>
