@@ -13,7 +13,7 @@
           <div class="form-group">
             <label for="name" class="control-label col-md-3">用户名</label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="name" formControlName="name" [class.ssl-valid]="!name.errors" [class.ssl-invalid]="name.errors">
+              <input type="text" class="form-control" id="name" formControlName="name" [class.ssl-valid]="!name.errors" [class.ssl-invalid]="name.errors" tabindex="1">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('required') || name.pristine">请输入用户名</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!name.hasError('minlength') || name.pristine">最少{{name.getError('minlength')?.requiredLength}}位, 目前{{name.getError('minlength')?.actualLength}}位</div>
@@ -22,7 +22,7 @@
           <div class="form-group">
             <label for="password" class="control-label col-md-3">登入密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors">
+              <input type="password" class="form-control" id="password" formControlName="password" [class.ssl-valid]="!password.errors" [class.ssl-invalid]="password.errors" tabindex="2">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('required') || password.pristine">请输入登入密码</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!password.hasError('minlength') || password.pristine">最少{{password.getError('minlength')?.requiredLength}}位, 目前{{password.getError('minlength')?.actualLength}}位</div>
@@ -31,15 +31,15 @@
           <div class="form-group">
             <label for="confirmPassword" class="control-label col-md-3">确认密码</label>
             <div class="col-md-6">
-              <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" [class.ssl-valid]="!confirmPassword.errors" [class.ssl-invalid]="confirmPassword.errors || fg.hasError('passwordNotEqual')">
+              <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" [class.ssl-valid]="!confirmPassword.errors" [class.ssl-invalid]="confirmPassword.errors || fg.hasError('passwordNotEqual')" tabindex="3">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!confirmPassword.hasError('required') || confirmPassword.pristine">请确认密码</div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!fg.hasError('passwordNotEqual') || confirmPassword.invalid">两次密码不一致</div>
           </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || submitted">{{submitted ? signUpSuccess ? '恭喜您，注册成功' : '提交中' : '注册'}} <span class="glyphicon" [class.glyphicon-hand-up]="!submitted" [class.glyphicon-repeat]="submitted && !signUpSuccess" [class.ssl-anim-rotate]="submitted && !signUpSuccess" [class.glyphicon-ok-sign]="signUpSuccess"></span></button>
-              <button type="button" class="btn btn-link" [routerLink]="['/sign-in']" (click)="stopCountDown()">{{signUpSuccess ? '现在去登入（' + countDown + '）' : '已经注册了？去登入'}} <span class="glyphicon glyphicon-log-in" [class.ssl-anim-move-right]="signUpSuccess"></span></button>
+              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || submitted" tabindex="4">{{submitted ? signUpSuccess ? '恭喜您，注册成功' : '提交中' : '注册'}} <span class="glyphicon" [class.glyphicon-hand-up]="!submitted" [class.glyphicon-repeat]="submitted && !signUpSuccess" [class.ssl-anim-rotate]="submitted && !signUpSuccess" [class.glyphicon-ok-sign]="signUpSuccess"></span></button>
+              <button type="button" class="btn btn-link" [routerLink]="['/sign-in']" (click)="stopCountDown()" tabindex="5">{{signUpSuccess ? '现在去登入（' + countDown + '）' : '已经注册了？去登入'}} <span class="glyphicon glyphicon-log-in" [class.ssl-anim-move-right]="signUpSuccess"></span></button>
               <p class="bg-danger text-danger ssl-msg-err" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
             </div>
           </div>

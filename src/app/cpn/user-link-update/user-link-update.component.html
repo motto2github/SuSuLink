@@ -21,14 +21,14 @@
             <div class="form-group">
               <label for="title" class="control-label col-md-3">标题</label>
               <div class="col-md-6">
-                <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors">
+                <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors" tabindex="1">
               </div>
               <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!title.hasError('required') || title.pristine">请输入标题</div>
             </div>
             <div class="form-group">
               <label for="href" class="control-label col-md-3">链接地址</label>
               <div class="col-md-6">
-                <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors">
+                <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="2">
               </div>
               <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('required') || href.pristine">请输入链接地址</div>
               <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('pattern') || href.pristine">请以 http:// 或 https:// 开头</div>
@@ -36,13 +36,13 @@
             <div class="form-group">
               <label for="summary" class="control-label col-md-3">描述</label>
               <div class="col-md-6">
-                <textarea class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors"></textarea>
+                <textarea class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors" tabindex="3"></textarea>
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-offset-3 col-md-9">
-                <button type="submit" class="btn btn-success" [disabled]="fg.pristine || fg.invalid || fg.disabled">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
-                <button type="button" class="btn btn-default" onclick="history.back();">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+                <button type="submit" class="btn btn-success" [disabled]="fg.pristine || fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+                <button type="button" class="btn btn-default" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
                 <p class="bg-danger text-danger ssl-res-msg" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
               </div>
             </div>
