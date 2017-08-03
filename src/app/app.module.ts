@@ -17,7 +17,8 @@ import {CommonLinkListComponent} from './cpn/common-link-list/common-link-list.c
 import {UserLinkListComponent} from './cpn/user-link-list/user-link-list.component';
 import {UserLinkInsertComponent} from './cpn/user-link-insert/user-link-insert.component';
 import {UserLinkUpdateComponent} from './cpn/user-link-update/user-link-update.component';
-import { SearchLinkComponent } from './cpn/search-link/search-link.component';
+import {SearchLinkComponent} from './cpn/search-link/search-link.component';
+import {ResetPasswordComponent} from './cpn/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SearchLinkComponent } from './cpn/search-link/search-link.component';
     SignInComponent,
     UserLinkInsertComponent,
     UserLinkUpdateComponent,
-    SearchLinkComponent
+    SearchLinkComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

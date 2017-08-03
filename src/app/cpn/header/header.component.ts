@@ -1,4 +1,5 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'ssl-header',
@@ -7,21 +8,35 @@ import {Component, OnInit, DoCheck} from '@angular/core';
 })
 export class HeaderComponent implements OnInit, DoCheck {
 
-  private curUser: {[key: string]: any};
+  private curUser: {[key: string]: any} = this.getCurUser();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
   ngDoCheck(): void {
-    this.curUser = JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
+    this.curUser = this.getCurUser();
+  }
+
+  private getCurUser(): {[key: string]: any} {
+    return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
   private signOut() {
     localStorage.removeItem('__ssl_cur_user');
     sessionStorage.removeItem('__ssl_cur_user');
+  }
+
+  private onClickLogoText() {
+    if (this.router.routerState.snapshot.url.startsWith('/home')) $('#ssl-btn-common-link').click();
+    else this.router.navigate(['/']);
+  }
+
+  private onClickUserName() {
+    if (this.router.routerState.snapshot.url.startsWith('/home')) $('#ssl-btn-user-link').click();
+    else this.router.navigate(['/home/user-link/list']);
   }
 
 }

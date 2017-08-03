@@ -94,6 +94,24 @@ app.post('/api/sign-in', function (req, res) {
         return res.json(ri.set(1, '登录成功', { user: user }));
     });
 });
+app.post('/api/reset-password', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var _a = req.body, userId = _a.userId, oldPassword = _a.oldPassword, newPassword = _a.newPassword;
+    if (!userId || !oldPassword || !newPassword)
+        return res.json(ri.set(-88, '请求参数异常'));
+    User_1.User.findOne({ _id: userId, password: oldPassword }, { password: true }, function (err, user) {
+        if (err)
+            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        if (!user)
+            return res.json(ri.set(-1, '旧密码不正确'));
+        user.password = newPassword;
+        user.save(function (err) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            return res.json(ri.set(1, '修改成功'));
+        });
+    });
+});
 app.post('/api/user-link/insert', function (req, res) {
     var ri = new util_1.ResInfo();
     var _a = req.body, title = _a.title, href = _a.href, summary = _a.summary, curUserId = _a.curUserId;

@@ -86,6 +86,21 @@ app.post('/api/sign-in', (req, res) => {
   });
 });
 
+app.post('/api/reset-password', (req, res) => {
+  let ri = new ResInfo();
+  let {userId, oldPassword, newPassword} = req.body;
+  if (!userId || !oldPassword || !newPassword) return res.json(ri.set(-88, '请求参数异常'));
+  User.findOne({_id: userId, password: oldPassword}, {password: true}, (err, user) => {
+    if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+    if (!user) return res.json(ri.set(-1, '旧密码不正确'));
+    user.password = newPassword;
+    user.save((err) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, '修改成功'));
+    });
+  });
+});
+
 app.post('/api/user-link/insert', (req, res) => {
   let ri = new ResInfo();
   let {title, href, summary, curUserId} = req.body;
