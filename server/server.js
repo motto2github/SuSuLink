@@ -194,8 +194,7 @@ app.post('/api/common-link/star', function (req, res) {
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             if (!link)
                 return res.json(ri.set(-88, '请求参数异常'));
-            link.starUsers.push(userId);
-            link.save(function (err) {
+            CommonLink_1.CommonLink.update({ _id: id }, { $addToSet: { starUsers: userId } }).exec(function (err) {
                 if (err)
                     return res.json(ri.set(-99, '数据库异常，请稍后重试'));
                 return res.json(ri.set(1, '操作成功'));
