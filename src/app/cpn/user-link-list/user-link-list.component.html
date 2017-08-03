@@ -22,10 +22,10 @@
       <ng-template #hasData>
         <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
         <div class="list-group">
-          <button *ngFor="let obj of links" class="list-group-item" (dblclick)="onDblclick(obj.href)">
+          <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
               <h4 class="list-group-item-heading">
-                <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+                <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
                 <br>
                 <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
               </h4>
@@ -33,10 +33,10 @@
             </div>
             <div class="btn-group" style="position: absolute; top: 0; right: 0; height: 100%;">
               <button class="btn btn-default update" style="height: 100%; border: none; border-radius: 0;" [routerLink]="['/user-link/update', obj._id]"><i class="glyphicon glyphicon-pencil"></i></button>
-              <button class="btn btn-danger remove" style="height: 100%; border: none; border-radius: 0;" (click)="onRemove(obj)"><i class="glyphicon glyphicon-trash"></i></button>
+              <button class="btn btn-danger remove" style="height: 100%; border: none; border-radius: 0;" (click)="onRemove($event, obj)"><i class="glyphicon glyphicon-trash"></i></button>
             </div>
             <div style="clear: both;"></div>
-          </button>
+          </div>
         </div>
       </ng-template>
     </ng-template>

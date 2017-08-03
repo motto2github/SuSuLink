@@ -16,19 +16,18 @@
     <ng-template #tpl_hasData>
       <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
       <div class="list-group">
-        <button *ngFor="let obj of links" class="list-group-item" (dblclick)="onDblclick(obj.href)">
+        <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
           <h4 class="list-group-item-heading">
-            <a href="{{obj.href}}" target="_blank" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+            <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
-              <button class="btn btn-xs btn-default" [class.btn-danger]="obj.starUsers.indexOf(curUser?._id) !== -1" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-contrarotate]="obj.starUsers.indexOf(curUser?._id) === -1 && obj.__tmp_starProcessing" [class.ssl-anim-rotate]="obj.starUsers.indexOf(curUser?._id) !== -1 && obj.__tmp_starProcessing"></i>{{obj.starUsers.indexOf(curUser?._id) !== -1 ? 'Unstar' : 'Star'}}</button>
+              <button class="btn btn-xs btn-default" [class.btn-danger]="obj.starUsers.indexOf(curUser?._id) !== -1" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-contrarotate]="obj.starUsers.indexOf(curUser?._id) === -1 && obj.__tmp_starProcessing" [class.ssl-anim-rotate]="obj.starUsers.indexOf(curUser?._id) !== -1 && obj.__tmp_starProcessing"></i>{{obj.starUsers.indexOf(curUser?._id) !== -1 ? 'Unstar' : 'Star'}}</button>
               <button class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
             </div>
-            <!--<a href="javascript:;" class="badge" [class.active]="obj.starUsers.indexOf(curUser?._id) !== -1" (click)="starHandler(obj);"><i class="glyphicon glyphicon-star"></i>{{obj.starUsers.indexOf(curUser?._id) !== -1 ? 'Unstar' : 'Star'}} {{obj.starUsers.length}}</a>-->
             <br>
             <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
           </h4>
           <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
-        </button>
+        </div>
       </div>
     </ng-template>
   </ng-template>

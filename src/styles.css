@@ -4,6 +4,10 @@ button {
   outline: none !important;
 }
 
+.ssl-cursor-pointer {
+  cursor: pointer;
+}
+
 .ssl-text-red {
   color: red;
 }

@@ -15,6 +15,8 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
 
   private links: any;
 
+  private activeLink: any;
+
   constructor(private route: ActivatedRoute, private http: Http, private router: Router) {
   }
 
@@ -42,7 +44,8 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     this.curUser = this.getCurUser();
   }
 
-  private starHandler(link: {[key: string]: any}) {
+  private starHandler(event, link: {[key: string]: any}) {
+    event.stopPropagation();
     if (link.__tmp_starProcessing) return;
     if (!this.curUser) return this.router.navigate(['/sign-in']);
     link.__tmp_starProcessing = true;
@@ -92,8 +95,13 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     });
   }
 
-  private onDblclick(href) {
+  private hrefTrigger(href) {
     window.open(href);
+  }
+
+  private onLinkClick(obj) {
+    if (obj === this.activeLink) return this.hrefTrigger(obj.href);
+    this.activeLink = obj;
   }
 
 }

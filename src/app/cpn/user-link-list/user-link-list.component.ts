@@ -15,6 +15,8 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private links: any;
 
+  private activeLink: any;
+
   constructor(private route: ActivatedRoute, private http: Http) {
   }
 
@@ -69,7 +71,8 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private wantRemoveLink: any;
 
-  private onRemove(link) {
+  private onRemove(event, link) {
+    event.stopPropagation();
     this.wantRemoveLink = link;
     $('.ssl-user-link-list .modal').modal('show');
   }
@@ -84,8 +87,13 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     });
   }
 
-  private onDblclick(href) {
+  private hrefTrigger(href) {
     window.open(href);
+  }
+
+  private onLinkClick(obj) {
+    if (obj === this.activeLink) return this.hrefTrigger(obj.href);
+    this.activeLink = obj;
   }
 
 }
