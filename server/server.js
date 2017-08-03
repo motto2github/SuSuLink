@@ -189,15 +189,25 @@ app.post('/api/common-link/star', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        CommonLink_1.CommonLink.findOne({ _id: id }, { starUsers: true }).exec(function (err, link) {
+        CommonLink_1.CommonLink.findOne({ _id: id }, { title: true, href: true, summary: true }).exec(function (err, common_link) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-            if (!link)
+            if (!common_link)
                 return res.json(ri.set(-88, '请求参数异常'));
             CommonLink_1.CommonLink.update({ _id: id }, { $addToSet: { starUsers: userId } }).exec(function (err) {
                 if (err)
                     return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-                return res.json(ri.set(1, '操作成功'));
+                UserLink_1.UserLink.findOne({ _id: common_link._id }, { _id: true }).exec(function (err, user_link) {
+                    if (err)
+                        return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+                    if (user_link)
+                        return res.json(ri.set(1, '操作成功'));
+                    new UserLink_1.UserLink({ _id: common_link._id, title: common_link.title, href: common_link.href, summary: common_link.summary, owner: userId }).save(function (err) {
+                        if (err)
+                            return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+                        return res.json(ri.set(1, '操作成功'));
+                    });
+                });
             });
         });
     });
