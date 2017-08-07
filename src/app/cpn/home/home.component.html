@@ -36,6 +36,9 @@
       <button id="ssl-btn-user-link" type="button" class="btn btn-default" [class.active]="listFlag === 'user-link'" (click)="switchList('user-link')">
         <i class="glyphicon glyphicon-user"></i> 我的链接
       </button>
+      <button class="btn btn-success" [routerLink]="['/user-link/insert']" *ngIf="listFlag === 'user-link'">
+        <i class="glyphicon glyphicon-plus"></i> 添加链接
+      </button>
     </div>
     <router-outlet></router-outlet>
   </div>
