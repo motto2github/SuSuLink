@@ -1,5 +1,5 @@
 .ssl-common-link-list .list-group > .list-group-item {
-  cursor: default;
+  cursor: pointer;
 }
 
 .ssl-common-link-list .list-group > .list-group-item:hover {
@@ -39,7 +39,7 @@
 
 .ssl-common-link-list .list-group > .list-group-item > .list-group-item-heading > a.title {
   color: #333;
-  cursor: default;
+  cursor: pointer;
 }
 
 .ssl-common-link-list .list-group > .list-group-item > .list-group-item-heading > a.badge {

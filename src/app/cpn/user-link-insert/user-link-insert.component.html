@@ -25,7 +25,7 @@
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('pattern') || href.pristine">请以 http:// 或 https:// 开头</div>
           </div>
           <div class="form-group">
-            <label for="summary" class="control-label col-md-3">描述</label>
+            <label for="summary" class="control-label col-md-3">类别 & 关键字 & 描述</label>
             <div class="col-md-6">
               <textarea class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors" tabindex="3"></textarea>
             </div>

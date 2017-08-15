@@ -30,12 +30,12 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   private onClickLogoText() {
-    if (this.router.routerState.snapshot.url.startsWith('/home')) $('#ssl-btn-common-link').click();
+    if (this.router.routerState.snapshot.url.startsWith('/home')) $('.jsc-ssl-btn-common-link:visible').click();
     else this.router.navigate(['/']);
   }
 
   private onClickUserName() {
-    if (this.router.routerState.snapshot.url.startsWith('/home')) $('#ssl-btn-user-link').click();
+    if (this.router.routerState.snapshot.url.startsWith('/home')) $('.jsc-ssl-btn-user-link:visible').click();
     else this.router.navigate(['/home/user-link/list']);
   }
 

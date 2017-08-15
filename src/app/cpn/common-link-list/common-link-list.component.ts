@@ -95,13 +95,10 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     });
   }
 
-  private hrefTrigger(href) {
-    window.open(href);
-  }
-
   private onLinkClick(obj) {
-    if (obj === this.activeLink) return this.hrefTrigger(obj.href);
-    this.activeLink = obj;
+    window.open(obj.href);
+    // if (obj === this.activeLink) return window.open(obj.href);
+    // this.activeLink = obj;
   }
 
 }

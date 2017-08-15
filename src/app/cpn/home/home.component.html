@@ -29,14 +29,25 @@
     </ul>
   </div>
   <div class="container list-wrapper">
-    <div class="btn-group">
-      <button id="ssl-btn-common-link" type="button" class="btn btn-default" [class.active]="listFlag === 'common-link'" (click)="switchList('common-link')">
+    <div class="btn-group hidden-xs hidden-sm">
+      <button type="button" class="btn btn-md btn-default jsc-ssl-btn-common-link" [class.active]="listFlag === 'common-link'" (click)="switchList('common-link')">
         <i class="glyphicon glyphicon-certificate"></i> 常用链接
       </button>
-      <button id="ssl-btn-user-link" type="button" class="btn btn-default" [class.active]="listFlag === 'user-link'" (click)="switchList('user-link')">
+      <button type="button" class="btn btn-md btn-default jsc-ssl-btn-user-link" [class.active]="listFlag === 'user-link'" (click)="switchList('user-link')">
         <i class="glyphicon glyphicon-user"></i> 我的链接
       </button>
-      <button class="btn btn-success" [routerLink]="['/user-link/insert']" *ngIf="listFlag === 'user-link'">
+      <button class="btn btn-md btn-success" [routerLink]="['/user-link/insert']" *ngIf="listFlag === 'user-link'">
+        <i class="glyphicon glyphicon-plus"></i> 添加链接
+      </button>
+    </div>
+    <div class="btn-group hidden-md hidden-lg">
+      <button type="button" class="btn btn-sm btn-default jsc-ssl-btn-common-link" [class.active]="listFlag === 'common-link'" (click)="switchList('common-link')">
+        <i class="glyphicon glyphicon-certificate"></i> 常用链接
+      </button>
+      <button type="button" class="btn btn-sm btn-default jsc-ssl-btn-user-link" [class.active]="listFlag === 'user-link'" (click)="switchList('user-link')">
+        <i class="glyphicon glyphicon-user"></i> 我的链接
+      </button>
+      <button class="btn btn-sm btn-success" [routerLink]="['/user-link/insert']" *ngIf="listFlag === 'user-link'">
         <i class="glyphicon glyphicon-plus"></i> 添加链接
       </button>
     </div>
