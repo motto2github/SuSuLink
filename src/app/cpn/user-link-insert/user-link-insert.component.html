@@ -32,8 +32,10 @@
           </div>
           <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-              <button type="submit" class="btn btn-success" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
-              <button type="button" class="btn btn-default" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+              <button type="submit" class="btn btn-success hidden-xs hidden-sm" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+              <button type="submit" class="btn btn-sm btn-success hidden-md hidden-lg" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+              <button type="button" class="btn btn-default hidden-xs hidden-sn" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+              <button type="button" class="btn btn-sm btn-default hidden-md hidden-lg" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
               <p class="bg-danger text-danger ssl-res-msg" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
               <p class="bg-success text-success ssl-res-msg" [hidden]="!succMsg"><span class="glyphicon glyphicon-ok-sign" style="margin-right: 5px;"></span>{{succMsg}}</p>
             </div>
