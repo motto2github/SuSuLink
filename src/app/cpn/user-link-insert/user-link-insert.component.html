@@ -15,7 +15,7 @@
               <div class="input-group">
                 <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="1">
                 <span class="input-group-btn">
-                  <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success" type="button"><span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span> 读取信息</button>
+                  <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success" type="button"><span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span> 读取默认信息</button>
                 </span>
               </div>
             </div>

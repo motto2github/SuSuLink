@@ -27,7 +27,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngAfterViewInit(): void {
     $("#back-to-top").click();
-    $('#title').focus();
+    $('#href').focus();
   }
 
   ngDoCheck(): void {
@@ -85,7 +85,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
         this.href.enable();
         if (ri.code !== 1) return this.errMsg = ri.msg;
         this.title.setValue(ri.data.title);
-        this.summary.setValue(ri.data.keywords + '\n' + ri.data.description);
+        this.summary.setValue(ri.data.keywords + (ri.data.keywords && ri.data.description ? '\n' : '') + ri.data.description);
       }, 150);
     });
   }
