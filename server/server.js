@@ -241,6 +241,7 @@ app.post('/api/link/parse', function (req, res) {
         return res.json(ri.set(1, '操作成功', info));
     });
 });
+// 阿里云主机内网IP：172.26.74.127
 app.listen(4201, 'localhost', function () {
     console.log('susulink server start at localhost:4201');
 });
