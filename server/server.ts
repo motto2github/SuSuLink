@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
 import {CommonLink} from "./model/CommonLink";
-import {ResInfo} from "./util";
+import {ResInfo, HTMLParser} from "./util";
 import {User} from "./model/User";
 import {UserLink} from "./model/UserLink";
 
@@ -194,6 +194,16 @@ app.post('/api/common-link/unstar', (req, res) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '操作成功'));
     });
+  });
+});
+
+app.post('/api/link/parse', (req, res) => {
+  let ri = new ResInfo();
+  let {link} = req.body;
+  if (!link) return res.json(ri.set(-88, '请求参数异常'));
+  HTMLParser.getInfo(link, info => {
+    if (!info) return res.json(ri.set(-1, '抱歉，暂未能读取到信息，劳烦您手动添加哈～'));
+    return res.json(ri.set(1, '操作成功', info));
   });
 });
 

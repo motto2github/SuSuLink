@@ -77,4 +77,17 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
+  private readHrefInfo() {
+    if (this.href.invalid) return;
+    this.href.disable();
+    this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
+      setTimeout(() => {
+        this.href.enable();
+        if (ri.code !== 1) return this.errMsg = ri.msg;
+        this.title.setValue(ri.data.title);
+        this.summary.setValue(ri.data.keywords + '\n' + ri.data.description);
+      }, 150);
+    });
+  }
+
 }

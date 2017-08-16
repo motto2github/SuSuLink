@@ -230,6 +230,17 @@ app.post('/api/common-link/unstar', function (req, res) {
         });
     });
 });
+app.post('/api/link/parse', function (req, res) {
+    var ri = new util_1.ResInfo();
+    var link = req.body.link;
+    if (!link)
+        return res.json(ri.set(-88, '请求参数异常'));
+    util_1.HTMLParser.getInfo(link, function (info) {
+        if (!info)
+            return res.json(ri.set(-1, '抱歉，暂未能读取到信息，劳烦您手动添加哈～'));
+        return res.json(ri.set(1, '操作成功', info));
+    });
+});
 app.listen(4201, 'localhost', function () {
     console.log('susulink server start at localhost:4201');
 });
