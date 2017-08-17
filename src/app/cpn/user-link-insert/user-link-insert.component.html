@@ -13,9 +13,9 @@
             <label for="href" class="control-label col-md-3">链接地址</label>
             <div class="col-md-6">
               <div class="input-group">
-                <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="1">
+                <input tabindex="1" type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors">
                 <span class="input-group-btn">
-                  <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success ___js_readHrefInfo" type="button" title="自动爬取该网站默认的标题、类别 & 关键字 & 描述、图标" data-toggle="tooltip" data-placement="top" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+                  <button tabindex="2" (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success ___js_readHrefInfo" type="button" title="自动爬取该网站默认的标题、类别 & 关键字 & 描述、图标" data-toggle="tooltip" data-placement="top" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
                     <span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span>
                     读取默认信息
                   </button>
@@ -28,14 +28,14 @@
           <div class="form-group">
             <label for="title" class="control-label col-md-3">标题</label>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors" tabindex="2">
+              <input tabindex="3" type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors">
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!title.hasError('required') || title.pristine">请输入标题</div>
           </div>
           <div class="form-group">
             <label for="summary" class="control-label col-md-3">类别 & 关键字 & 描述</label>
             <div class="col-md-6">
-              <textarea class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors" tabindex="3"></textarea>
+              <textarea tabindex="4" class="form-control" rows="3" id="summary" formControlName="summary" [class.ssl-valid]="!summary.errors" [class.ssl-invalid]="summary.errors"></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -45,17 +45,17 @@
                 <span class="input-group-addon" [class.ssl-valid]="!iconUrl.errors" [class.ssl-invalid]="iconUrl.errors" style="padding: 0;">
                   <img [src]="iconUrl.value || 'holder.js/32x32?text=预览'" style="width: 32px; height: 32px;">
                 </span>
-                <input type="text" class="form-control" rows="3" id="iconUrl" formControlName="iconUrl" tabindex="3">
+                <input tabindex="5" type="text" class="form-control" rows="3" id="iconUrl" formControlName="iconUrl">
               </div>
             </div>
             <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!iconUrl.hasError('pattern') || iconUrl.pristine">请以 http:// 或 https:// 开头</div>
           </div>
           <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-              <button type="button" class="btn btn-default hidden-xs hidden-sn" onclick="history.back();" tabindex="6">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
-              <button type="button" class="btn btn-sm btn-default hidden-md hidden-lg" onclick="history.back();" tabindex="6">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
-              <button type="submit" class="btn btn-success hidden-xs hidden-sm" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
-              <button type="submit" class="btn btn-sm btn-success hidden-md hidden-lg" [disabled]="fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+              <button tabindex="7" type="button" class="btn btn-default hidden-xs hidden-sn" onclick="history.back();">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+              <button tabindex="7" type="button" class="btn btn-sm btn-default hidden-md hidden-lg" onclick="history.back();">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+              <button tabindex="6" type="submit" class="btn btn-success hidden-xs hidden-sm" [disabled]="fg.invalid || fg.disabled">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+              <button tabindex="6" type="submit" class="btn btn-sm btn-success hidden-md hidden-lg" [disabled]="fg.invalid || fg.disabled">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
               <p class="bg-danger text-danger ssl-res-msg" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
               <p class="bg-success text-success ssl-res-msg" [hidden]="!succMsg"><span class="glyphicon glyphicon-ok-sign" style="margin-right: 5px;"></span>{{succMsg}}</p>
             </div>
