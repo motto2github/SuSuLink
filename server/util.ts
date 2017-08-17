@@ -41,7 +41,7 @@ export class HTMLParser {
     let info = hot_url_info_kvs[url] || tmp_cache_url_info_kvs[url];
     if (info) return cb(info);
 
-    console.log('parse url:', url);
+    // console.log('parse url:', url);
 
     let protocol = new RegExp('^([^:]+)://', 'i').exec(url)[1];
     // console.log('protocol:', protocol);
@@ -66,13 +66,24 @@ export class HTMLParser {
             curAttributes = attributes;
             if (curTagName === 'link') {
               // console.log(curTagName, ':', curAttributes);
-              if (!iconUrl && iconUrlRelRegExp.test(curAttributes.rel)) {
-                iconUrl = curAttributes.href;
-                if (iconUrl.indexOf('//') === 0) {
-                  iconUrl = protocol + ':' + iconUrl;
-                } else if (iconUrl.indexOf('/') === 0) {
-                  iconUrl = host + iconUrl;
+              if (iconUrlRelRegExp.test(curAttributes.rel)) {
+                let href = curAttributes.href;
+                if (href.startsWith('data:image/')) return;
+                if (!iconUrl) {
+                  iconUrl = href;
+                } else {
+                  if (href.endsWith('.ico')) {
+                    iconUrl = href;
+                  } else return;
                 }
+                if (iconUrl.startsWith('//')) {
+                  iconUrl = protocol + ':' + iconUrl;
+                } else if (iconUrl.startsWith('/')) {
+                  iconUrl = host + iconUrl;
+                } else {
+                  iconUrl = host + '/' + iconUrl;
+                }
+                console.log('iconUrl:', iconUrl);
               }
             } else if (curTagName === 'meta') {
               let name = curAttributes.name;

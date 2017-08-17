@@ -44,7 +44,7 @@ var HTMLParser = (function () {
         var info = hot_url_info_kvs[url] || tmp_cache_url_info_kvs[url];
         if (info)
             return cb(info);
-        console.log('parse url:', url);
+        // console.log('parse url:', url);
         var protocol = new RegExp('^([^:]+)://', 'i').exec(url)[1];
         // console.log('protocol:', protocol);
         var host = new RegExp('^([^:]+://[^/]+)', 'i').exec(url)[1];
@@ -67,14 +67,30 @@ var HTMLParser = (function () {
                         curAttributes = attributes;
                         if (curTagName === 'link') {
                             // console.log(curTagName, ':', curAttributes);
-                            if (!iconUrl && iconUrlRelRegExp.test(curAttributes.rel)) {
-                                iconUrl = curAttributes.href;
-                                if (iconUrl.indexOf('//') === 0) {
+                            if (iconUrlRelRegExp.test(curAttributes.rel)) {
+                                var href = curAttributes.href;
+                                if (href.startsWith('data:image/'))
+                                    return;
+                                if (!iconUrl) {
+                                    iconUrl = href;
+                                }
+                                else {
+                                    if (href.endsWith('.ico')) {
+                                        iconUrl = href;
+                                    }
+                                    else
+                                        return;
+                                }
+                                if (iconUrl.startsWith('//')) {
                                     iconUrl = protocol + ':' + iconUrl;
                                 }
-                                else if (iconUrl.indexOf('/') === 0) {
+                                else if (iconUrl.startsWith('/')) {
                                     iconUrl = host + iconUrl;
                                 }
+                                else {
+                                    iconUrl = host + '/' + iconUrl;
+                                }
+                                console.log('iconUrl:', iconUrl);
                             }
                         }
                         else if (curTagName === 'meta') {
