@@ -60,14 +60,14 @@ var HTMLParser = (function () {
             res.on('end', function () {
                 // console.log('html:', html);
                 var curTagName = '', curAttributes = {}, title = '', iconUrl = '', keywords = '', description = '';
-                var iconUrlRegExp = new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i');
+                var iconUrlRelRegExp = new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i');
                 var parser = new htmlparser.Parser({
                     onopentag: function (name, attributes) {
                         curTagName = name;
                         curAttributes = attributes;
                         if (curTagName === 'link') {
                             // console.log(curTagName, ':', curAttributes);
-                            if (iconUrlRegExp.test(curAttributes.rel)) {
+                            if (!iconUrl && iconUrlRelRegExp.test(curAttributes.rel)) {
                                 iconUrl = curAttributes.href;
                                 if (iconUrl.indexOf('//') === 0) {
                                     iconUrl = protocol + ':' + iconUrl;
@@ -81,19 +81,19 @@ var HTMLParser = (function () {
                             var name_1 = curAttributes.name;
                             if (name_1)
                                 name_1 = name_1.toLowerCase();
-                            if (name_1 === 'title') {
+                            if (!title && name_1 === 'title') {
                                 title = curAttributes.content;
                             }
-                            else if (name_1 === 'keywords') {
+                            else if (!keywords && name_1 === 'keywords') {
                                 keywords = curAttributes.content;
                             }
-                            else if (name_1 === 'description') {
+                            else if (!description && name_1 === 'description') {
                                 description = curAttributes.content;
                             }
                         }
                     },
                     ontext: function (text) {
-                        if (curTagName === 'title' && title === '') {
+                        if (!title && curTagName === 'title') {
                             title = text;
                         }
                     },

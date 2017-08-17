@@ -59,14 +59,14 @@ export class HTMLParser {
       res.on('end', () => {
         // console.log('html:', html);
         let curTagName = '', curAttributes: any = {}, title = '', iconUrl = '', keywords = '', description = '';
-        let iconUrlRegExp = new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i');
+        let iconUrlRelRegExp = new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i');
         let parser = new htmlparser.Parser({
           onopentag: (name, attributes) => {
             curTagName = name;
             curAttributes = attributes;
             if (curTagName === 'link') {
               // console.log(curTagName, ':', curAttributes);
-              if (iconUrlRegExp.test(curAttributes.rel)) {
+              if (!iconUrl && iconUrlRelRegExp.test(curAttributes.rel)) {
                 iconUrl = curAttributes.href;
                 if (iconUrl.indexOf('//') === 0) {
                   iconUrl = protocol + ':' + iconUrl;
@@ -77,17 +77,17 @@ export class HTMLParser {
             } else if (curTagName === 'meta') {
               let name = curAttributes.name;
               if (name) name = name.toLowerCase();
-              if (name === 'title') {
+              if (!title && name === 'title') {
                 title = curAttributes.content;
-              } else if (name === 'keywords') {
+              } else if (!keywords && name === 'keywords') {
                 keywords = curAttributes.content;
-              } else if (name === 'description') {
+              } else if (!description && name === 'description') {
                 description = curAttributes.content;
               }
             }
           },
           ontext: (text) => {
-            if (curTagName === 'title' && title === '') {
+            if (!title && curTagName === 'title') {
               title = text;
             }
           },
