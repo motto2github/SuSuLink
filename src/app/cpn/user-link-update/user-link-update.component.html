@@ -19,19 +19,27 @@
         <ng-template #tpl_loaded>
           <form class="form-horizontal" [formGroup]="fg" (ngSubmit)="onSubmit()" novalidate>
             <div class="form-group">
-              <label for="title" class="control-label col-md-3">标题</label>
-              <div class="col-md-6">
-                <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors" tabindex="1">
-              </div>
-              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!title.hasError('required') || title.pristine">请输入标题</div>
-            </div>
-            <div class="form-group">
               <label for="href" class="control-label col-md-3">链接地址</label>
               <div class="col-md-6">
-                <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="2">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="1">
+                  <span class="input-group-btn">
+                    <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success ___js_readHrefInfo" type="button" title="自动爬取该网站默认的标题、类别 & 关键字 & 描述、图标" data-toggle="tooltip" data-placement="top" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+                      <span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span>
+                      读取默认信息
+                    </button>
+                  </span>
+                </div>
               </div>
               <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('required') || href.pristine">请输入链接地址</div>
               <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!href.hasError('pattern') || href.pristine">请以 http:// 或 https:// 开头</div>
+            </div>
+            <div class="form-group">
+              <label for="title" class="control-label col-md-3">标题</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="title" formControlName="title" [class.ssl-valid]="!title.errors" [class.ssl-invalid]="title.errors" tabindex="2">
+              </div>
+              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!title.hasError('required') || title.pristine">请输入标题</div>
             </div>
             <div class="form-group">
               <label for="summary" class="control-label col-md-3">类别 & 关键字 & 描述</label>
@@ -40,15 +48,37 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="iconUrl" class="control-label col-md-3">图标地址</label>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon" [class.ssl-valid]="!iconUrl.errors" [class.ssl-invalid]="iconUrl.errors" style="padding: 0;">
+                    <img id="iconUrlPreview" [src]="iconUrl.value || 'holder.js/32x32?text=预览'" style="width: 32px; height: 32px;">
+                  </span>
+                  <input type="text" class="form-control" rows="3" id="iconUrl" formControlName="iconUrl" tabindex="3">
+                </div>
+              </div>
+              <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!iconUrl.hasError('pattern') || iconUrl.pristine">请以 http:// 或 https:// 开头</div>
+            </div>
+            <div class="form-group">
               <div class="col-md-offset-3 col-md-9">
-                <button type="submit" class="btn btn-success hidden-xs hidden-sm" [disabled]="fg.pristine || fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
-                <button type="submit" class="btn btn-success btn-sm hidden-md hidden-lg" [disabled]="fg.pristine || fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
                 <button type="button" class="btn btn-default hidden-xs hidden-sm" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
                 <button type="button" class="btn btn-default btn-sm hidden-md hidden-lg" onclick="history.back();" tabindex="5">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
+                <button type="submit" class="btn btn-success hidden-xs hidden-sm" [disabled]="(!readHrefInfoIsClicked && fg.pristine) || fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
+                <button type="submit" class="btn btn-success btn-sm hidden-md hidden-lg" [disabled]="(!readHrefInfoIsClicked && fg.pristine) || fg.invalid || fg.disabled" tabindex="4">{{fg.disabled ? '提交中' : '提交'}} <span class="glyphicon" [class.glyphicon-ok]="fg.enabled" [class.glyphicon-repeat]="fg.disabled" [class.ssl-anim-rotate]="fg.disabled"></span></button>
                 <p class="bg-danger text-danger ssl-res-msg" [hidden]="!errMsg"><span class="glyphicon glyphicon-remove-sign" style="margin-right: 5px;"></span>{{errMsg}}</p>
               </div>
             </div>
           </form>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="well">
+                <p><span class="bg-info text-info">读取默认信息说明：</span></p>
+                <p><span class="bg-info text-info">1. 读取的默认信息会覆盖之前的信息。</span></p>
+                <p><span class="bg-info text-info">2. 由于各网站规范不一，所以不一定所有网站都能读取到规范的默认信息。</span></p>
+                <p><span class="bg-info text-info">3. 若读取不到，或不是您想要的，烦请自行修改，我们对此深感抱歉。</span></p>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </div>
     </div>

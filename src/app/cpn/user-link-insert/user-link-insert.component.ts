@@ -32,7 +32,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     $('#href').focus();
     let $iconUrlPreview = $('#iconUrlPreview');
     $iconUrlPreview.data('___originalSrc', $iconUrlPreview.attr('src'));
-    $('[data-toggle="tooltip"]').tooltip();
+    $('.___js_readHrefInfo').tooltip();
   }
 
   ngDoCheck(): void {
@@ -70,7 +70,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
           let $iconUrlPreview = $('#iconUrlPreview');
           $iconUrlPreview.attr('src', $iconUrlPreview.data('___originalSrc'));
         }
-      }, 300);
+      }, 150);
     });
   }
 
@@ -104,7 +104,6 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
         this.title.setValue(ri.data.title);
         this.summary.setValue(ri.data.keywords + (ri.data.keywords && ri.data.description ? '\n' : '') + ri.data.description);
         this.iconUrl.setValue(ri.data.iconUrl);
-        $('.___js_readHrefInfoRemarkCollapse').collapse();
       }, 150);
     });
   }

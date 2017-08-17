@@ -76,13 +76,16 @@ var HTMLParser = (function () {
                             }
                         }
                         else if (curTagName === 'meta') {
-                            if (curAttributes.name === 'title') {
+                            var name_1 = curAttributes.name;
+                            if (name_1)
+                                name_1 = name_1.toLowerCase();
+                            if (name_1 === 'title') {
                                 title = curAttributes.content;
                             }
-                            else if (curAttributes.name === 'keywords') {
+                            else if (name_1 === 'keywords') {
                                 keywords = curAttributes.content;
                             }
-                            else if (curAttributes.name === 'description') {
+                            else if (name_1 === 'description') {
                                 description = curAttributes.content;
                             }
                         }

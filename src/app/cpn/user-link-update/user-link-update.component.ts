@@ -1,7 +1,8 @@
-import {Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
+import {Component, OnInit, DoCheck, AfterViewInit, AfterViewChecked, AfterContentInit, AfterContentChecked} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router, ActivatedRoute} from "@angular/router";
+import * as Holder from 'holderjs';
 
 @Component({
   selector: 'ssl-user-link-update',
@@ -34,9 +35,21 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
           title: [ri.data.link.title, [Validators.required]],
           href: [ri.data.link.href, [Validators.required, Validators.pattern(new RegExp('^https?://', 'i'))]],
           summary: [ri.data.link.summary],
+          iconUrl: [ri.data.link.iconUrl, [Validators.pattern(new RegExp('^https?://', 'i'))]],
           owner: [ri.data.link.owner]
         });
-      }, 300);
+        this.iconUrl.valueChanges.subscribe(value => {
+          if (value === '') {
+            setTimeout(() => {
+              Holder.run();
+            }, 1);
+          }
+        });
+        setTimeout(() => {
+          $('.___js_readHrefInfo').tooltip();
+          Holder.run();
+        }, 1);
+      }, 150);
     });
   }
 
@@ -58,7 +71,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
           this.errMsg = ri.msg;
           this.fg.enable();
         } else history.back(); // this.router.navigate(['/home/user-link/list']);
-      }, 300);
+      }, 150);
     });
   }
 
@@ -74,8 +87,28 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
     return this.fg.get('summary');
   }
 
+  private get iconUrl(): AbstractControl | null {
+    return this.fg.get('iconUrl');
+  }
+
   private getCurUser(): {[key: string]: any} {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
+  }
+
+  private readHrefInfoIsClicked = false;
+
+  private readHrefInfo() {
+    this.readHrefInfoIsClicked = true;
+    this.href.disable();
+    this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
+      setTimeout(() => {
+        this.href.enable();
+        if (ri.code !== 1) return this.errMsg = ri.msg;
+        this.title.setValue(ri.data.title);
+        this.summary.setValue(ri.data.keywords + (ri.data.keywords && ri.data.description ? '\n' : '') + ri.data.description);
+        this.iconUrl.setValue(ri.data.iconUrl);
+      }, 150);
+    });
   }
 
 }

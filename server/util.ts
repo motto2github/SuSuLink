@@ -71,11 +71,13 @@ export class HTMLParser {
                 }
               }
             } else if (curTagName === 'meta') {
-              if (curAttributes.name === 'title') {
+              let name = curAttributes.name;
+              if (name) name = name.toLowerCase();
+              if (name === 'title') {
                 title = curAttributes.content;
-              } else if (curAttributes.name === 'keywords') {
+              } else if (name === 'keywords') {
                 keywords = curAttributes.content;
-              } else if (curAttributes.name === 'description') {
+              } else if (name === 'description') {
                 description = curAttributes.content;
               }
             }
