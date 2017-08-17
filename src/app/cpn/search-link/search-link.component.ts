@@ -50,4 +50,9 @@ export class SearchLinkComponent implements OnInit, AfterViewInit {
     localStorage.removeItem('__ssl_search_histories');
   }
 
+  private onBack() {
+    if (this.keywords.value.trim() === '') this.onSubmit();
+    else history.back();
+  }
+
 }

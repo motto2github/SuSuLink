@@ -29,6 +29,8 @@ let hot_url_info_kvs = {
   , 'https://www.jd.com/': {title: '京东(JD.COM)-正品低价、品质保障、配送及时、轻松购物！', iconUrl: 'https://www.jd.com/favicon.ico', keywords: '网上购物,网上商城,手机,笔记本,电脑,MP3,CD,VCD,DV,相机,数码,配件,手表,存储卡,京东', description: '京东JD.COM-专业的综合网上购物商城,销售家电、数码通讯、电脑、家居百货、服装服饰、母婴、图书、食品等数万个品牌优质商品.便捷、诚信的服务，为您提供愉悦的网上购物体验!'}
 };
 
+let tmp_cache_url_info_kvs = {len: 0};
+
 export class HTMLParser {
 
   static getInfo(url: string, cb: Function) {
@@ -36,8 +38,10 @@ export class HTMLParser {
 
     // console.log('url:', url);
 
-    let info = hot_url_info_kvs[url];
+    let info = hot_url_info_kvs[url] || tmp_cache_url_info_kvs[url];
     if (info) return cb(info);
+
+    console.log('parse url:', url);
 
     let protocol = new RegExp('^([^:]+)://', 'i').exec(url)[1];
     // console.log('protocol:', protocol);
@@ -88,7 +92,11 @@ export class HTMLParser {
             }
           },
           onend: () => {
-            cb({title, iconUrl, keywords, description});
+            if (iconUrl === '') iconUrl = host + '/favicon.ico';
+            tmp_cache_url_info_kvs[url] = {title, iconUrl, keywords, description};
+            tmp_cache_url_info_kvs.len++;
+            // console.log('tmp_cache_url_info_kvs:', tmp_cache_url_info_kvs);
+            cb(tmp_cache_url_info_kvs[url]);
           }
         });
         parser.write(html);
