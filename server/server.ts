@@ -54,7 +54,7 @@ app.post('/api/user-link/list', (req, res) => {
       let regexp = new RegExp(keywords, 'i');
       condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
     } else condition = {owner: curUserId};
-    UserLink.find(condition, {title: true, href: true, summary: true, owner: true}).exec((err, links) => {
+    UserLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, owner: true}).exec((err, links) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
       res.json(ri.set(1, 'success', {links}));
     });
@@ -103,7 +103,7 @@ app.post('/api/reset-password', (req, res) => {
 
 app.post('/api/user-link/insert', (req, res) => {
   let ri = new ResInfo();
-  let {title, href, summary, curUserId} = req.body;
+  let {title, href, summary, iconUrl, curUserId} = req.body;
   if (!title || !href || !curUserId) return res.json(ri.set(-88, '请求参数异常'));
   User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
@@ -111,7 +111,7 @@ app.post('/api/user-link/insert', (req, res) => {
     UserLink.findOne({owner: curUserId, title}, {_id: true}).exec((err, link) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (link) return res.json(ri.set(-1, '该标题已存在'));
-      new UserLink({title, href, summary, owner: curUserId}).save(err => {
+      new UserLink({title, href, summary, iconUrl, owner: curUserId}).save(err => {
         if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, '添加成功'));
       });
@@ -131,7 +131,7 @@ app.post('/api/user-link/remove', (req, res) => {
 
 app.post('/api/user-link/update', (req, res) => {
   let ri = new ResInfo();
-  let {_id, title, href, summary, owner} = req.body;
+  let {_id, title, href, summary, iconUrl, owner} = req.body;
   if (!_id || !owner || !title || !href) return res.json(ri.set(-88, '请求参数异常'));
   UserLink.findOne({_id, owner}, (err, link) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
@@ -139,6 +139,7 @@ app.post('/api/user-link/update', (req, res) => {
     link.title = title;
     link.href = href;
     link.summary = summary;
+    link.iconUrl = iconUrl;
     link.save(err => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '修改成功'));
@@ -150,7 +151,7 @@ app.post('/api/user-link/findone', (req, res) => {
   let ri = new ResInfo();
   let {id, userId} = req.body;
   if (!id || !userId) return res.json(ri.set(-88, '请求参数异常'));
-  UserLink.findOne({_id: id, owner: userId}, {title: true, href: true, summary: true, owner: true}).exec((err, link) => {
+  UserLink.findOne({_id: id, owner: userId}, {title: true, href: true, summary: true, iconUrl: true, owner: true}).exec((err, link) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!link) return res.json(ri.set(-88, '请求参数异常'));
     return res.json(ri.set(1, '查找成功', {link: link}));
@@ -202,7 +203,7 @@ app.post('/api/link/parse', (req, res) => {
   let {link} = req.body;
   if (!link) return res.json(ri.set(-88, '请求参数异常'));
   HTMLParser.getInfo(link, info => {
-    if (!info) return res.json(ri.set(-1, '抱歉，暂未能读取到信息，劳烦您手动添加哈～'));
+    if (!info) return res.json(ri.set(-1, '抱歉，暂未能读取到默认信息，劳烦您手动添加哈～'));
     return res.json(ri.set(1, '操作成功', info));
   });
 });

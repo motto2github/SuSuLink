@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck} from '@angular/core';
+import {Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
 
@@ -39,7 +39,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
         setTimeout(() => {
           this.links = links;
           this.sortLinks();
-        }, 300);
+        }, 150);
       });
     });
   }

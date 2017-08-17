@@ -24,6 +24,7 @@
           <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
               <h4 class="list-group-item-heading">
+                <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
                 <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
                 <br>
                 <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>

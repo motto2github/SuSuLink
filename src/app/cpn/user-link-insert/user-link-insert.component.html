@@ -15,7 +15,10 @@
               <div class="input-group">
                 <input type="text" class="form-control" id="href" formControlName="href" [class.ssl-valid]="!href.errors" [class.ssl-invalid]="href.errors" tabindex="1">
                 <span class="input-group-btn">
-                  <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success" type="button"><span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span> 读取默认信息</button>
+                  <button (click)="readHrefInfo()" [disabled]="href.invalid || href.disabled" class="btn btn-success" type="button" title="自动爬取该网站默认的标题、类别 & 关键字 & 描述、图标" data-toggle="tooltip" data-placement="top" style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+                    <span class="glyphicon" [class.glyphicon-import]="href.enabled" [class.glyphicon-repeat]="href.disabled" [class.ssl-anim-rotate]="href.disabled"></span>
+                    读取默认信息
+                  </button>
                 </span>
               </div>
             </div>
@@ -36,6 +39,18 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="iconUrl" class="control-label col-md-3">图标地址</label>
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon" [class.ssl-valid]="!iconUrl.errors" [class.ssl-invalid]="iconUrl.errors" style="padding: 0;">
+                  <img id="iconUrlPreview" src="holder.js/32x32?text=预览">
+                </span>
+                <input type="text" class="form-control" rows="3" id="iconUrl" formControlName="iconUrl" tabindex="3">
+              </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 text-danger" [hidden]="!iconUrl.hasError('pattern') || iconUrl.pristine">请以 http:// 或 https:// 开头</div>
+          </div>
+          <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
               <button type="button" class="btn btn-default hidden-xs hidden-sn" onclick="history.back();" tabindex="6">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
               <button type="button" class="btn btn-sm btn-default hidden-md hidden-lg" onclick="history.back();" tabindex="6">返回 <span class="glyphicon glyphicon-share-alt ssl-back-icon"></span></button>
@@ -46,6 +61,15 @@
             </div>
           </div>
         </form>
+        <div class="row">
+          <div class="collapse col-md-6 col-md-offset-3 ___js_readHrefInfoRemarkCollapse">
+            <div class="well">
+              <p><span class="bg-info text-info">温馨提示 - 读取默认信息：</span></p>
+              <p><span class="bg-info text-info">1. 由于各网站规范不一，所以不一定所有网站都能读取到规范的默认信息。</span></p>
+              <p><span class="bg-info text-info">2. 若读取不到，或不是您想要的，烦请自行修改。</span></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

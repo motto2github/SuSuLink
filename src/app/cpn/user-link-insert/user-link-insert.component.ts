@@ -2,6 +2,7 @@ import {Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
+import * as Holder from 'holderjs';
 
 @Component({
   selector: 'ssl-user-link-insert',
@@ -23,11 +24,15 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngOnInit() {
     this.initFormGroup();
+    Holder.run();
   }
 
   ngAfterViewInit(): void {
     $("#back-to-top").click();
     $('#href').focus();
+    let $iconUrlPreview = $('#iconUrlPreview');
+    $iconUrlPreview.data('___originalSrc', $iconUrlPreview.attr('src'));
+    $('[data-toggle="tooltip"]').tooltip();
   }
 
   ngDoCheck(): void {
@@ -39,7 +44,13 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     this.fg = this.fb.group({
       title: ['', [Validators.required]],
       href: ['', [Validators.required, Validators.pattern(new RegExp('^https?://', 'i'))]],
-      summary: ['']
+      summary: [''],
+      iconUrl: ['', [Validators.pattern(new RegExp('^https?://', 'i'))]]
+    });
+    this.iconUrl.valueChanges.subscribe(value => {
+      let $iconUrlPreview = $('#iconUrlPreview');
+      if (value === '') value = $iconUrlPreview.data('___originalSrc');
+      $iconUrlPreview.attr('src', value);
     });
   }
 
@@ -56,6 +67,8 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
           this.succMsg = ri.msg;
           this.fg.reset();
           this.fg.enable();
+          let $iconUrlPreview = $('#iconUrlPreview');
+          $iconUrlPreview.attr('src', $iconUrlPreview.data('___originalSrc'));
         }
       }, 300);
     });
@@ -73,6 +86,10 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     return this.fg.get('summary');
   }
 
+  private get iconUrl(): AbstractControl | null {
+    return this.fg.get('iconUrl');
+  }
+
   private getCurUser(): {[key: string]: any} {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
@@ -86,6 +103,8 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
         if (ri.code !== 1) return this.errMsg = ri.msg;
         this.title.setValue(ri.data.title);
         this.summary.setValue(ri.data.keywords + (ri.data.keywords && ri.data.description ? '\n' : '') + ri.data.description);
+        this.iconUrl.setValue(ri.data.iconUrl);
+        $('.___js_readHrefInfoRemarkCollapse').collapse();
       }, 150);
     });
   }
