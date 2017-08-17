@@ -43,7 +43,7 @@
             <div class="col-md-6">
               <div class="input-group">
                 <span class="input-group-addon" [class.ssl-valid]="!iconUrl.errors" [class.ssl-invalid]="iconUrl.errors" style="padding: 0;">
-                  <img id="iconUrlPreview" src="holder.js/32x32?text=预览">
+                  <img [src]="iconUrl.value || 'holder.js/32x32?text=预览'" style="width: 32px; height: 32px;">
                 </span>
                 <input type="text" class="form-control" rows="3" id="iconUrl" formControlName="iconUrl" tabindex="3">
               </div>

@@ -24,14 +24,12 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngOnInit() {
     this.initFormGroup();
-    Holder.run();
   }
 
   ngAfterViewInit(): void {
     $("#back-to-top").click();
     $('#href').focus();
-    let $iconUrlPreview = $('#iconUrlPreview');
-    $iconUrlPreview.data('___originalSrc', $iconUrlPreview.attr('src'));
+    Holder.run();
     $('.___js_readHrefInfo').tooltip();
   }
 
@@ -48,9 +46,11 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
       iconUrl: ['', [Validators.pattern(new RegExp('^https?://', 'i'))]]
     });
     this.iconUrl.valueChanges.subscribe(value => {
-      let $iconUrlPreview = $('#iconUrlPreview');
-      if (value === '') value = $iconUrlPreview.data('___originalSrc');
-      $iconUrlPreview.attr('src', value);
+      if (value === '') {
+        setTimeout(() => {
+          Holder.run();
+        }, 1);
+      }
     });
   }
 
@@ -67,8 +67,9 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
           this.succMsg = ri.msg;
           this.fg.reset();
           this.fg.enable();
-          let $iconUrlPreview = $('#iconUrlPreview');
-          $iconUrlPreview.attr('src', $iconUrlPreview.data('___originalSrc'));
+          setTimeout(() => {
+            Holder.run();
+          }, 1);
         }
       }, 150);
     });
