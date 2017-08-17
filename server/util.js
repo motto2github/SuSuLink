@@ -68,29 +68,32 @@ var HTMLParser = (function () {
                         if (curTagName === 'link') {
                             // console.log(curTagName, ':', curAttributes);
                             if (iconUrlRelRegExp.test(curAttributes.rel)) {
+                                // console.log('curAttributes:', curAttributes);
                                 var href = curAttributes.href;
-                                if (href.startsWith('data:image/'))
+                                if (new RegExp('^data:image/', 'i').test(href))
                                     return;
                                 if (!iconUrl) {
                                     iconUrl = href;
                                 }
                                 else {
-                                    if (href.endsWith('.ico')) {
+                                    if (new RegExp('.ico$|.ico\\?[^\\?]*$', 'i').test(href)) {
                                         iconUrl = href;
                                     }
                                     else
                                         return;
                                 }
-                                if (iconUrl.startsWith('//')) {
+                                if (new RegExp('^http', 'i').test(iconUrl))
+                                    return;
+                                else if (new RegExp('^//', 'i').test(iconUrl)) {
                                     iconUrl = protocol + ':' + iconUrl;
                                 }
-                                else if (iconUrl.startsWith('/')) {
+                                else if (new RegExp('^/', 'i').test(iconUrl)) {
                                     iconUrl = host + iconUrl;
                                 }
                                 else {
                                     iconUrl = host + '/' + iconUrl;
                                 }
-                                console.log('iconUrl:', iconUrl);
+                                // console.log('iconUrl:', iconUrl);
                             }
                         }
                         else if (curTagName === 'meta') {
