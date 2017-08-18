@@ -33,7 +33,7 @@ app.post('/api/common-link/list', function (req, res) {
     }
     else
         condition = {};
-    CommonLink_1.CommonLink.find(condition, { title: true, href: true, summary: true, starUsers: true, sortNumber: true }).exec(function (err, links) {
+    CommonLink_1.CommonLink.find(condition, { title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true }).exec(function (err, links) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, 'success', { links: links }));

@@ -35,7 +35,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         setTimeout(() => {
           this.links = links;
           this.sortLinks();
-        }, 300);
+        }, 150);
       });
     });
   }
@@ -69,7 +69,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
           delete link.__tmp_starProcessing;
         });
       }
-    }, 300);
+    }, 150);
   }
 
   private getCurUser(): {[key: string]: any} {

@@ -4,6 +4,7 @@ let schema = mongoose.Schema({
   title: String,
   href: String,
   summary: String,
+  iconUrl: String,
   starUsers: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
   sortNumber: Number,
   createAt: {type: Date, default: Date.now()},

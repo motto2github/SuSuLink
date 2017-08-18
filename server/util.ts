@@ -59,23 +59,22 @@ export class HTMLParser {
       res.on('end', () => {
         // console.log('html:', html);
         let curTagName = '', curAttributes: any = {}, title = '', iconUrl = '', keywords = '', description = '';
-        let iconUrlRelRegExp = new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i');
         let parser = new htmlparser.Parser({
           onopentag: (name, attributes) => {
             curTagName = name;
             curAttributes = attributes;
             if (curTagName === 'link') {
               // console.log(curTagName, ':', curAttributes);
-              if (iconUrlRelRegExp.test(curAttributes.rel)) {
+              if (new RegExp('^shortcut$|^icon$|^shortcut icon$|^icon shortcut$', 'i').test(curAttributes.rel)) {
                 // console.log('curAttributes:', curAttributes);
+                if (new RegExp('.ico$|.ico\\?[^\\?]*$', 'i').test(iconUrl)) return;
                 let href = curAttributes.href;
                 if (new RegExp('^data:image/', 'i').test(href)) return;
                 if (!iconUrl) {
                   iconUrl = href;
                 } else {
-                  if (new RegExp('.ico$|.ico\\?[^\\?]*$', 'i').test(href)) {
-                    iconUrl = href;
-                  } else return;
+                  if (!new RegExp('.ico$|.ico\\?[^\\?]*$', 'i').test(href)) return;
+                  iconUrl = href;
                 }
                 if (new RegExp('^http', 'i').test(iconUrl)) return;
                 else if (new RegExp('^//', 'i').test(iconUrl)) {

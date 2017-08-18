@@ -18,6 +18,7 @@
       <div class="list-group">
         <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
           <h4 class="list-group-item-heading">
+            <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
             <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
               <button class="btn btn-xs btn-default" [class.btn-danger]="obj.starUsers.indexOf(curUser?._id) !== -1" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-contrarotate]="obj.starUsers.indexOf(curUser?._id) === -1 && obj.__tmp_starProcessing" [class.ssl-anim-rotate]="obj.starUsers.indexOf(curUser?._id) !== -1 && obj.__tmp_starProcessing"></i>{{obj.starUsers.indexOf(curUser?._id) !== -1 ? 'Unstar' : 'Star'}}</button>

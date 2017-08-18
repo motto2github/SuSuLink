@@ -35,7 +35,7 @@ app.post('/api/common-link/list', (req, res) => {
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
   } else condition = {};
-  CommonLink.find(condition, {title: true, href: true, summary: true, starUsers: true, sortNumber: true}).exec((err, links) => {
+  CommonLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true}).exec((err, links) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     return res.json(ri.set(1, 'success', {links}));
   });
