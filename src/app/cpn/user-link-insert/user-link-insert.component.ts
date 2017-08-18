@@ -91,7 +91,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
         this.href.enable();
         if (ri.code !== 1) return this.errMsg = ri.msg;
         this.title.setValue(ri.data.title);
-        this.summary.setValue(ri.data.keywords + (ri.data.keywords && ri.data.description ? '\n\n' : '') + ri.data.description);
+        this.summary.setValue(ri.data.description + (ri.data.description && ri.data.keywords ? '\n\n' : '') + ri.data.keywords);
         this.iconUrl.setValue(ri.data.iconUrl);
       }, 150);
     });
