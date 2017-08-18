@@ -133,16 +133,20 @@ app.post('/api/user-link/update', (req, res) => {
   let ri = new ResInfo();
   let {_id, title, href, summary, iconUrl, owner} = req.body;
   if (!_id || !owner || !title || !href) return res.json(ri.set(-88, '请求参数异常'));
-  UserLink.findOne({_id, owner}, (err, link) => {
+  UserLink.findOne({owner, title}, {_id: true}).exec((err, link) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-    if (!link) return res.json(ri.set(-88, '请求参数异常'));
-    link.title = title;
-    link.href = href;
-    link.summary = summary;
-    link.iconUrl = iconUrl;
-    link.save(err => {
+    if (link) return res.json(ri.set(-1, '该标题已存在'));
+    UserLink.findOne({_id, owner}, (err, link) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-      return res.json(ri.set(1, '修改成功'));
+      if (!link) return res.json(ri.set(-88, '请求参数异常'));
+      link.title = title;
+      link.href = href;
+      link.summary = summary;
+      link.iconUrl = iconUrl;
+      link.save(err => {
+        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+        return res.json(ri.set(1, '修改成功'));
+      });
     });
   });
 });
