@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     $('[data-toggle="tooltip"]').tooltip();
   }
 
-  private onSearchAtMobile(event) {
+  private onSearchAtMobile() {
     this.router.navigate(['/search-link', this.listFlag, this.keywords.value]);
   }
 
