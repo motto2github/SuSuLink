@@ -9,11 +9,11 @@ import {Http} from "@angular/http";
 })
 export class UserLinkListComponent implements OnInit, DoCheck {
 
-  private keywords: string;
+  keywords: string;
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
-  private links: any;
+  links: any;
 
   private activeLink: any;
 
@@ -69,15 +69,15 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
-  private wantRemoveLink: any;
+  wantRemoveLink: any;
 
-  private onRemove(event, link) {
+  onRemove(event, link) {
     event.stopPropagation();
     this.wantRemoveLink = link;
     $('.ssl-user-link-list .modal').modal('show');
   }
 
-  private confirmRemove() {
+  confirmRemove() {
     let id = this.wantRemoveLink._id;
     this.http.post('/api/user-link/remove', {id}).map(res => res.json()).subscribe(ri => {
       if (ri.code !== 1) return alert(ri.msg);
@@ -87,7 +87,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     });
   }
 
-  private onLinkClick(obj) {
+  onLinkClick(obj) {
     window.open(obj.href);
     // if (obj === this.activeLink) return window.open(obj.href);
     // this.activeLink = obj;

@@ -9,7 +9,7 @@ import {FormControl} from "@angular/forms";
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
-  private recommendLinkObjs: Array<IRecommendLink> = [
+  recommendLinkObjs: Array<IRecommendLink> = [
     {title: '百度一下，你就知道', href: 'http://www.baidu.com', logoUrl: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png'}
     , {title: 'GitHub', href: 'https://github.com', logoUrl: 'https://assets-cdn.github.com/favicon.ico'}
     , {title: 'Bootstrap 中文网', href: 'http://www.bootcss.com', logoUrl: 'http://www.bootcdn.cn/assets/img/bootstrap.svg?1500283050537'}
@@ -22,9 +22,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     , {title: 'TypeScript', href: 'http://www.typescriptlang.org', logoUrl: 'http://www.typescriptlang.org/assets/images/icons/favicon-32x32.png'}
   ];
 
-  private listFlag: string;
+  listFlag: string;
 
-  private keywords: FormControl = new FormControl();
+  keywords: FormControl = new FormControl();
 
   private search_histories: Array<string>;
 
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private switchList(flag: string) {
+  switchList(flag: string) {
     this.listFlag = flag;
     this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value || '']);
   }
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     $('[data-toggle="tooltip"]').tooltip();
   }
 
-  private onSearchAtMobile() {
+  onSearchAtMobile() {
     this.router.navigate(['/search-link', this.listFlag, this.keywords.value]);
   }
 

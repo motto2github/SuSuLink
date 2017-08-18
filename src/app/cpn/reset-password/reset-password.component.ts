@@ -10,15 +10,15 @@ import {Router} from '@angular/router';
 })
 export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
 
-  private fg: FormGroup;
+  fg: FormGroup;
 
-  private submitted: boolean = false;
+  submitted: boolean = false;
 
-  private resetSuccess: boolean = false;
+  resetSuccess: boolean = false;
 
-  private errMsg: string;
+  errMsg: string;
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
     this.initFormGroup();
@@ -44,7 +44,7 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
     }, {validator: this.passwordNotEqualValidator});
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
@@ -70,19 +70,19 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
     return pw1 === pw2 ? null : {passwordNotEqual: true};
   }
 
-  private get oldPassword(): AbstractControl | null {
+  get oldPassword(): AbstractControl | null {
     return this.fg.get('oldPassword');
   }
 
-  private get newPassword(): AbstractControl | null {
+  get newPassword(): AbstractControl | null {
     return this.fg.get('newPassword');
   }
 
-  private get confirmNewPassword(): AbstractControl | null {
+  get confirmNewPassword(): AbstractControl | null {
     return this.fg.get('confirmNewPassword');
   }
 
-  private countDown: number;
+  countDown: number;
 
   private countDownInterval: any;
 
@@ -96,7 +96,7 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
     }, 1000);
   }
 
-  private stopCountDown() {
+  stopCountDown() {
     this.countDown = 5;
     clearInterval(this.countDownInterval);
   }

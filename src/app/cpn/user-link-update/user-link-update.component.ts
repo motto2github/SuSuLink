@@ -10,11 +10,11 @@ import {Router, ActivatedRoute} from "@angular/router";
 })
 export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
 
-  private fg: FormGroup;
+  fg: FormGroup;
 
-  private errMsg: string;
+  errMsg: string;
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private http: Http, private router: Router) {
   }
@@ -53,7 +53,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
     if (!this.curUser) this.router.navigate(['/home/user-link/list']);
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.fg.disable();
     this.errMsg = null;
     this.http.post('/api/user-link/update', this.fg.value).map(res => res.json()).subscribe(ri => {
@@ -66,19 +66,19 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
     });
   }
 
-  private get title(): AbstractControl | null {
+  get title(): AbstractControl | null {
     return this.fg.get('title');
   }
 
-  private get href(): AbstractControl | null {
+  get href(): AbstractControl | null {
     return this.fg.get('href');
   }
 
-  private get summary(): AbstractControl | null {
+  get summary(): AbstractControl | null {
     return this.fg.get('summary');
   }
 
-  private get iconUrl(): AbstractControl | null {
+  get iconUrl(): AbstractControl | null {
     return this.fg.get('iconUrl');
   }
 
@@ -86,9 +86,9 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
-  private readHrefInfoIsClicked = false;
+  readHrefInfoIsClicked = false;
 
-  private readHrefInfo() {
+  readHrefInfo() {
     this.readHrefInfoIsClicked = true;
     this.href.disable();
     this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {

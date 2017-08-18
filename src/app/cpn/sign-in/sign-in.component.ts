@@ -10,9 +10,9 @@ import {Router} from '@angular/router';
 })
 export class SignInComponent implements OnInit, AfterViewInit {
 
-  private fg: FormGroup;
+  fg: FormGroup;
 
-  private errMsg: string;
+  errMsg: string;
 
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
   }
@@ -34,7 +34,7 @@ export class SignInComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.fg.disable();
     this.errMsg = null;
     this.http.post('/api/sign-in', this.fg.value).map(res => res.json()).subscribe(ri => {
@@ -51,15 +51,15 @@ export class SignInComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private get name(): AbstractControl | null {
+  get name(): AbstractControl | null {
     return this.fg.get('name');
   }
 
-  private get password(): AbstractControl | null {
+  get password(): AbstractControl | null {
     return this.fg.get('password');
   }
 
-  private get rememberMe(): AbstractControl | null {
+  get rememberMe(): AbstractControl | null {
     return this.fg.get('rememberMe');
   }
 

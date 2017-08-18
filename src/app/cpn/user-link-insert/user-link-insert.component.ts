@@ -10,13 +10,13 @@ import {Router} from "@angular/router";
 })
 export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
 
-  private fg: FormGroup;
+  fg: FormGroup;
 
-  private errMsg: string;
+  errMsg: string;
 
-  private succMsg: string;
+  succMsg: string;
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
   }
@@ -45,7 +45,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     });
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.fg.disable();
     this.errMsg = null;
     this.succMsg = null;
@@ -63,19 +63,19 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     });
   }
 
-  private get title(): AbstractControl | null {
+  get title(): AbstractControl | null {
     return this.fg.get('title');
   }
 
-  private get href(): AbstractControl | null {
+  get href(): AbstractControl | null {
     return this.fg.get('href');
   }
 
-  private get summary(): AbstractControl | null {
+  get summary(): AbstractControl | null {
     return this.fg.get('summary');
   }
 
-  private get iconUrl(): AbstractControl | null {
+  get iconUrl(): AbstractControl | null {
     return this.fg.get('iconUrl');
   }
 
@@ -83,7 +83,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
-  private readHrefInfo() {
+  readHrefInfo() {
     if (this.href.invalid) return;
     this.href.disable();
     this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {

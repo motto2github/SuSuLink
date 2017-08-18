@@ -10,13 +10,13 @@ import {Router} from '@angular/router';
 })
 export class SignUpComponent implements OnInit, AfterViewInit {
 
-  private fg: FormGroup;
+  fg: FormGroup;
 
-  private submitted: boolean = false;
+  submitted: boolean = false;
 
-  private signUpSuccess: boolean = false;
+  signUpSuccess: boolean = false;
 
-  private errMsg: string;
+  errMsg: string;
 
   constructor(private fb: FormBuilder, private http: Http, private router: Router) {
     this.initFormGroup();
@@ -38,7 +38,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     }, {validator: this.passwordNotEqualValidator});
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
@@ -62,19 +62,19 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     return pw1 === pw2 ? null : {passwordNotEqual: true};
   }
 
-  private get name(): AbstractControl | null {
+  get name(): AbstractControl | null {
     return this.fg.get('name');
   }
 
-  private get password(): AbstractControl | null {
+  get password(): AbstractControl | null {
     return this.fg.get('password');
   }
 
-  private get confirmPassword(): AbstractControl | null {
+  get confirmPassword(): AbstractControl | null {
     return this.fg.get('confirmPassword');
   }
 
-  private countDown: number;
+  countDown: number;
 
   private countDownInterval: any;
 
@@ -88,7 +88,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  private stopCountDown() {
+  stopCountDown() {
     this.countDown = 5;
     clearInterval(this.countDownInterval);
   }

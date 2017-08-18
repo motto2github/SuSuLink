@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit, DoCheck {
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
   constructor(private router: Router) {
   }
@@ -24,17 +24,17 @@ export class HeaderComponent implements OnInit, DoCheck {
     return JSON.parse(localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user'));
   }
 
-  private signOut() {
+  signOut() {
     localStorage.removeItem('__ssl_cur_user');
     sessionStorage.removeItem('__ssl_cur_user');
   }
 
-  private onClickLogoText() {
+  onClickLogoText() {
     if (this.router.routerState.snapshot.url.startsWith('/home')) $('.jsc-ssl-btn-common-link:visible').click();
     else this.router.navigate(['/']);
   }
 
-  private onClickUserName() {
+  onClickUserName() {
     if (this.router.routerState.snapshot.url.startsWith('/home')) $('.jsc-ssl-btn-user-link:visible').click();
     else this.router.navigate(['/home/user-link/list']);
   }

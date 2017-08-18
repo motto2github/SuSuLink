@@ -9,13 +9,13 @@ import {Http} from "@angular/http";
 })
 export class CommonLinkListComponent implements OnInit, DoCheck {
 
-  private keywords: string;
+  keywords: string;
 
-  private curUser: {[key: string]: any} = this.getCurUser();
+  curUser: {[key: string]: any} = this.getCurUser();
 
-  private links: any;
+  links: any;
 
-  private activeLink: any;
+  activeLink: any;
 
   constructor(private route: ActivatedRoute, private http: Http, private router: Router) {
   }
@@ -44,7 +44,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     this.curUser = this.getCurUser();
   }
 
-  private starHandler(event, link: {[key: string]: any}) {
+  starHandler(event, link: {[key: string]: any}) {
     event.stopPropagation();
     if (link.__tmp_starProcessing) return;
     if (!this.curUser) return this.router.navigate(['/sign-in']);
@@ -95,7 +95,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     });
   }
 
-  private onLinkClick(obj) {
+  onLinkClick(obj) {
     window.open(obj.href);
     // if (obj === this.activeLink) return window.open(obj.href);
     // this.activeLink = obj;
