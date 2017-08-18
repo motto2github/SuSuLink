@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 let schema = mongoose.Schema({
-  title: {type: String, unique: true},
+  title: String,
   href: String,
   summary: String,
   iconUrl: String,
