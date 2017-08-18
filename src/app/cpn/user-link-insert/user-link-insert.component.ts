@@ -2,7 +2,6 @@ import {Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
-import * as Holder from 'holderjs';
 
 @Component({
   selector: 'ssl-user-link-insert',
@@ -29,7 +28,6 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
   ngAfterViewInit(): void {
     $("#back-to-top").click();
     $('#href').focus();
-    Holder.run();
     $('.___js_readHrefInfo').tooltip();
   }
 
@@ -44,13 +42,6 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
       href: ['', [Validators.required, Validators.pattern(new RegExp('^https?://', 'i'))]],
       summary: [''],
       iconUrl: ['', [Validators.pattern(new RegExp('^https?://', 'i'))]]
-    });
-    this.iconUrl.valueChanges.subscribe(value => {
-      if (value === '') {
-        setTimeout(() => {
-          Holder.run();
-        }, 1);
-      }
     });
   }
 
@@ -67,9 +58,6 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
           this.succMsg = ri.msg;
           this.fg.reset();
           this.fg.enable();
-          setTimeout(() => {
-            Holder.run();
-          }, 1);
         }
       }, 150);
     });

@@ -2,7 +2,6 @@ import {Component, OnInit, DoCheck, AfterViewInit, AfterViewChecked, AfterConten
 import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {Http} from "@angular/http";
 import {Router, ActivatedRoute} from "@angular/router";
-import * as Holder from 'holderjs';
 
 @Component({
   selector: 'ssl-user-link-update',
@@ -38,16 +37,8 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
           iconUrl: [ri.data.link.iconUrl, [Validators.pattern(new RegExp('^https?://', 'i'))]],
           owner: [ri.data.link.owner]
         });
-        this.iconUrl.valueChanges.subscribe(value => {
-          if (value === '') {
-            setTimeout(() => {
-              Holder.run();
-            }, 1);
-          }
-        });
         setTimeout(() => {
           $('.___js_readHrefInfo').tooltip();
-          Holder.run();
         }, 1);
       }, 150);
     });
