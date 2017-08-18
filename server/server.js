@@ -151,7 +151,7 @@ app.post('/api/user-link/update', function (req, res) {
     var _a = req.body, _id = _a._id, title = _a.title, href = _a.href, summary = _a.summary, iconUrl = _a.iconUrl, owner = _a.owner;
     if (!_id || !owner || !title || !href)
         return res.json(ri.set(-88, '请求参数异常'));
-    UserLink_1.UserLink.findOne({ owner: owner, title: title }, { _id: true }).exec(function (err, link) {
+    UserLink_1.UserLink.findOne({ owner: owner, title: title, _id: { $ne: _id } }, { _id: true }).exec(function (err, link) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (link)
