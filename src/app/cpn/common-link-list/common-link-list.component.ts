@@ -17,7 +17,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 3;
+  private pageSize = 10;
 
   totalCount: number = 0;
 

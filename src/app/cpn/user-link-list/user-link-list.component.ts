@@ -17,7 +17,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 2;
+  private pageSize = 10;
 
   totalCount: number = 0;
 
