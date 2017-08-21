@@ -54,3 +54,11 @@
 .ssl-common-link-list .list-group > .list-group-item > .list-group-item-heading > a:hover, .ssl-common-link-list .list-group > .list-group-item > .list-group-item-heading > a:focus {
   text-decoration: none;
 }
+
+.ssl-notHasMore {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #777 !important;
+  cursor: default !important;
+}

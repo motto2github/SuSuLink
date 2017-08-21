@@ -24,7 +24,9 @@ app.get('**', function (req, res) {
 });
 app.post('/api/common-link/list', function (req, res) {
     var ri = new util_1.ResInfo();
-    var keywords = req.body.keywords;
+    var _a = req.body, keywords = _a.keywords, pageNumber = _a.pageNumber, pageSize = _a.pageSize;
+    if (!pageNumber || !pageSize)
+        return res.json(ri.set(-88, '请求参数异常'));
     var condition = null;
     if (keywords) {
         keywords = keywords.replace(/\\/g, '\\\\').replace(/\./g, '\\.');
@@ -33,16 +35,20 @@ app.post('/api/common-link/list', function (req, res) {
     }
     else
         condition = {};
-    CommonLink_1.CommonLink.find(condition, { title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true }).exec(function (err, links) {
+    CommonLink_1.CommonLink.count(condition).exec(function (err, totalCount) {
         if (err)
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-        return res.json(ri.set(1, 'success', { links: links }));
+        CommonLink_1.CommonLink.find(condition, { title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true }).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function (err, links) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            return res.json(ri.set(1, 'success', { links: links, totalCount: totalCount }));
+        });
     });
 });
 app.post('/api/user-link/list', function (req, res) {
     var ri = new util_1.ResInfo();
-    var _a = req.body, keywords = _a.keywords, curUserId = _a.curUserId;
-    if (!curUserId)
+    var _a = req.body, keywords = _a.keywords, curUserId = _a.curUserId, pageNumber = _a.pageNumber, pageSize = _a.pageSize;
+    if (!curUserId || !pageNumber || !pageSize)
         return res.json(ri.set(-88, '请求参数异常'));
     User_1.User.findOne({ _id: curUserId }, { _id: true }, function (err, user) {
         if (err)
@@ -57,10 +63,14 @@ app.post('/api/user-link/list', function (req, res) {
         }
         else
             condition = { owner: curUserId };
-        UserLink_1.UserLink.find(condition, { title: true, href: true, summary: true, iconUrl: true, owner: true }).exec(function (err, links) {
+        UserLink_1.UserLink.count(condition).exec(function (err, totalCount) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
-            res.json(ri.set(1, 'success', { links: links }));
+            UserLink_1.UserLink.find(condition, { title: true, href: true, summary: true, iconUrl: true, owner: true }).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function (err, links) {
+                if (err)
+                    return res.json(ri.set(-99, '数据库异常，请稍后重试', { errMsg: err.message }));
+                res.json(ri.set(1, 'success', { links: links, totalCount: totalCount }));
+            });
         });
     });
 });
@@ -196,7 +206,7 @@ app.post('/api/common-link/star', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-88, '请求参数异常'));
-        CommonLink_1.CommonLink.findOne({ _id: id }, { title: true, href: true, summary: true }).exec(function (err, common_link) {
+        CommonLink_1.CommonLink.findOne({ _id: id }, { title: true, href: true, summary: true, iconUrl: true }).exec(function (err, common_link) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             if (!common_link)
@@ -209,7 +219,7 @@ app.post('/api/common-link/star', function (req, res) {
                         return res.json(ri.set(-99, '数据库异常，请稍后重试'));
                     if (user_link)
                         return res.json(ri.set(1, '操作成功'));
-                    new UserLink_1.UserLink({ _id: common_link._id, title: common_link.title, href: common_link.href, summary: common_link.summary, owner: userId }).save(function (err) {
+                    new UserLink_1.UserLink({ _id: common_link._id, title: common_link.title, href: common_link.href, summary: common_link.summary, iconUrl: common_link.iconUrl, owner: userId }).save(function (err) {
                         if (err)
                             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
                         return res.json(ri.set(1, '操作成功'));

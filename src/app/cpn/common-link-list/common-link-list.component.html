@@ -14,14 +14,14 @@
       <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 希望您能反馈链接建议，我们会定期筛选更新哦！</h5>
     </ng-template>
     <ng-template #tpl_hasData>
-      <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
+      <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条</h5>
       <div class="list-group">
         <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
           <h4 class="list-group-item-heading">
             <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
             <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
-              <button class="btn btn-xs btn-default" [class.btn-danger]="obj.starUsers.indexOf(curUser?._id) !== -1" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-contrarotate]="obj.starUsers.indexOf(curUser?._id) === -1 && obj.__tmp_starProcessing" [class.ssl-anim-rotate]="obj.starUsers.indexOf(curUser?._id) !== -1 && obj.__tmp_starProcessing"></i>{{obj.starUsers.indexOf(curUser?._id) !== -1 ? 'Unstar' : 'Star'}}</button>
+              <button class="btn btn-xs btn-default" [class.btn-danger]="obj.___tmp_isStar" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-rotate]="obj.__tmp_starProcessing"></i>{{obj.___tmp_isStar ? 'Unstar' : 'Star'}}</button>
               <button class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
             </div>
             <br>
@@ -29,6 +29,10 @@
           </h4>
           <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
         </div>
+        <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
+          <a href="javascript:;"><span class="glyphicon glyphicon-indent-right"></span> 加载更多</a>
+        </div>
+        <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了</div>
       </div>
     </ng-template>
   </ng-template>

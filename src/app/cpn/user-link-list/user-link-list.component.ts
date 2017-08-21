@@ -15,6 +15,14 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   links: any;
 
+  private curPageNumber: number = 1;
+
+  private pageSize = 15;
+
+  totalCount: number = 0;
+
+  hasMore = false;
+
   private activeLink: any;
 
   constructor(private route: ActivatedRoute, private http: Http) {
@@ -24,23 +32,9 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
       this.links = null;
+      this.curPageNumber = 1;
       if (!this.curUser) return;
-      this.http.post('/api/user-link/list', {
-        keywords: this.keywords,
-        curUserId: this.curUser._id
-      }).map(res => {
-        let ri = res.json();
-        if (ri.code !== 1) {
-          alert(ri.msg);
-          return [];
-        }
-        return ri.data.links;
-      }).subscribe(links => {
-        setTimeout(() => {
-          this.links = links;
-          this.sortLinks();
-        }, 150);
-      });
+      this.loadLinks();
     });
   }
 
@@ -91,6 +85,34 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     window.open(obj.href);
     // if (obj === this.activeLink) return window.open(obj.href);
     // this.activeLink = obj;
+  }
+
+  onLoadMoreClick() {
+    this.loadLinks();
+  }
+
+  private loadLinks() {
+    this.http.post('/api/user-link/list', {
+      keywords: this.keywords,
+      curUserId: this.curUser._id,
+      pageNumber: this.curPageNumber++,
+      pageSize: this.pageSize
+    }).map(res => {
+      let ri = res.json();
+      if (ri.code !== 1) {
+        alert(ri.msg);
+        return {links: [], totalCount: 0};
+      }
+      return ri.data;
+    }).subscribe(data => {
+      setTimeout(() => {
+        if (!this.links) this.links = data.links;
+        else this.links.push(...data.links);
+        this.totalCount = data.totalCount;
+        this.hasMore = this.links.length < this.totalCount;
+        this.sortLinks();
+      }, 150);
+    });
   }
 
 }

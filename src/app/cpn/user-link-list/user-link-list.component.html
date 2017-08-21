@@ -19,7 +19,7 @@
         <h5 class="text-warning"><span class="glyphicon glyphicon-info-sign"></span> 暂无{{keywords ? '匹配' : ''}}数据，去添加一条看看！</h5>
       </ng-template>
       <ng-template #hasData>
-        <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{links.length}} 条匹配链接</h5>
+        <h5 class="text-success"><span class="glyphicon glyphicon-info-sign"></span> 共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条</h5>
         <div class="list-group">
           <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
@@ -37,6 +37,10 @@
             </div>
             <div style="clear: both;"></div>
           </div>
+          <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
+            <a href="javascript:;"><span class="glyphicon glyphicon-indent-right"></span> 加载更多</a>
+          </div>
+          <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了</div>
         </div>
       </ng-template>
     </ng-template>

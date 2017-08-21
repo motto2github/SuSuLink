@@ -15,6 +15,14 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
 
   links: any;
 
+  private curPageNumber: number = 1;
+
+  private pageSize = 15;
+
+  totalCount: number = 0;
+
+  hasMore = false;
+
   activeLink: any;
 
   constructor(private route: ActivatedRoute, private http: Http, private router: Router) {
@@ -24,19 +32,8 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     this.route.params.subscribe((params: {keywords}) => {
       this.keywords = params.keywords;
       this.links = null;
-      this.http.post('/api/common-link/list', {keywords: this.keywords}).map(res => {
-        let ri = res.json();
-        if (ri.code !== 1) {
-          alert(ri.msg);
-          return [];
-        }
-        return ri.data.links;
-      }).subscribe(links => {
-        setTimeout(() => {
-          this.links = links;
-          this.sortLinks();
-        }, 150);
-      });
+      this.curPageNumber = 1;
+      this.loadLinks();
     });
   }
 
@@ -50,12 +47,13 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     if (!this.curUser) return this.router.navigate(['/sign-in']);
     link.__tmp_starProcessing = true;
     setTimeout(() => {
-      if (link.starUsers.indexOf(this.curUser._id) === -1) {
+      if (!link.___tmp_isStar) {
         this.http.post('/api/common-link/star', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
           if (ri.code !== 1) {
             alert(ri.msg);
           } else {
             link.starUsers.push(this.curUser._id);
+            link.___tmp_isStar = true;
           }
           delete link.__tmp_starProcessing;
         });
@@ -65,6 +63,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
             alert(ri.msg);
           } else {
             link.starUsers.splice(link.starUsers.findIndex(id => id === this.curUser._id), 1);
+            link.___tmp_isStar = false;
           }
           delete link.__tmp_starProcessing;
         });
@@ -99,6 +98,37 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     window.open(obj.href);
     // if (obj === this.activeLink) return window.open(obj.href);
     // this.activeLink = obj;
+  }
+
+  onLoadMoreClick() {
+    this.loadLinks();
+  }
+
+  private loadLinks() {
+    this.http.post('/api/common-link/list', {
+      keywords: this.keywords,
+      pageNumber: this.curPageNumber++,
+      pageSize: this.pageSize
+    }).map(res => {
+      let ri = res.json();
+      if (ri.code !== 1) {
+        alert(ri.msg);
+        return {links: [], totalCount: 0};
+      }
+      ri.data.links = ri.data.links.map(link => {
+        link.___tmp_isStar = this.curUser ? link.starUsers.indexOf(this.curUser._id) !== -1 : false;
+        return link;
+      });
+      return ri.data;
+    }).subscribe(data => {
+      setTimeout(() => {
+        if (!this.links) this.links = data.links;
+        else this.links.push(...data.links);
+        this.totalCount = data.totalCount;
+        this.hasMore = this.links.length < this.totalCount;
+        this.sortLinks();
+      }, 150);
+    });
   }
 
 }

@@ -28,23 +28,27 @@ app.get('**', (req, res) => {
 
 app.post('/api/common-link/list', (req, res) => {
   let ri = new ResInfo();
-  let {keywords} = req.body;
+  let {keywords, pageNumber, pageSize} = req.body;
+  if (!pageNumber || !pageSize) return res.json(ri.set(-88, '请求参数异常'));
   let condition = null;
   if (keywords) {
     keywords = keywords.replace(/\\/g, '\\\\').replace(/\./g, '\\.');
     let regexp = new RegExp(keywords, 'i');
     condition = {$or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
   } else condition = {};
-  CommonLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true}).exec((err, links) => {
+  CommonLink.count(condition).exec((err, totalCount) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
-    return res.json(ri.set(1, 'success', {links}));
+    CommonLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, starUsers: true, sortNumber: true}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec((err, links) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, 'success', {links, totalCount}));
+    });
   });
 });
 
 app.post('/api/user-link/list', (req, res) => {
   let ri = new ResInfo();
-  let {keywords, curUserId} = req.body;
-  if (!curUserId) return res.json(ri.set(-88, '请求参数异常'));
+  let {keywords, curUserId, pageNumber, pageSize} = req.body;
+  if (!curUserId || !pageNumber || !pageSize) return res.json(ri.set(-88, '请求参数异常'));
   User.findOne({_id: curUserId}, {_id: true}, (err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
@@ -54,9 +58,12 @@ app.post('/api/user-link/list', (req, res) => {
       let regexp = new RegExp(keywords, 'i');
       condition = {owner: curUserId, $or: [{title: regexp}, {href: regexp}, {summary: regexp}]};
     } else condition = {owner: curUserId};
-    UserLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, owner: true}).exec((err, links) => {
+    UserLink.count(condition).exec((err, totalCount) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
-      res.json(ri.set(1, 'success', {links}));
+      UserLink.find(condition, {title: true, href: true, summary: true, iconUrl: true, owner: true}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec((err, links) => {
+        if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试', {errMsg: err.message}));
+        res.json(ri.set(1, 'success', {links, totalCount}));
+      });
     });
   });
 });
@@ -169,7 +176,7 @@ app.post('/api/common-link/star', (req, res) => {
   User.findOne({_id: userId}, {_id: true}).exec((err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-88, '请求参数异常'));
-    CommonLink.findOne({_id: id}, {title: true, href: true, summary: true}).exec((err, common_link) => {
+    CommonLink.findOne({_id: id}, {title: true, href: true, summary: true, iconUrl: true}).exec((err, common_link) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       if (!common_link) return res.json(ri.set(-88, '请求参数异常'));
       CommonLink.update({_id: id}, {$addToSet: {starUsers: userId}}).exec(err => {
@@ -177,7 +184,7 @@ app.post('/api/common-link/star', (req, res) => {
         UserLink.findOne({$or: [{_id: common_link._id}, {title: common_link.title}]}, {_id: true}).exec((err, user_link) => {
           if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
           if (user_link) return res.json(ri.set(1, '操作成功'));
-          new UserLink({_id: common_link._id, title: common_link.title, href: common_link.href, summary: common_link.summary, owner: userId}).save(err => {
+          new UserLink({_id: common_link._id, title: common_link.title, href: common_link.href, summary: common_link.summary, iconUrl: common_link.iconUrl, owner: userId}).save(err => {
             if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
             return res.json(ri.set(1, '操作成功'));
           });

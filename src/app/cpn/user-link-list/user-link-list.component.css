@@ -71,3 +71,11 @@
 .list-group-item:last-child .btn.remove {
   border-bottom-right-radius: 4px !important;
 }
+
+.ssl-notHasMore {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #777 !important;
+  cursor: default !important;
+}
