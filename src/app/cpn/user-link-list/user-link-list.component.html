@@ -38,7 +38,7 @@
             <div style="clear: both;"></div>
           </div>
           <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
-            <a href="javascript:;"><span class="glyphicon glyphicon-indent-right"></span> 加载更多</a>
+            <a href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
           </div>
           <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了</div>
         </div>

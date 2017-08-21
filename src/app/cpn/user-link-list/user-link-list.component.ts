@@ -17,11 +17,13 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 15;
+  private pageSize = 2;
 
   totalCount: number = 0;
 
   hasMore = false;
+
+  loadMoreProcessing = false;
 
   private activeLink: any;
 
@@ -88,10 +90,12 @@ export class UserLinkListComponent implements OnInit, DoCheck {
   }
 
   onLoadMoreClick() {
+    if (this.loadMoreProcessing) return;
     this.loadLinks();
   }
 
   private loadLinks() {
+    this.loadMoreProcessing = true;
     this.http.post('/api/user-link/list', {
       keywords: this.keywords,
       curUserId: this.curUser._id,
@@ -111,6 +115,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
         this.sortLinks();
+        this.loadMoreProcessing = false;
       }, 150);
     });
   }

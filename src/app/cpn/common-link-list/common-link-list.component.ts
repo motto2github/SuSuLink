@@ -17,11 +17,13 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 15;
+  private pageSize = 3;
 
   totalCount: number = 0;
 
   hasMore = false;
+
+  loadMoreProcessing = false;
 
   activeLink: any;
 
@@ -101,10 +103,12 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
   }
 
   onLoadMoreClick() {
+    if (this.loadMoreProcessing) return;
     this.loadLinks();
   }
 
   private loadLinks() {
+    this.loadMoreProcessing = true;
     this.http.post('/api/common-link/list', {
       keywords: this.keywords,
       pageNumber: this.curPageNumber++,
@@ -127,6 +131,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
         this.sortLinks();
+        this.loadMoreProcessing = false;
       }, 150);
     });
   }
