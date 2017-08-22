@@ -31,8 +31,9 @@
         </div>
         <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
           <a href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
+          <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span>
         </div>
-        <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了</div>
+        <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了 <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span></div>
       </div>
     </ng-template>
   </ng-template>
