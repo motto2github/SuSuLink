@@ -29,6 +29,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private search_histories: Array<string>;
 
   constructor(private route: ActivatedRoute, private router: Router) {
+    if (this.router.routerState.snapshot.url === '/home') {
+      const cur_user = localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user');
+      this.router.navigate([`/home/${cur_user ? 'user-link' : 'common-link'}/list`]);
+    }
   }
 
   ngOnInit() {
