@@ -10,8 +10,12 @@ import {UserLinkUpdateComponent} from "./cpn/user-link-update/user-link-update.c
 import {SearchLinkComponent} from "./cpn/search-link/search-link.component";
 import {ResetPasswordComponent} from "./cpn/reset-password/reset-password.component";
 
+const cur_user = localStorage.getItem('__ssl_cur_user') || sessionStorage.getItem('__ssl_cur_user');
+
+const access_def_redirect_to = cur_user ? 'user-link' : 'common-link';
+
 const routes: Routes = [
-  {path: '', redirectTo: 'home/common-link/list', pathMatch: 'full'}
+  {path: '', redirectTo: `home/${access_def_redirect_to}/list`, pathMatch: 'full'}
   , {
     path: 'home', component: HomeComponent, children: [
       {path: 'common-link/list', redirectTo: 'common-link/list/', pathMatch: 'full'}
@@ -27,7 +31,7 @@ const routes: Routes = [
   , {path: 'user-link/update/:id', component: UserLinkUpdateComponent}
   , {path: 'search-link/:category', redirectTo: 'search-link/:category/', pathMatch: 'full'}
   , {path: 'search-link/:category/:keywords', component: SearchLinkComponent}
-  , {path: '**', redirectTo: 'home/common-link/list', pathMatch: 'full'}
+  , {path: '**', redirectTo: `home/${access_def_redirect_to}/list`, pathMatch: 'full'}
 ];
 
 @NgModule({
