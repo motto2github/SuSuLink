@@ -7,7 +7,7 @@ var schema = mongoose.Schema({
     summary: String,
     iconUrl: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-    createAt: { type: Date, "default": Date.now() },
-    updateAt: { type: Date, "default": Date.now() }
+    createAt: { type: Date, "default": function () { return Date.now(); } },
+    updateAt: { type: Date, "default": function () { return Date.now(); } }
 });
 exports.UserLink = mongoose.model('user_link', schema);

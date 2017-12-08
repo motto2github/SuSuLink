@@ -89,7 +89,11 @@ app.post('/api/sign-in', (req, res) => {
   User.findOne({name, password}, {_id: true, name: true}, (err, user) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-1, '账号或密码错误'));
-    return res.json(ri.set(1, '登录成功', {user}));
+    user.updateAt = Date.now();
+    user.save((err) => {
+      if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+      return res.json(ri.set(1, '登录成功', {user}));
+    });
   });
 });
 
@@ -101,6 +105,7 @@ app.post('/api/reset-password', (req, res) => {
     if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
     if (!user) return res.json(ri.set(-1, '旧密码不正确'));
     user.password = newPassword;
+    user.updateAt = Date.now();
     user.save((err) => {
       if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
       return res.json(ri.set(1, '修改成功'));
@@ -150,6 +155,7 @@ app.post('/api/user-link/update', (req, res) => {
       link.href = href;
       link.summary = summary;
       link.iconUrl = iconUrl;
+      link.updateAt = Date.now();
       link.save(err => {
         if (err) return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         return res.json(ri.set(1, '修改成功'));

@@ -101,7 +101,12 @@ app.post('/api/sign-in', function (req, res) {
             return res.json(ri.set(-99, '数据库异常，请稍后重试'));
         if (!user)
             return res.json(ri.set(-1, '账号或密码错误'));
-        return res.json(ri.set(1, '登录成功', { user: user }));
+        user.updateAt = Date.now();
+        user.save(function (err) {
+            if (err)
+                return res.json(ri.set(-99, '数据库异常，请稍后重试'));
+            return res.json(ri.set(1, '登录成功', { user: user }));
+        });
     });
 });
 app.post('/api/reset-password', function (req, res) {
@@ -115,6 +120,7 @@ app.post('/api/reset-password', function (req, res) {
         if (!user)
             return res.json(ri.set(-1, '旧密码不正确'));
         user.password = newPassword;
+        user.updateAt = Date.now();
         user.save(function (err) {
             if (err)
                 return res.json(ri.set(-99, '数据库异常，请稍后重试'));
@@ -175,6 +181,7 @@ app.post('/api/user-link/update', function (req, res) {
             link.href = href;
             link.summary = summary;
             link.iconUrl = iconUrl;
+            link.updateAt = Date.now();
             link.save(function (err) {
                 if (err)
                     return res.json(ri.set(-99, '数据库异常，请稍后重试'));
