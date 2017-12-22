@@ -19,10 +19,10 @@
         <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
           <h4 class="list-group-item-heading">
             <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
-            <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+            <a tabindex="-1" href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
             <div class="btn-group pull-right">
-              <button class="btn btn-xs btn-default" [class.btn-danger]="obj.___tmp_isStar" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-rotate]="obj.__tmp_starProcessing"></i>{{obj.___tmp_isStar ? 'Unstar' : 'Star'}}</button>
-              <button class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
+              <button tabindex="-1" class="btn btn-xs btn-default" [class.btn-danger]="obj.___tmp_isStar" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-rotate]="obj.__tmp_starProcessing"></i>{{obj.___tmp_isStar ? 'Unstar' : 'Star'}}</button>
+              <button tabindex="-1" class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
             </div>
             <br>
             <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
@@ -30,7 +30,7 @@
           <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
         </div>
         <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
-          <a href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
+          <a tabindex="-1" href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
           <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span>
         </div>
         <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了 <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span></div>

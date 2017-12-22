@@ -25,20 +25,20 @@
             <div class="col-xs-10 col-sm-10 col-md-11" style="padding-left: 0;">
               <h4 class="list-group-item-heading">
                 <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
-                <a href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
+                <a tabindex="-1" href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
                 <br>
                 <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
               </h4>
               <p class="list-group-item-text" [innerHTML]="obj.summary | markToRed:keywords"></p>
             </div>
             <div class="btn-group" style="position: absolute; top: 0; right: 0; height: 100%;">
-              <button class="btn btn-default update" style="height: 100%; border: none; border-radius: 0;" [routerLink]="['/user-link/update', obj._id]"><i class="glyphicon glyphicon-pencil"></i></button>
-              <button class="btn btn-default remove" style="height: 100%; border: none; border-radius: 0;" (click)="onRemove($event, obj)"><i class="glyphicon glyphicon-trash text-danger"></i></button>
+              <button tabindex="-1" class="btn btn-default update" style="height: 100%; border: none; border-radius: 0;" [routerLink]="['/user-link/update', obj._id]"><i class="glyphicon glyphicon-pencil"></i></button>
+              <button tabindex="-1" class="btn btn-default remove" style="height: 100%; border: none; border-radius: 0;" (click)="onRemove($event, obj)"><i class="glyphicon glyphicon-trash text-danger"></i></button>
             </div>
             <div style="clear: both;"></div>
           </div>
           <div *ngIf="hasMore" class="list-group-item text-center" (click)="onLoadMoreClick()">
-            <a href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
+            <a tabindex="-1" href="javascript:;"><span class="glyphicon" [ngClass]="{'glyphicon-indent-right': !loadMoreProcessing, 'glyphicon-repeat ssl-anim-rotate': loadMoreProcessing}"></span> 加载更多</a>
             <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span>
           </div>
           <div *ngIf="!hasMore" class="list-group-item text-center ssl-notHasMore">没有更多了 <span class="text-success">（共找到 {{totalCount}} 条匹配数据，已加载 {{links.length}} 条）</span></div>
