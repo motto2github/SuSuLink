@@ -49,9 +49,11 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     this.fg.disable();
     this.errMsg = null;
     this.succMsg = null;
-    this.http.post('/api/user-link/insert', Object.assign({curUserId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
+    let reqBody = Object.assign({user_id: this.curUser.id}, this.fg.value);
+    reqBody.icon_url = reqBody.iconUrl;
+    this.http.post('/api/user-link/insert', reqBody).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        if (ri.code !== 1) {
+        if (ri.code !== '1') {
           this.errMsg = ri.msg;
           this.fg.enable();
         } else {
@@ -86,13 +88,16 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
   readHrefInfo() {
     if (this.href.invalid) return;
     this.href.disable();
-    this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user-link/parse-link', {
+      link: this.href.value
+    }).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         this.href.enable();
-        if (ri.code !== 1) return this.errMsg = ri.msg;
-        this.title.setValue(ri.data.title);
-        this.summary.setValue(ri.data.description + (ri.data.description && ri.data.keywords ? '\n\n' : '') + ri.data.keywords);
-        this.iconUrl.setValue(ri.data.iconUrl);
+        if (ri.code !== '1') return this.errMsg = ri.msg;
+        let linkInfo = ri.data.link_info;
+        this.title.setValue(linkInfo.title);
+        this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n\n' : '') + linkInfo.keywords);
+        this.iconUrl.setValue(linkInfo.icon_url);
       }, 150);
     });
   }

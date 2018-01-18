@@ -21,21 +21,21 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngOnInit() {
     this.http.post('/api/user-link/findone', {
-      id: this.route.snapshot.params.id,
-      userId: this.curUser._id
+      id: Number(this.route.snapshot.params.id),
+      user_id: this.curUser.id
     }).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        if (ri.code !== 1 || !ri.data.link) {
+        if (ri.code !== '1' || !ri.data.link) {
           alert(ri.msg);
           return this.router.navigate(['/user-link/list']);
         }
         this.fg = this.fb.group({
-          _id: [ri.data.link._id],
+          id: [ri.data.link.id],
           title: [ri.data.link.title, [Validators.required]],
           href: [ri.data.link.href, [Validators.required, Validators.pattern(new RegExp('^https?://', 'i'))]],
           summary: [ri.data.link.summary],
-          iconUrl: [ri.data.link.iconUrl, [Validators.pattern(new RegExp('^https?://', 'i'))]],
-          owner: [ri.data.link.owner]
+          iconUrl: [ri.data.link.icon_url, [Validators.pattern(new RegExp('^https?://', 'i'))]],
+          owner: [ri.data.link.user_id]
         });
         setTimeout(() => {
           $('.___js_readHrefInfo').tooltip();
@@ -56,9 +56,19 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
   onSubmit() {
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/user-link/update', this.fg.value).map(res => res.json()).subscribe(ri => {
+    let reqBody = Object.assign({}, this.fg.value);
+    reqBody.id = this.fg.value.id;
+    reqBody.icon_url = this.fg.value.iconUrl;
+    this.http.post('/api/user-link/update', {
+      id: this.fg.value.id,
+      title: this.fg.value.title,
+      href: this.fg.value.href,
+      summary: this.fg.value.summary,
+      icon_url: this.fg.value.iconUrl,
+      user_id: this.fg.value.owner
+    }).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        if (ri.code !== 1) {
+        if (ri.code !== '1') {
           this.errMsg = ri.msg;
           this.fg.enable();
         } else history.back(); // this.router.navigate(['/home/user-link/list']);
@@ -91,13 +101,14 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
   readHrefInfo() {
     this.readHrefInfoIsClicked = true;
     this.href.disable();
-    this.http.post('/api/link/parse', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user-link/parse-link', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
         this.href.enable();
-        if (ri.code !== 1) return this.errMsg = ri.msg;
-        this.title.setValue(ri.data.title);
-        this.summary.setValue(ri.data.description + (ri.data.description && ri.data.keywords ? '\n\n' : '') + ri.data.keywords);
-        this.iconUrl.setValue(ri.data.iconUrl);
+        if (ri.code !== '1') return this.errMsg = ri.msg;
+        let linkInfo = ri.data.link_info;
+        this.title.setValue(linkInfo.title);
+        this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n\n' : '') + linkInfo.keywords);
+        this.iconUrl.setValue(linkInfo.icon_url);
       }, 150);
     });
   }

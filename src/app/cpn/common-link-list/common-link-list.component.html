@@ -18,12 +18,12 @@
       <div class="list-group">
         <div *ngFor="let obj of links" class="list-group-item" [class.ssl-link-active]="obj === activeLink" (click)="onLinkClick(obj);">
           <h4 class="list-group-item-heading">
-            <img *ngIf="obj.iconUrl" [src]="obj.iconUrl" style="width: 22px; vertical-align: bottom;">
+            <img *ngIf="obj.icon_url" [src]="obj.icon_url" style="width: 22px; vertical-align: bottom;">
             <a tabindex="-1" href="javascript:;" class="title" [innerHTML]="obj.title | markToRed:keywords"></a>
-            <div class="btn-group pull-right">
+            <!--<div class="btn-group pull-right">
               <button tabindex="-1" class="btn btn-xs btn-default" [class.btn-danger]="obj.___tmp_isStar" (click)="starHandler($event, obj);"><i class="glyphicon glyphicon-star" [class.ssl-anim-rotate]="obj.__tmp_starProcessing"></i>{{obj.___tmp_isStar ? 'Unstar' : 'Star'}}</button>
               <button tabindex="-1" class="btn btn-xs btn-default disabled">{{obj.starUsers.length}}</button>
-            </div>
+            </div>-->
             <br>
             <small><i class="glyphicon glyphicon-link"></i> <span class="href" [innerHTML]="obj.href | markToRed:keywords"></span></small>
           </h4>

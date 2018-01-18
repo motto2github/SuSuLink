@@ -49,8 +49,12 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
     this.fg.disable();
     this.errMsg = null;
     setTimeout(() => {
-      this.http.post('/api/reset-password', Object.assign({userId: this.curUser._id}, this.fg.value)).map(res => res.json()).subscribe(ri => {
-        if (ri.code === 1) {
+      this.http.post('/api/user/reset-password', {
+        user_id: this.curUser.id,
+        old_password: this.fg.value.oldPassword,
+        new_password: this.fg.value.newPassword
+      }).map(res => res.json()).subscribe(ri => {
+        if (ri.code === '1') {
           localStorage.removeItem('__ssl_cur_user');
           sessionStorage.removeItem('__ssl_cur_user');
           this.resetSuccess = true;

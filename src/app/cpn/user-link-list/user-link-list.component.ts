@@ -17,7 +17,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 10;
+  private pageSize = 20;
 
   totalCount: number = 0;
 
@@ -74,11 +74,12 @@ export class UserLinkListComponent implements OnInit, DoCheck {
   }
 
   confirmRemove() {
-    let id = this.wantRemoveLink._id;
+    let id = this.wantRemoveLink.id;
     this.http.post('/api/user-link/remove', {id}).map(res => res.json()).subscribe(ri => {
-      if (ri.code !== 1) return alert(ri.msg);
-      let index = this.links.findIndex(v => v._id === id);
+      if (ri.code !== '1') return alert(ri.msg);
+      let index = this.links.findIndex(v => v.id === id);
       this.links.splice(index, 1);
+      this.totalCount--;
       $('.ssl-user-link-list .modal').modal('hide');
     });
   }
@@ -98,12 +99,12 @@ export class UserLinkListComponent implements OnInit, DoCheck {
     this.loadMoreProcessing = true;
     this.http.post('/api/user-link/list', {
       keywords: this.keywords,
-      curUserId: this.curUser._id,
-      pageNumber: this.curPageNumber++,
-      pageSize: this.pageSize
+      user_id: this.curUser.id,
+      page_number: this.curPageNumber++,
+      page_size: this.pageSize
     }).map(res => {
       let ri = res.json();
-      if (ri.code !== 1) {
+      if (ri.code !== '1') {
         alert(ri.msg);
         return {links: [], totalCount: 0};
       }
@@ -114,7 +115,7 @@ export class UserLinkListComponent implements OnInit, DoCheck {
         else this.links.push(...data.links);
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
-        this.sortLinks();
+        // this.sortLinks();
         this.loadMoreProcessing = false;
       }, 150);
     });

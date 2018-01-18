@@ -42,9 +42,9 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
-    this.http.post('/api/sign-up', this.fg.value).map(res => res.json()).subscribe(ri => {
+    this.http.post('/api/user/sign-up', this.fg.value).map(res => res.json()).subscribe(ri => {
       setTimeout(() => {
-        if (ri.code === 1) {
+        if (ri.code === '1') {
           this.signUpSuccess = true;
           this.startCountDown();
         } else {

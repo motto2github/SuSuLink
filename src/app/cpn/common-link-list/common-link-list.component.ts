@@ -17,7 +17,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
 
   private curPageNumber: number = 1;
 
-  private pageSize = 10;
+  private pageSize = 20;
 
   totalCount: number = 0;
 
@@ -50,21 +50,21 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     link.__tmp_starProcessing = true;
     setTimeout(() => {
       if (!link.___tmp_isStar) {
-        this.http.post('/api/common-link/star', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
+        this.http.post('/api/common-link/star', {id: link.id, userId: this.curUser.id}).map(res => res.json()).subscribe(ri => {
           if (ri.code !== 1) {
             alert(ri.msg);
           } else {
-            link.starUsers.push(this.curUser._id);
+            link.starUsers.push(this.curUser.id);
             link.___tmp_isStar = true;
           }
           delete link.__tmp_starProcessing;
         });
       } else {
-        this.http.post('/api/common-link/unstar', {id: link._id, userId: this.curUser._id}).map(res => res.json()).subscribe(ri => {
+        this.http.post('/api/common-link/unstar', {id: link.id, userId: this.curUser.id}).map(res => res.json()).subscribe(ri => {
           if (ri.code !== 1) {
             alert(ri.msg);
           } else {
-            link.starUsers.splice(link.starUsers.findIndex(id => id === this.curUser._id), 1);
+            link.starUsers.splice(link.starUsers.findIndex(id => id === this.curUser.id), 1);
             link.___tmp_isStar = false;
           }
           delete link.__tmp_starProcessing;
@@ -90,8 +90,8 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         if (a_summary_test && !b_summary_test) return -1;
         if (!a_summary_test && b_summary_test) return 1;
       }
-      if (a.starUsers.length > b.starUsers.length) return -1;
-      if (a.starUsers.length < b.starUsers.length) return 1;
+      // if (a.starUsers.length > b.starUsers.length) return -1;
+      // if (a.starUsers.length < b.starUsers.length) return 1;
       return a.sortNumber - b.sortNumber;
     });
   }
@@ -111,18 +111,18 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     this.loadMoreProcessing = true;
     this.http.post('/api/common-link/list', {
       keywords: this.keywords,
-      pageNumber: this.curPageNumber++,
-      pageSize: this.pageSize
+      page_number: this.curPageNumber++,
+      page_size: this.pageSize
     }).map(res => {
       let ri = res.json();
-      if (ri.code !== 1) {
+      if (ri.code !== '1') {
         alert(ri.msg);
         return {links: [], totalCount: 0};
       }
-      ri.data.links = ri.data.links.map(link => {
-        link.___tmp_isStar = this.curUser ? link.starUsers.indexOf(this.curUser._id) !== -1 : false;
+      /*ri.data.links = ri.data.links.map(link => {
+        link.___tmp_isStar = this.curUser ? link.starUsers.indexOf(this.curUser.id) !== -1 : false;
         return link;
-      });
+      });*/
       return ri.data;
     }).subscribe(data => {
       setTimeout(() => {
@@ -130,7 +130,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
         else this.links.push(...data.links);
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
-        this.sortLinks();
+        // this.sortLinks();
         this.loadMoreProcessing = false;
       }, 150);
     });
