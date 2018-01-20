@@ -12,6 +12,14 @@ app.use('/api', proxy({
   }
 }));
 
+app.use((req, res, next) => {
+  let filters = ['qwer.ink', 'sl.qwer.ink', 'sulian.qwer.ink', 'susulianjie.qwer.ink', 'sslj.qwer.ink'];
+  if (filters.indexOf(req.headers.host) >= 0) {
+    return res.redirect('http://susulink.qwer.ink');
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 app.get('**', (req, res) => {
