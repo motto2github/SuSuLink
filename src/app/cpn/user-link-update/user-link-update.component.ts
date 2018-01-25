@@ -107,7 +107,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
         if (ri.code !== '1') return this.errMsg = ri.msg;
         let linkInfo = ri.data.link_info;
         this.title.setValue(linkInfo.title);
-        this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n\n' : '') + linkInfo.keywords);
+        this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n<br>\n' : '') + linkInfo.keywords);
         this.iconUrl.setValue(linkInfo.icon_url);
       // }, 150);
     });
