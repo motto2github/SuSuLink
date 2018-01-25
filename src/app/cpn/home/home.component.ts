@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.keywords.setValue(decodeURIComponent(firstChildUrlSegment[2].path), {emitEvent: false});
     this.listFlag = firstChildUrlSegment[0].path;
     this.search_histories = JSON.parse(localStorage.getItem('__ssl_search_histories')) || [];
-    this.keywords.valueChanges.debounceTime(300).subscribe((value) => {
+    /*this.keywords.valueChanges.debounceTime(300).subscribe((value) => {
       this.keywords.setValue(value.trim(), {emitEvent: false});
       if (this.keywords.value !== '') {
         this.search_histories = this.search_histories.filter(item => this.keywords.value !== item);
@@ -48,6 +48,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         localStorage.setItem('__ssl_search_histories', JSON.stringify(this.search_histories));
       }
       this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value]);
+    });*/
+    this.keywords.valueChanges.subscribe((value) => {
+      this.keywords.setValue(value.trim(), {emitEvent: false});
     });
   }
 
@@ -58,6 +61,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     $('[data-toggle="tooltip"]').tooltip();
+  }
+
+  onSearchAtPc() {
+    if (this.keywords.value !== '') {
+      this.search_histories = this.search_histories.filter(item => this.keywords.value !== item);
+      this.search_histories.unshift(this.keywords.value);
+      localStorage.setItem('__ssl_search_histories', JSON.stringify(this.search_histories));
+    }
+    this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value]);
   }
 
   onSearchAtMobile() {

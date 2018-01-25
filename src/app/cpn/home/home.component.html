@@ -11,7 +11,7 @@
             <p>在这里，已收录了许多常用的链接地址，并会定期上新，您也可自行添加，以便搜索，是您统一的在线收藏夹。</p>
           </div>
           <div class="form-group search-wrapper hidden-xs hidden-sm">
-            <input [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input (keyup.enter)="onSearchAtPc();" [formControl]="keywords" class="form-control search clearable text-center" placeholder="搜索链接，例如：百度" autocomplete="off" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false">
             <i class="glyphicon glyphicon-search"></i>
           </div>
           <div class="form-group search-wrapper hidden-md hidden-lg">
