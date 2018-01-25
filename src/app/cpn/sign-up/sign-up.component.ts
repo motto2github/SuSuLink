@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.fg.disable();
     this.errMsg = null;
     this.http.post('/api/user/sign-up', this.fg.value).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (ri.code === '1') {
           this.signUpSuccess = true;
           this.startCountDown();
@@ -52,7 +52,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
           this.fg.enable();
           this.errMsg = ri.msg;
         }
-      }, 300);
+      // }, 300);
     });
   }
 

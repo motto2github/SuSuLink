@@ -110,14 +110,14 @@ export class UserLinkListComponent implements OnInit, DoCheck {
       }
       return ri.data;
     }).subscribe(data => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (!this.links) this.links = data.links;
         else this.links.push(...data.links);
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
         // this.sortLinks();
         this.loadMoreProcessing = false;
-      }, 150);
+      // }, 150);
     });
   }
 

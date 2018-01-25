@@ -52,7 +52,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     let reqBody = Object.assign({user_id: this.curUser.id}, this.fg.value);
     reqBody.icon_url = reqBody.iconUrl;
     this.http.post('/api/user-link/insert', reqBody).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (ri.code !== '1') {
           this.errMsg = ri.msg;
           this.fg.enable();
@@ -61,7 +61,7 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
           this.fg.reset();
           this.fg.enable();
         }
-      }, 150);
+      // }, 150);
     });
   }
 
@@ -91,14 +91,14 @@ export class UserLinkInsertComponent implements OnInit, DoCheck, AfterViewInit {
     this.http.post('/api/user-link/parse-link', {
       link: this.href.value
     }).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.href.enable();
         if (ri.code !== '1') return this.errMsg = ri.msg;
         let linkInfo = ri.data.link_info;
         this.title.setValue(linkInfo.title);
         this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n\n' : '') + linkInfo.keywords);
         this.iconUrl.setValue(linkInfo.icon_url);
-      }, 150);
+      // }, 150);
     });
   }
 

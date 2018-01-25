@@ -48,7 +48,7 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
     this.submitted = true;
     this.fg.disable();
     this.errMsg = null;
-    setTimeout(() => {
+    // setTimeout(() => {
       this.http.post('/api/user/reset-password', {
         user_id: this.curUser.id,
         old_password: this.fg.value.oldPassword,
@@ -65,7 +65,7 @@ export class ResetPasswordComponent implements OnInit, AfterViewInit, DoCheck {
           this.errMsg = ri.msg;
         }
       });
-    }, 300);
+    // }, 300);
   }
 
   private passwordNotEqualValidator(fg: AbstractControl): {[key: string]: any} {

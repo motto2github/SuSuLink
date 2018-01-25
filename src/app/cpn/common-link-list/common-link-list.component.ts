@@ -48,7 +48,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
     if (link.__tmp_starProcessing) return;
     if (!this.curUser) return this.router.navigate(['/sign-in']);
     link.__tmp_starProcessing = true;
-    setTimeout(() => {
+    // setTimeout(() => {
       if (!link.___tmp_isStar) {
         this.http.post('/api/common-link/star', {id: link.id, userId: this.curUser.id}).map(res => res.json()).subscribe(ri => {
           if (ri.code !== 1) {
@@ -70,7 +70,7 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
           delete link.__tmp_starProcessing;
         });
       }
-    }, 150);
+    // }, 150);
   }
 
   private getCurUser(): {[key: string]: any} {
@@ -125,14 +125,14 @@ export class CommonLinkListComponent implements OnInit, DoCheck {
       });*/
       return ri.data;
     }).subscribe(data => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (!this.links) this.links = data.links;
         else this.links.push(...data.links);
         this.totalCount = data.totalCount;
         this.hasMore = this.links.length < this.totalCount;
         // this.sortLinks();
         this.loadMoreProcessing = false;
-      }, 150);
+      // }, 150);
     });
   }
 

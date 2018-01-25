@@ -24,7 +24,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
       id: Number(this.route.snapshot.params.id),
       user_id: this.curUser.id
     }).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (ri.code !== '1' || !ri.data.link) {
           alert(ri.msg);
           return this.router.navigate(['/user-link/list']);
@@ -40,7 +40,7 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
         setTimeout(() => {
           $('.___js_readHrefInfo').tooltip();
         }, 1);
-      }, 150);
+      // }, 150);
     });
   }
 
@@ -67,12 +67,12 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
       icon_url: this.fg.value.iconUrl,
       user_id: this.fg.value.owner
     }).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         if (ri.code !== '1') {
           this.errMsg = ri.msg;
           this.fg.enable();
         } else history.back(); // this.router.navigate(['/home/user-link/list']);
-      }, 150);
+      // }, 150);
     });
   }
 
@@ -102,14 +102,14 @@ export class UserLinkUpdateComponent implements OnInit, DoCheck, AfterViewInit {
     this.readHrefInfoIsClicked = true;
     this.href.disable();
     this.http.post('/api/user-link/parse-link', {link: this.href.value}).map(res => res.json()).subscribe(ri => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.href.enable();
         if (ri.code !== '1') return this.errMsg = ri.msg;
         let linkInfo = ri.data.link_info;
         this.title.setValue(linkInfo.title);
         this.summary.setValue(linkInfo.description + (linkInfo.description && linkInfo.keywords ? '\n\n' : '') + linkInfo.keywords);
         this.iconUrl.setValue(linkInfo.icon_url);
-      }, 150);
+      // }, 150);
     });
   }
 
