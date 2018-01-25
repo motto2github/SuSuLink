@@ -5,7 +5,7 @@ import * as proxy from 'http-proxy-middleware';
 let app = express();
 
 app.use('/api', proxy({
-  target: 'http://qwer.ink:8008',
+  target: 'http://susulink.qwer.ink:8008',
   changeOrigin: true,
   pathRewrite: {
     '^/api' : '/susulink-service'
