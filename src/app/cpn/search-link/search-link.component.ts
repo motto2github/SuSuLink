@@ -26,13 +26,14 @@ export class SearchLinkComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.keywords.setValue(this.keywords.value.trim());
-    if (this.keywords.value !== '') {
-      this.search_histories = this.search_histories.filter(item => this.keywords.value !== item);
-      this.search_histories.unshift(this.keywords.value);
+    let keywordsValue = this.keywords.value.trim();
+    this.keywords.setValue(keywordsValue, {emitEvent: false});
+    if (keywordsValue !== '') {
+      this.search_histories = this.search_histories.filter(item => keywordsValue !== item);
+      this.search_histories.unshift(keywordsValue);
       localStorage.setItem('__ssl_search_histories', JSON.stringify(this.search_histories));
     }
-    this.router.navigate([`/home/${this.route.snapshot.params.category}/list`, this.keywords.value]);
+    this.router.navigate([`/home/${this.route.snapshot.params.category}/list`, keywordsValue]);
   }
 
   onHotItemClick(keywords) {
@@ -51,7 +52,9 @@ export class SearchLinkComponent implements OnInit, AfterViewInit {
   }
 
   onBack() {
-    if (this.keywords.value.trim() === '') this.onSubmit();
+    let keywordsValue = this.keywords.value.trim();
+    this.keywords.setValue(keywordsValue, {emitEvent: false});
+    if (keywordsValue === '') this.onSubmit();
     else history.back();
   }
 

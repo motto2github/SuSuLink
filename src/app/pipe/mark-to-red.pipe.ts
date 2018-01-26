@@ -7,7 +7,10 @@ export class MarkToRedPipe implements PipeTransform {
 
   transform(src: string, matched?: string): string {
     if (!src || !matched) return src;
-    return src.replace(new RegExp(`(${matched.replace(/\\/g, '\\\\').replace(/\./g, '\\.')})`, 'i'), '<span class="text-danger bg-danger">$1</span>');
+    matched = matched.replace(/\\/g, '\\\\').replace(/\./g, '\\.')
+                     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let regexp = new RegExp(`(${matched})`, 'i');
+    return src.replace(regexp, '<span class="text-danger bg-danger">$1</span>');
   }
 
 }

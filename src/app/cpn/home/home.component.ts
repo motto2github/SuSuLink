@@ -49,14 +49,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
       this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value]);
     });*/
-    this.keywords.valueChanges.subscribe((value) => {
+    /*this.keywords.valueChanges.subscribe((value) => {
       this.keywords.setValue(value.trim(), {emitEvent: false});
-    });
+    });*/
   }
 
   switchList(flag: string) {
     this.listFlag = flag;
-    this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value || '']);
+    let keywordsValue = this.keywords.value.trim();
+    this.keywords.setValue(keywordsValue, {emitEvent: false});
+    this.router.navigate([`/home/${this.listFlag}/list`, keywordsValue]);
   }
 
   ngAfterViewInit(): void {
@@ -64,16 +66,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   onSearchAtPc() {
-    if (this.keywords.value !== '') {
-      this.search_histories = this.search_histories.filter(item => this.keywords.value !== item);
-      this.search_histories.unshift(this.keywords.value);
+    let keywordsValue = this.keywords.value.trim();
+    this.keywords.setValue(keywordsValue, {emitEvent: false});
+    if (keywordsValue !== '') {
+      this.search_histories = this.search_histories.filter(item => keywordsValue !== item);
+      this.search_histories.unshift(keywordsValue);
       localStorage.setItem('__ssl_search_histories', JSON.stringify(this.search_histories));
     }
-    this.router.navigate([`/home/${this.listFlag}/list`, this.keywords.value]);
+    this.router.navigate([`/home/${this.listFlag}/list`, keywordsValue]);
   }
 
   onSearchAtMobile() {
-    this.router.navigate(['/search-link', this.listFlag, this.keywords.value]);
+    let keywordsValue = this.keywords.value.trim();
+    this.keywords.setValue(keywordsValue, {emitEvent: false});
+    this.router.navigate(['/search-link', this.listFlag, keywordsValue]);
   }
 
 }
